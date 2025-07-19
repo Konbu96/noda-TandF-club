@@ -4,7 +4,7 @@ import { topPhotos } from "./photo";
 export default function Home() {
   return (
     <div className="bg-white text-center p-4">
-      <h1 className="text-[50px] text-blue-900 font-bold mb-0">
+      <h1 className="text-30px lg:text-50px text-blue-900 font-bold mb-0">
         野田学園陸上競技部
       </h1>
 
