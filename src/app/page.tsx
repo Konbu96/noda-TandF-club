@@ -3,16 +3,26 @@ import { topPhotos } from "./photo";
 
 export default function Home() {
   return (
-    <div className="bg-white text-center p-4">
-      <h1 className="text-30px lg:text-50px text-blue-900 font-bold mb-0">
-        野田学園陸上競技部
-      </h1>
+    <div className="bg-white text-center flex h-screen">
+      {/* サイドメニュー */}
+        <aside className="w-70 bg-blue-900 p-4">
+          <h1 className="leading-tight text-[10px] sm:text-[35px] text-white font-bold m-2">
+        野田学園<br/>陸上競技部
+          </h1>
+          <div>
+            <ul className="text-[20px] leading-15">
+              <li><a href="">概要</a></li>
+              <li><a href="">ニュース</a></li>
+              <li><a href="">スケジュール</a></li>
+              <li><a href="https://www.instagram.com/noda_track.field?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">instagram</a></li>
+              <li><a href="https://neko-niwa.com/" target="_blank">NEKONIWA</a></li>
+            </ul>
+          </div>
+        </aside>
 
-      <section>
-        <h2 className="text-[40px] text-blue-500 mt-0">
-        部活風景
-        </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 max-w-5xl max-auto gap-4 m-auto">
+      {/* メイン */}
+      <main className="flex-1 p-6 bg-white">
+        <div className="grid grid-cols-2 sm:grid-cols-3 max-w-5xl max-auto gap-4 m-auto">
           {topPhotos.map((photo,index) => (
           <div key={index} className="relative w-full aspect-video overflow-hidden rounded-lg">
              <Image
@@ -24,7 +34,7 @@ export default function Home() {
           </div>
           ))}
         </div>
-      </section>
+      </main>
       
     </div>
   );
