@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { topPhotos } from "./photo";
 import Link from "next/link";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 const menus = [
   {
@@ -57,7 +59,7 @@ export default function Home() {
         </aside>
 
       {/* メイン */}
-      <main className="flex-1 p-6 bg-white">
+      <main className="flex-1 p-6 bg-white text-blue-700">
         <div className="grid grid-cols-2 sm:grid-cols-3 max-w-5xl max-auto gap-4 m-auto">
           {topPhotos.map((photo,index) => (
           <div key={index} className="relative w-full aspect-video overflow-hidden rounded-lg">
@@ -70,6 +72,27 @@ export default function Home() {
           </div>
           ))}
         </div>
+
+        <div>
+          <h2>ニュース</h2>
+          <ul>
+            <li>2025</li>
+            <li>2025</li>
+            <li>2025</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2>スケジュール</h2>
+          <li>月曜日</li>
+          <li>火曜日</li>
+          <li>水曜日</li>
+          <li>木曜日</li>
+          <li>金曜日</li>
+          <li>土曜日</li>
+          <li>日曜日</li>
+        </div>
+
       </main>
       
     </div>
