@@ -57,11 +57,11 @@ export default function Home() {
         </aside>
 
       {/* メイン */}
-      <main className="flex-1 p-6 bg-white text-blue-700">
+      <main className="flex-1 p-6 bg-white text-black">
 
         <Carousel/>
 
-        <div>
+        <div className="p-4">
           <h2>ニュース</h2>
           <ul>
             <li>2025</li>
@@ -70,7 +70,7 @@ export default function Home() {
           </ul>
         </div>
 
-        <div>
+        <div className="p-4 list-none">
           <h2>スケジュール</h2>
           <li>月曜日</li>
           <li>火曜日</li>
