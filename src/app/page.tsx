@@ -1,5 +1,3 @@
-import Image from "next/image";
-import { topPhotos } from "./photo";
 import Link from "next/link";
 import Carousel from "../components/Carousel";
 

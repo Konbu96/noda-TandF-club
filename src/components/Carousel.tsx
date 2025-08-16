@@ -6,7 +6,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation, Autoplay } from "swiper/modules";
 import Image from "next/image";
-import { topPhotos } from "@/app/photo"; // ← ここで読み込み
+import { topPhotos } from "../../date/photo"; // ← ここで読み込み
 
 export default function Carousel() {
   return (
@@ -22,16 +22,17 @@ export default function Carousel() {
       >
         {topPhotos.map((photo, idx) => (
           <SwiperSlide key={idx}>
+            <div className="relative w-full h-[400px]">
             <Image
               src={photo.path}
               alt={photo.alt}
-              width={800}
-              height={600}
+              fill
               className="rounded-lg object-cover"
             />
-            <p className="text-center mt-2 text-sm text-gray-600">
+            </div>
+            {/* <p className="text-center mt-2 text-sm text-gray-600">
               {photo.alt}
-            </p>
+            </p> */}
           </SwiperSlide>
         ))}
       </Swiper>
