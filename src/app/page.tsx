@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { topPhotos } from "./photo";
 import Link from "next/link";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
+import Carousel from "../components/Carousel";
+
 
 const menus = [
   {
@@ -60,18 +60,8 @@ export default function Home() {
 
       {/* メイン */}
       <main className="flex-1 p-6 bg-white text-blue-700">
-        <div className="grid grid-cols-2 sm:grid-cols-3 max-w-5xl max-auto gap-4 m-auto">
-          {topPhotos.map((photo,index) => (
-          <div key={index} className="relative w-full aspect-video overflow-hidden rounded-lg">
-             <Image
-            src={photo.path}
-            alt={photo.alt}
-            fill={true}
-            className="object-cover"
-           />
-          </div>
-          ))}
-        </div>
+
+        <Carousel/>
 
         <div>
           <h2>ニュース</h2>
