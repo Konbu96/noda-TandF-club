@@ -62,7 +62,7 @@ export default function Home() {
         <Carousel/>
 
         <div className="p-4">
-          <h2>ニュース</h2>
+          <h2 className="">ニュース</h2>
           <ul>
             <li>2025</li>
             <li>2025</li>
