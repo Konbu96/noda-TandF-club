@@ -1,4 +1,5 @@
 import Carousel from "../components/Carousel";
+import ExperienceForm from "../components/ExperienceForm";
 
 export default function Home() {
   return (
@@ -23,6 +24,10 @@ export default function Home() {
         <li>金曜日</li>
         <li>土曜日</li>
         <li>日曜日</li>
+      </div>
+
+      <div className="p-4">
+        <ExperienceForm />
       </div>
     </div>
   );
