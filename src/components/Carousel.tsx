@@ -38,7 +38,6 @@ export default function Carousel() {
       <Swiper
         modules={[Navigation, Autoplay]}
         onBeforeInit={(swiper) => {
-          // @ts-expect-error – Swiper types allow HTMLElement but refs may be null initially
           swiper.params.navigation = {
             ...(swiper.params.navigation as any),
             prevEl: prevRef.current,
