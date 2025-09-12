@@ -6,17 +6,27 @@ import Link from 'next/link';
 const menus = [
   {
     label: '概要',
-    href: '/#intro',
+    href: '#intro',
     isExternal: false,
   },
   {
     label: 'ニュース',
-    href: '/#news',
+    href: '#news',
     isExternal: false,
   },
   {
     label: 'スケジュール',
-    href: '/#schedule',
+    href: '#schedule',
+    isExternal: false,
+  },
+  {
+    label: 'メンバー',
+    href: '#members',
+    isExternal: false,
+  },
+  {
+    label: '体験入部申し込み',
+    href: '#experience-form',
     isExternal: false,
   },
   {
@@ -40,6 +50,30 @@ export default function Sidebar() {
 
   const closeSidebar = () => {
     setIsOpen(false);
+  };
+
+  const handleInternalLink = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const targetId = href.replace('#', '');
+    const targetElement = document.getElementById(targetId);
+    
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+    
+    // モバイルの場合はサイドバーを閉じる
+    closeSidebar();
+  };
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, menu: any) => {
+    if (menu.isExternal) {
+      closeSidebar();
+    } else {
+      handleInternalLink(e, menu.href);
+    }
   };
 
   return (
@@ -122,7 +156,7 @@ export default function Sidebar() {
                   target={menu.isExternal ? '_blank' : '_self'}
                   rel={menu.isExternal ? 'noopener noreferrer' : undefined}
                   className="text-white hover:text-gray-300 transition-colors"
-                  onClick={closeSidebar}
+                  onClick={(e) => handleLinkClick(e, menu)}
                 >
                   {menu.label}
                 </Link>
