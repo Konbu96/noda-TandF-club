@@ -114,11 +114,6 @@ export default function Home() {
               <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">リレー</span>
             </div>
           </div>
-
-          {/* 体験導線 */}
-          <div className="mt-6">
-            <a href="#experience-form" className="inline-block bg-blue-900 text-white px-6 py-3 rounded-lg hover:bg-blue-800 transition-colors">体験入部の申し込みはこちら</a>
-          </div>
         </div>
       </div>
 
