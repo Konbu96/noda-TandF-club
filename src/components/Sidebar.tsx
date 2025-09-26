@@ -41,6 +41,69 @@ const menus = [
   },
 ];
 
+function MenuIcon({ label }: { label: string }) {
+  const common = 'w-5 h-5 text-white';
+  // 仮アイコン（Heroicons風のインラインSVG）
+  switch (label) {
+    case '概要':
+      return (
+        <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 12l9-9 9 9"/>
+          <path d="M9 21V9h6v12"/>
+        </svg>
+      );
+    case 'ニュース':
+      return (
+        <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M4 6h16M4 10h16M4 14h10M4 18h8"/>
+        </svg>
+      );
+    case 'スケジュール':
+      return (
+        <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
+        </svg>
+      );
+    case 'メンバー':
+      return (
+        <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M16 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M22 21v-2a4 4 0 00-3-3.87"/>
+          <path d="M16 3.13a4 4 0 010 7.75"/>
+        </svg>
+      );
+    case '体験入部申し込み':
+      return (
+        <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 20h9"/>
+          <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/>
+        </svg>
+      );
+    case 'instagram':
+      return (
+        <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="5"/>
+          <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+          <circle cx="17.5" cy="6.5" r="1"/>
+        </svg>
+      );
+    case 'NEKONIWA':
+      return (
+        <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M7 17L17 7"/>
+          <path d="M7 7h10v10"/>
+        </svg>
+      );
+    default:
+      return (
+        <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+        </svg>
+      );
+  }
+}
+
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -158,7 +221,10 @@ export default function Sidebar() {
                   className="text-white hover:text-gray-300 transition-colors"
                   onClick={(e) => handleLinkClick(e, menu)}
                 >
-                  {menu.label}
+                  <span className="flex items-center gap-2 justify-center">
+                    <MenuIcon label={menu.label} />
+                    <span>{menu.label}</span>
+                  </span>
                 </Link>
               </li>
             ))}

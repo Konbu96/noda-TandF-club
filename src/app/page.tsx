@@ -53,37 +53,37 @@ export default function Home() {
               </tr>
             </thead>
             <tbody>
-              <tr className="hover:bg-gray-50">
+              <tr>
                 <td className="border border-gray-300 px-3 py-2 font-medium">月曜日</td>
                 <td className="border border-gray-300 px-3 py-2">15:30~</td>
                 <td className="border border-gray-300 px-3 py-2">学校</td>
               </tr>
-              <tr className="hover:bg-gray-50">
+              <tr>
                 <td className="border border-gray-300 px-3 py-2 font-medium">火曜日</td>
                 <td className="border border-gray-300 px-3 py-2">16:25~</td>
                 <td className="border border-gray-300 px-3 py-2">学校</td>
               </tr>
-              <tr className="hover:bg-gray-50">
+              <tr>
                 <td className="border border-gray-300 px-3 py-2 font-medium">水曜日</td>
                 <td className="border border-gray-300 px-3 py-2">15:50~</td>
                 <td className="border border-gray-300 px-3 py-2">競技場</td>
               </tr>
-              <tr className="hover:bg-gray-50">
+              <tr>
                 <td className="border border-gray-300 px-3 py-2 font-medium">木曜日</td>
                 <td className="border border-gray-300 px-3 py-2">16:25~</td>
                 <td className="border border-gray-300 px-3 py-2">学校</td>
               </tr>
-              <tr className="hover:bg-gray-50">
+              <tr>
                 <td className="border border-gray-300 px-3 py-2 font-medium">金曜日</td>
                 <td className="border border-gray-300 px-3 py-2">16:25~</td>
                 <td className="border border-gray-300 px-3 py-2">学校</td>
               </tr>
-              <tr className="hover:bg-gray-50">
+              <tr>
                 <td className="border border-gray-300 px-3 py-2 font-medium">土曜日</td>
                 <td className="border border-gray-300 px-3 py-2">13:50~</td>
                 <td className="border border-gray-300 px-3 py-2">競技場</td>
               </tr>
-              <tr className="hover:bg-gray-50">
+              <tr>
                 <td className="border border-gray-300 px-3 py-2 font-medium">日曜日</td>
                 <td className="border border-gray-300 px-3 py-2">-</td>
                 <td className="border border-gray-300 px-3 py-2">-</td>
