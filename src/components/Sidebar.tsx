@@ -2,13 +2,9 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const menus = [
-  {
-    label: '概要',
-    href: '#intro',
-    isExternal: false,
-  },
   {
     label: 'ニュース',
     href: '#news',
@@ -22,6 +18,16 @@ const menus = [
   {
     label: 'メンバー',
     href: '#members',
+    isExternal: false,
+  },
+  {
+    label: 'みんなの声',
+    href: '#voices',
+    isExternal: false,
+  },
+  {
+    label: 'よくある質問',
+    href: '#faq',
     isExternal: false,
   },
   {
@@ -45,40 +51,61 @@ function MenuIcon({ label }: { label: string }) {
   const common = 'w-5 h-5 text-white';
   // 仮アイコン（Heroicons風のインラインSVG）
   switch (label) {
-    case '概要':
-      return (
-        <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M3 12l9-9 9 9"/>
-          <path d="M9 21V9h6v12"/>
-        </svg>
-      );
     case 'ニュース':
       return (
-        <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M4 6h16M4 10h16M4 14h10M4 18h8"/>
-        </svg>
+        <Image
+          src="/icons/news.svg"
+          alt="ニュース"
+          width={20}
+          height={20}
+          className="w-5 h-5"
+        />
       );
     case 'スケジュール':
       return (
-        <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
-        </svg>
+        <Image
+          src="/icons/schedule.svg"
+          alt="スケジュール"
+          width={20}
+          height={20}
+          className="w-5 h-5"
+        />
       );
     case 'メンバー':
       return (
-        <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M16 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-          <circle cx="9" cy="7" r="4"/>
-          <path d="M22 21v-2a4 4 0 00-3-3.87"/>
-          <path d="M16 3.13a4 4 0 010 7.75"/>
+        <Image
+          src="/icons/member.svg"
+          alt="メンバー"
+          width={20}
+          height={20}
+          className="w-5 h-5"
+        />
+      );
+    case 'みんなの声':
+      return (
+        <svg className={`${common} text-white`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          <path d="M13 8H7"/>
+          <path d="M17 12H7"/>
+        </svg>
+      );
+    case 'よくある質問':
+      return (
+        <svg className={`${common} text-white`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+          <path d="M12 17h.01"/>
         </svg>
       );
     case '体験入部申し込み':
       return (
-        <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 20h9"/>
-          <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 12.5-12.5z"/>
-        </svg>
+        <Image
+          src="/icons/application.svg"
+          alt="体験入部申し込み"
+          width={20}
+          height={20}
+          className="w-5 h-5"
+        />
       );
     case 'instagram':
       return (
