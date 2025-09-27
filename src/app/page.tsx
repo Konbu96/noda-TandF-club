@@ -3,11 +3,12 @@
 import { useState } from 'react';
 import Carousel from "../components/Carousel";
 import ExperienceForm from "../components/ExperienceForm";
+import MemberVoices from "../components/MemberVoices";
+import FAQ from "../components/FAQ";
 
 export default function Home() {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [clickedCard, setClickedCard] = useState<string | null>(null);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const handleCardClick = (cardType: string) => {
     setClickedCard(clickedCard === cardType ? null : cardType);
@@ -15,10 +16,6 @@ export default function Home() {
 
   const handleCardHover = (cardType: string | null) => {
     setHoveredCard(cardType);
-  };
-
-  const handleFaqClick = (index: number) => {
-    setOpenFaq(openFaq === index ? null : index);
   };
 
   return (
@@ -211,260 +208,9 @@ export default function Home() {
         </div>
       </div>
 
-      {/* みんなの声 */}
-      <div id="voices" className="p-6">
-        <h2 className="text-2xl font-bold mb-6 text-center">みんなの声</h2>
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* 部員の声1 */}
-            <div className="bg-blue-50 p-6 rounded-lg border border-blue-200">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">
-                  高2
-                </div>
-                <div>
-                  <h3 className="font-semibold text-blue-900">田中さん（高2）</h3>
-                  <p className="text-sm text-blue-700">短距離</p>
-                </div>
-              </div>
-              <p className="text-gray-700 leading-relaxed">
-                「陸上部に入ってから体力がついて、勉強にも集中できるようになりました。みんなで目標に向かって頑張れる環境が最高です！」
-              </p>
-            </div>
+      <MemberVoices />
 
-            {/* 部員の声2 */}
-            <div className="bg-blue-50 p-6 rounded-lg border border-blue-200">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">
-                  中3
-                </div>
-                <div>
-                  <h3 className="font-semibold text-blue-900">佐藤さん（中3）</h3>
-                  <p className="text-sm text-blue-700">中長距離</p>
-                </div>
-              </div>
-              <p className="text-gray-700 leading-relaxed">
-                「先輩たちが優しく教えてくれるので、初心者の私でも安心して練習できます。大会で自己ベストを更新できた時は本当に嬉しかったです。」
-              </p>
-            </div>
-
-            {/* 部員の声3 */}
-            <div className="bg-blue-50 p-6 rounded-lg border border-blue-200">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">
-                  高1
-                </div>
-                <div>
-                  <h3 className="font-semibold text-blue-900">山田さん（高1）</h3>
-                  <p className="text-sm text-blue-700">跳躍</p>
-                </div>
-              </div>
-              <p className="text-gray-700 leading-relaxed">
-                「陸上競技は個人競技だと思っていましたが、チーム一丸となって応援し合える仲間ができて、毎日の練習が楽しみです。」
-              </p>
-            </div>
-
-            {/* 部員の声4 */}
-            <div className="bg-blue-50 p-6 rounded-lg border border-blue-200">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">
-                  中2
-                </div>
-                <div>
-                  <h3 className="font-semibold text-blue-900">鈴木さん（中2）</h3>
-                  <p className="text-sm text-blue-700">投擲</p>
-                </div>
-              </div>
-              <p className="text-gray-700 leading-relaxed">
-                「技術的なことを丁寧に教えてもらえるので、どんどん上達しています。先生方も親身になってサポートしてくれます。」
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* よくある質問 */}
-      <div id="faq" className="p-6 bg-gray-50">
-        <h2 className="text-2xl font-bold mb-6 text-center">よくある質問</h2>
-        <div className="max-w-3xl mx-auto">
-          <div className="space-y-4">
-            {/* FAQ 1 */}
-            <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-              <button
-                onClick={() => handleFaqClick(0)}
-                className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
-              >
-                <h3 className="font-semibold text-gray-900 flex items-center">
-                  <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">Q</span>
-                  陸上競技の経験がなくても入部できますか？
-                </h3>
-                <svg
-                  className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
-                    openFaq === 0 ? 'rotate-180' : ''
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-              {openFaq === 0 && (
-                <div className="px-6 pb-6">
-                  <p className="text-gray-700 ml-9">
-                    はい、大丈夫です！多くの部員が初心者からスタートしています。基礎から丁寧に指導しますので、安心してご参加ください。
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* FAQ 2 */}
-            <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-              <button
-                onClick={() => handleFaqClick(1)}
-                className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
-              >
-                <h3 className="font-semibold text-gray-900 flex items-center">
-                  <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">Q</span>
-                  練習はどのくらいの頻度で行われますか？
-                </h3>
-                <svg
-                  className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
-                    openFaq === 1 ? 'rotate-180' : ''
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-              {openFaq === 1 && (
-                <div className="px-6 pb-6">
-                  <p className="text-gray-700 ml-9">
-                    平日は週4日、土曜日も練習があります。日曜日は基本的に休みですが、大会前などは調整練習を行う場合があります。
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* FAQ 3 */}
-            <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-              <button
-                onClick={() => handleFaqClick(2)}
-                className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
-              >
-                <h3 className="font-semibold text-gray-900 flex items-center">
-                  <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">Q</span>
-                  勉強との両立は可能ですか？
-                </h3>
-                <svg
-                  className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
-                    openFaq === 2 ? 'rotate-180' : ''
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-              {openFaq === 2 && (
-                <div className="px-6 pb-6">
-                  <p className="text-gray-700 ml-9">
-                    はい、可能です！練習時間は限られているので、効率的に時間を使う習慣が身につきます。部員の多くが勉強も頑張っています。
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* FAQ 4 */}
-            <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-              <button
-                onClick={() => handleFaqClick(3)}
-                className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
-              >
-                <h3 className="font-semibold text-gray-900 flex items-center">
-                  <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">Q</span>
-                  必要な道具や費用はありますか？
-                </h3>
-                <svg
-                  className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
-                    openFaq === 3 ? 'rotate-180' : ''
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-              {openFaq === 3 && (
-                <div className="px-6 pb-6">
-                  <p className="text-gray-700 ml-9">
-                    基本的にはシューズとウェアが必要です。学校指定のものもありますが、最初は体験入部で様子を見ていただいても構いません。
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* FAQ 5 */}
-            <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-              <button
-                onClick={() => handleFaqClick(4)}
-                className="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
-              >
-                <h3 className="font-semibold text-gray-900 flex items-center">
-                  <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">Q</span>
-                  大会への参加は必須ですか？
-                </h3>
-                <svg
-                  className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
-                    openFaq === 4 ? 'rotate-180' : ''
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </button>
-              {openFaq === 4 && (
-                <div className="px-6 pb-6">
-                  <p className="text-gray-700 ml-9">
-                    参加は強制ではありませんが、目標を持つことで練習のモチベーションが上がります。自分のペースで参加できる大会を選べます。
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
+      <FAQ />
 
       <div id="experience-form" className="p-4">
         <ExperienceForm />
