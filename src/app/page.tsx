@@ -19,32 +19,32 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-white text-center p-6 text-black">
+    <div className="bg-white text-center text-black px-4 pt-2 pb-6 text-sm">
       {/* スローガン - 一番上 */}
-      <div className="py-8 bg-gradient-to-r from-blue-50 to-blue-100 rounded-2xl mx-4 mb-8 shadow-lg">
+      <div className="py-2 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg mb-4 shadow-lg">
         <div className="px-6">
-          <h1 className="text-2xl md:text-3xl font-bold text-blue-900 mb-4 tracking-wide transform hover:scale-105 transition-transform duration-300">
+          <h1 className="text-2xl md:text-3xl font-bold text-blue-900 mb-3 tracking-wide transform hover:scale-105 transition-transform duration-300">
             共に走り、共に強く
           </h1>
-          <div className="w-80 h-1 bg-gradient-to-r from-blue-600 to-blue-800 mx-auto rounded-full shadow-md"></div>
+          <div className="w-full max-w-80 h-1 bg-gradient-to-r from-blue-600 to-blue-800 mx-auto rounded-full shadow-md"></div>
         </div>
           </div>
 
-      <div id="intro">
+      <div id="intro" className="mt-4">
         <Carousel/>
       </div>
 
-      <div id="news" className="p-4">
-          <h2 className="">ニュース</h2>
-          <ul>
-            <li>2025</li>
-            <li>2025</li>
-            <li>2025</li>
+      <div id="news" className="py-4">
+          <h2 className="text-xl font-bold mb-3 text-center">ニュース</h2>
+          <ul className="text-left">
+            <li className="text-sm bg-blue-100 p-2">2025年10月3日〜10月7日　第79回 国民スポーツ大会</li>
+            <li className="text-sm bg-blue-50 p-2">2025年10月11日〜10月12日　令和７年度　中国高等学校新人陸上競技対校選手権大会</li>
+            <li className="text-sm bg-blue-100 p-2">2025年10月17日〜10月19日　第56回 U16陸上競技大会</li>
           </ul>
         </div>
 
-      <div id="schedule" className="p-4">
-        <h2 className="text-2xl font-bold mb-4">スケジュール</h2>
+      <div id="schedule" className="py-4">
+          <h2 className="text-xl font-bold mb-3">スケジュール</h2>
         <div className="overflow-x-auto">
           <table className="w-full max-w-2xl mx-auto border-collapse border border-gray-300 rounded-lg text-sm">
             <thead>
@@ -95,11 +95,11 @@ export default function Home() {
         </div>
       </div>
 
-      <div id="members" className="p-6">
-        <h2 className="text-2xl font-bold mb-4">メンバー構成</h2>
+      <div id="members" className="py-4">
+        <h2 className="text-xl font-bold mb-3">メンバー構成</h2>
         <div className="mx-auto max-w-3xl">
           {/* 円グラフ */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-2 md:gap-6">
             {/* 中高生比の円グラフ */}
             <div className="rounded-lg border border-gray-200 p-5">
               <h3 className="text-lg font-bold mb-4 text-center">中高生比</h3>
@@ -134,14 +134,14 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="mt-4 flex justify-center space-x-4">
+              <div className="mt-4 flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-4">
                 <div className="flex items-center">
                   <div className="w-4 h-4 bg-blue-800 rounded-full mr-2"></div>
-                  <span className="text-sm">高校生 14人</span>
+                  <span className="text-xs md:text-sm">高校生 14人</span>
                 </div>
                 <div className="flex items-center">
                   <div className="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
-                  <span className="text-sm">中学生 6人</span>
+                  <span className="text-xs md:text-sm">中学生 6人</span>
                 </div>
               </div>
             </div>
@@ -180,31 +180,31 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="mt-4 flex justify-center space-x-4">
+              <div className="mt-4 flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-4">
                 <div className="flex items-center">
                   <div className="w-4 h-4 bg-blue-400 rounded-full mr-2"></div>
-                  <span className="text-sm">男性 12人</span>
+                  <span className="text-xs md:text-sm">男性 12人</span>
                 </div>
                 <div className="flex items-center">
                   <div className="w-4 h-4 bg-pink-400 rounded-full mr-2"></div>
-                  <span className="text-sm">女性 8人</span>
+                  <span className="text-xs md:text-sm">女性 8人</span>
                 </div>
               </div>
             </div>
         </div>
 
-          {/* 種目と活動の雰囲気 */}
-          <div className="rounded-lg border border-gray-200 p-5 text-left mt-6">
-            <p className="text-gray-700 mb-3">短距離から長距離、跳躍・投擲まで幅広く活動しています。</p>
-            <div className="flex flex-wrap gap-2 justify-center">
-              <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">短距離</span>
-              <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">中長距離</span>
-              <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">ハードル</span>
-              <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">跳躍</span>
-              <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">投擲</span>
-              <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">リレー</span>
-            </div>
-          </div>
+                  {/* 種目と活動の雰囲気 */}
+                  <div className="rounded-lg border border-gray-200 p-5 text-left mt-2 md:mt-6">
+                    <p className="text-gray-700 mb-3">短距離から長距離、跳躍・投擲まで幅広く活動しています。</p>
+                    <div className="flex flex-wrap gap-2 justify-center">
+                      <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">短距離</span>
+                      <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">中長距離</span>
+                      <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">ハードル</span>
+                      <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">跳躍</span>
+                      <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">投擲</span>
+                      <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">リレー</span>
+                    </div>
+                  </div>
         </div>
       </div>
 
@@ -212,7 +212,7 @@ export default function Home() {
 
       <FAQ />
 
-      <div id="experience-form" className="p-4">
+      <div id="experience-form" className="py-4">
         <ExperienceForm />
       </div>
 

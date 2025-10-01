@@ -83,19 +83,23 @@ function MenuIcon({ label }: { label: string }) {
       );
     case 'みんなの声':
       return (
-        <svg className={`${common} text-white`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-          <path d="M13 8H7"/>
-          <path d="M17 12H7"/>
-        </svg>
+        <Image
+          src="/icons/voice.svg"
+          alt="みんなの声"
+          width={20}
+          height={20}
+          className="w-5 h-5"
+        />
       );
     case 'よくある質問':
       return (
-        <svg className={`${common} text-white`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="12" cy="12" r="10"/>
-          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-          <path d="M12 17h.01"/>
-        </svg>
+        <Image
+          src="/icons/question.svg"
+          alt="よくある質問"
+          width={20}
+          height={20}
+          className="w-5 h-5"
+        />
       );
     case '体験入部申し込み':
       return (
@@ -169,30 +173,30 @@ export default function Sidebar() {
   return (
     <>
       {/* スマホ用ヘッダー */}
-      <header className={`md:hidden fixed top-0 left-0 right-0 bg-blue-900 text-white p-4 z-30 shadow-lg transition-all duration-300`}>
+      <header className={`md:hidden fixed top-0 left-0 right-0 bg-blue-900 text-white p-2 z-30 shadow-lg transition-all duration-300`}>
         <div className="flex items-center justify-between">
           <div className="w-10"></div> {/* 左側のスペーサー */}
-          <h1 className="leading-tight text-[14px] sm:text-[28px] font-bold text-center flex-1">
-            野田学園陸上競技部
-          </h1>
+                  <h1 className="leading-tight text-[20px] sm:text-[24px] font-bold text-center flex-1">
+                    野田学園陸上競技部
+                  </h1>
           <button
             onClick={toggleSidebar}
             className="p-2 text-white hover:bg-blue-800 rounded-lg transition-colors w-10"
             aria-label="メニューを開く"
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
+                    <svg
+                      className="w-7 h-7"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 6h16M4 12h16M4 18h16"
+                      />
+                    </svg>
           </button>
         </div>
       </header>

@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 interface MemberVoice {
   id: number;
   name: string;
@@ -32,45 +34,105 @@ const memberVoices: MemberVoice[] = [
   },
   {
     id: 4,
-    name: "鈴木さん",
-    grade: "中2",
-    event: "投擲",
-    message: "技術的なことを丁寧に教えてもらえるので、どんどん上達しています。先生方も親身になってサポートしてくれます。"
-  },
-  {
-    id: 5,
     name: "高橋さん",
     grade: "高2",
     event: "ハードル",
     message: "ハードルは技術が重要ですが、先輩たちのアドバイスでフォームが改善され、記録も伸びました。"
-  },
-  {
-    id: 6,
-    name: "伊藤さん",
-    grade: "中1",
-    event: "リレー",
-    message: "リレーはチームワークが大切。バトンパスの練習を重ねて、みんなで一つの目標に向かって頑張っています。"
   }
 ];
 
+// 種目別アイコン
+const getEventIcon = (event: string) => {
+  switch (event) {
+    case "短距離":
+      return (
+        <Image
+          src="/icons/short.png"
+          alt="短距離"
+          width={24}
+          height={24}
+          className="w-6 h-6 filter brightness-0 invert"
+        />
+      );
+    case "中長距離":
+      return (
+        <Image
+          src="/icons/long.png"
+          alt="中長距離"
+          width={24}
+          height={24}
+          className="w-6 h-6 filter brightness-0 invert"
+        />
+      );
+    case "跳躍":
+      return (
+        <Image
+          src="/icons/long-jump.png"
+          alt="跳躍"
+          width={24}
+          height={24}
+          className="w-6 h-6 filter brightness-0 invert"
+        />
+      );
+    case "投擲":
+      return (
+        <Image
+          src="/icons/shot-put.png"
+          alt="砲丸投げ"
+          width={24}
+          height={24}
+          className="w-6 h-6 filter brightness-0 invert"
+        />
+      );
+    case "ハードル":
+      return (
+        <Image
+          src="/icons/hurdle.png"
+          alt="ハードル"
+          width={24}
+          height={24}
+          className="w-6 h-6 filter brightness-0 invert"
+        />
+      );
+    case "リレー":
+      return (
+        <Image
+          src="/icons/relay.png"
+          alt="リレー"
+          width={24}
+          height={24}
+          className="w-6 h-6 filter brightness-0 invert"
+        />
+      );
+    default:
+      return (
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+      );
+  }
+};
+
 export default function MemberVoices() {
   return (
-    <div id="voices" className="p-6">
-      <h2 className="text-2xl font-bold mb-6 text-center">みんなの声</h2>
+    <div id="voices" className="py-6">
+      <h2 className="text-xl font-bold mb-3 text-center">みんなの声</h2>
       <div className="max-w-4xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-3">
           {memberVoices.map((voice) => (
-            <div key={voice.id} className="bg-blue-50 p-6 rounded-lg border border-blue-200">
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-4">
-                  {voice.grade}
+            <div key={voice.id} className="bg-blue-50 p-2 md:p-6 rounded-lg border border-blue-200">
+              <div className="flex items-start mb-2 md:mb-3">
+                <div className="w-8 h-8 md:w-12 md:h-12 bg-blue-600 rounded-full flex items-center justify-center text-white mr-2 md:mr-4 flex-shrink-0">
+                  <div className="flex items-center justify-center w-6 h-6 md:w-8 md:h-8">
+                    {getEventIcon(voice.event)}
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-blue-900">{voice.name}（{voice.grade}）</h3>
-                  <p className="text-sm text-blue-700">{voice.event}</p>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-blue-900 text-xs md:text-base">{voice.name}（{voice.grade}）</h3>
+                  <p className="text-xs text-blue-700 mt-1">{voice.event}</p>
                 </div>
               </div>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed text-left text-xs md:text-base">
                 「{voice.message}」
               </p>
             </div>
