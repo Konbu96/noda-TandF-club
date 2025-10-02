@@ -5,7 +5,8 @@ import Image from 'next/image';
 import ExperienceForm from "../components/ExperienceForm";
 import MemberVoices from "../components/MemberVoices";
 import FAQ from "../components/FAQ";
-import PieChart from "../components/PieChart";
+import Schedule from "../components/Schedule";
+import Members from "../components/Members";
 
 export default function Home() {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
@@ -64,95 +65,9 @@ export default function Home() {
           </ul>
         </div>
 
-        <div id="schedule" className="py-4 px-4">
-          <h2 className="text-xl font-bold mb-3">スケジュール</h2>
-        <div className="overflow-x-auto">
-          <table className="w-full max-w-2xl mx-auto border-collapse border border-gray-300 rounded-lg text-sm">
-            <thead>
-              <tr className="bg-blue-900 text-white">
-                <th className="border border-gray-300 px-3 py-2 text-left">曜日</th>
-                <th className="border border-gray-300 px-3 py-2 text-left">時間</th>
-                <th className="border border-gray-300 px-3 py-2 text-left">場所</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="border border-gray-300 px-3 py-2 font-medium">月曜日</td>
-                <td className="border border-gray-300 px-3 py-2">15:30~</td>
-                <td className="border border-gray-300 px-3 py-2">学校</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 px-3 py-2 font-medium">火曜日</td>
-                <td className="border border-gray-300 px-3 py-2">16:25~</td>
-                <td className="border border-gray-300 px-3 py-2">学校</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 px-3 py-2 font-medium">水曜日</td>
-                <td className="border border-gray-300 px-3 py-2">15:50~</td>
-                <td className="border border-gray-300 px-3 py-2">競技場</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 px-3 py-2 font-medium">木曜日</td>
-                <td className="border border-gray-300 px-3 py-2">16:25~</td>
-                <td className="border border-gray-300 px-3 py-2">学校</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 px-3 py-2 font-medium">金曜日</td>
-                <td className="border border-gray-300 px-3 py-2">16:25~</td>
-                <td className="border border-gray-300 px-3 py-2">学校</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 px-3 py-2 font-medium">土曜日</td>
-                <td className="border border-gray-300 px-3 py-2">13:50~</td>
-                <td className="border border-gray-300 px-3 py-2">競技場</td>
-              </tr>
-              <tr>
-                <td className="border border-gray-300 px-3 py-2 font-medium">日曜日</td>
-                <td className="border border-gray-300 px-3 py-2">-</td>
-                <td className="border border-gray-300 px-3 py-2">-</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+        <Schedule />
 
-        <div id="members" className="py-4 px-4">
-          <h2 className="text-xl font-bold mb-3">メンバー構成</h2>
-        <div className="mx-auto max-w-3xl">
-          {/* 円グラフ */}
-          <div className="grid grid-cols-2 gap-2 md:gap-6">
-            <PieChart
-              title="中高生比"
-              total={20}
-              segments={[
-                { label: '高校生', value: 14, color: '#1e40af', percentage: 0.7 },
-                { label: '中学生', value: 6, color: '#3b82f6', percentage: 0.3 }
-              ]}
-            />
-            <PieChart
-              title="男女比"
-              total={20}
-              segments={[
-                { label: '男性', value: 12, color: '#60a5fa', percentage: 0.6 },
-                { label: '女性', value: 8, color: '#f472b6', percentage: 0.4 }
-              ]}
-            />
-        </div>
-
-                  {/* 種目と活動の雰囲気 */}
-                  <div className="rounded-lg border border-gray-200 p-5 text-left mt-2 md:mt-6">
-                    <p className="text-gray-700 mb-3">短距離から長距離、跳躍・投擲まで幅広く活動しています。</p>
-                    <div className="flex flex-wrap gap-2 justify-center">
-                      <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">短距離</span>
-                      <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">中長距離</span>
-                      <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">ハードル</span>
-                      <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">跳躍</span>
-                      <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">投擲</span>
-                      <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">リレー</span>
-                    </div>
-                  </div>
-        </div>
-      </div>
+        <Members />
 
         <MemberVoices />
 
