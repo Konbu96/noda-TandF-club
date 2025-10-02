@@ -172,31 +172,31 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* スマホ用ヘッダー */}
-      <header className={`md:hidden fixed top-0 left-0 right-0 bg-blue-900 text-white p-2 z-30 shadow-lg transition-all duration-300`}>
+      {/* 全画面用ヘッダー */}
+      <header className={`fixed top-0 left-0 right-0 bg-blue-900 text-white p-2 z-30 shadow-lg transition-all duration-300`}>
         <div className="flex items-center justify-between">
           <div className="w-10"></div> {/* 左側のスペーサー */}
-                  <h1 className="leading-tight text-[20px] sm:text-[24px] font-bold text-center flex-1">
-                    野田学園陸上競技部
-                  </h1>
+          <h1 className="leading-tight text-[20px] sm:text-[24px] font-bold text-center flex-1">
+            野田学園陸上競技部
+          </h1>
           <button
             onClick={toggleSidebar}
             className="p-2 text-white hover:bg-blue-800 rounded-lg transition-colors w-10"
             aria-label="メニューを開く"
           >
-                    <svg
-                      className="w-7 h-7"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4 6h16M4 12h16M4 18h16"
-                      />
-                    </svg>
+            <svg
+              className="w-7 h-7"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
           </button>
         </div>
       </header>
@@ -214,7 +214,7 @@ export default function Sidebar() {
       <aside
         className={`fixed top-0 left-0 h-full w-70 bg-blue-900 p-4 z-50 transform transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
-        } md:translate-x-0 md:relative md:z-auto md:top-0`}
+        }`}
       >
         {/* 閉じるボタン（モバイルのみ） */}
         <button

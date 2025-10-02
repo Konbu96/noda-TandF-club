@@ -32,20 +32,43 @@ const faqData: FAQItem[] = [
 ];
 
 export default function FAQ() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  const handleFaqClick = (id: number) => {
+    setOpenFaq(openFaq === id ? null : id);
+  };
+
   return (
-    <div id="faq" className="py-6 bg-gray-50">
+    <div id="faq" className="py-6 px-4 bg-gray-50">
       <h2 className="text-xl font-bold mb-4 text-center">よくある質問</h2>
       <div className="max-w-3xl mx-auto">
         <div className="space-y-2">
           {faqData.map((faq) => (
-            <div key={faq.id} className="bg-white p-3 md:p-6 rounded-lg border border-gray-200 shadow-sm">
-              <h3 className="font-semibold text-gray-900 mb-2 flex items-center text-left">
-                <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">Q</span>
-                {faq.question}
-              </h3>
-              <p className="text-gray-700 ml-9 text-left">
-                {faq.answer}
-              </p>
+            <div key={faq.id} className="bg-white rounded-lg border border-gray-200 shadow-sm">
+              <button
+                onClick={() => handleFaqClick(faq.id)}
+                className="w-full p-3 md:p-6 text-left"
+              >
+                <h3 className="font-semibold text-gray-900 flex items-center justify-between">
+                  <span className="flex items-center">
+                    <span className="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">Q</span>
+                    {faq.question}
+                  </span>
+                  <svg
+                    className={`w-5 h-5 transition-transform duration-200 md:hidden ${openFaq === faq.id ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </h3>
+              </button>
+              <div className={`md:block ${openFaq === faq.id ? 'block' : 'hidden'}`}>
+                <p className="text-gray-700 ml-3 md:ml-9 pb-3 md:pb-6 pr-3 md:pr-6 text-left">
+                  {faq.answer}
+                </p>
+              </div>
             </div>
           ))}
         </div>

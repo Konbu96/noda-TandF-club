@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import Carousel from "../components/Carousel";
+import Image from 'next/image';
 import ExperienceForm from "../components/ExperienceForm";
 import MemberVoices from "../components/MemberVoices";
 import FAQ from "../components/FAQ";
+import PieChart from "../components/PieChart";
 
 export default function Home() {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
@@ -19,22 +20,42 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-white text-center text-black px-4 pt-2 pb-6 text-sm">
-      {/* スローガン - 一番上 */}
-      <div className="py-2 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg mb-4 shadow-lg">
-        <div className="px-6">
-          <h1 className="text-2xl md:text-3xl font-bold text-blue-900 mb-3 tracking-wide transform hover:scale-105 transition-transform duration-300">
-            共に走り、共に強く
-          </h1>
-          <div className="w-full max-w-80 h-1 bg-gradient-to-r from-blue-600 to-blue-800 mx-auto rounded-full shadow-md"></div>
-        </div>
-          </div>
-
-      <div id="intro" className="mt-4">
-        <Carousel/>
+    <div className="text-center text-black text-sm">
+      {/* 固定背景画像 */}
+      <div className="fixed inset-0 z-0">
+        <Image
+          src="/img/image1.jpg"
+          alt="野田学園陸上競技部"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-black/20"></div>
       </div>
 
-      <div id="news" className="py-4">
+      {/* ヒーローセクション */}
+      <div id="intro" className="relative w-full h-screen sm:h-[80vh] md:h-screen flex items-center justify-center">
+        <div className="text-center text-white">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black mb-4 drop-shadow-lg font-serif" style={{ fontFamily: 'var(--font-noto-serif-jp)' }}>
+            野田学園陸上競技部
+          </h1>
+          <p className="text-lg sm:text-xl md:text-2xl drop-shadow-md font-serif font-bold" style={{ fontFamily: 'var(--font-noto-serif-jp)' }}>
+            共に走り、共に強く
+          </p>
+        </div>
+      </div>
+
+      {/* フェードインエリア（ヒーローからニュースまで） */}
+      <div 
+        className="relative z-10 h-32 sm:h-40 md:h-48"
+        style={{
+          background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 20%, rgba(255,255,255,0.3) 40%, rgba(255,255,255,0.8) 70%, rgba(255,255,255,1) 100%)'
+        }}
+      ></div>
+
+      {/* コンテンツエリア */}
+      <div className="relative z-10 bg-white">
+        <div id="news" className="py-4 px-4">
           <h2 className="text-xl font-bold mb-3 text-center">ニュース</h2>
           <ul className="text-left">
             <li className="text-sm bg-blue-100 p-2">2025年10月3日〜10月7日　第79回 国民スポーツ大会</li>
@@ -43,7 +64,7 @@ export default function Home() {
           </ul>
         </div>
 
-      <div id="schedule" className="py-4">
+        <div id="schedule" className="py-4 px-4">
           <h2 className="text-xl font-bold mb-3">スケジュール</h2>
         <div className="overflow-x-auto">
           <table className="w-full max-w-2xl mx-auto border-collapse border border-gray-300 rounded-lg text-sm">
@@ -95,102 +116,27 @@ export default function Home() {
         </div>
       </div>
 
-      <div id="members" className="py-4">
-        <h2 className="text-xl font-bold mb-3">メンバー構成</h2>
+        <div id="members" className="py-4 px-4">
+          <h2 className="text-xl font-bold mb-3">メンバー構成</h2>
         <div className="mx-auto max-w-3xl">
           {/* 円グラフ */}
           <div className="grid grid-cols-2 gap-2 md:gap-6">
-            {/* 中高生比の円グラフ */}
-            <div className="rounded-lg border border-gray-200 p-5">
-              <h3 className="text-lg font-bold mb-4 text-center">中高生比</h3>
-              <div className="flex justify-center items-center">
-                <div className="relative w-32 h-32">
-                  <svg className="w-32 h-32 transform -rotate-90" viewBox="0 0 100 100">
-                    {/* 高校生 70% (14/20) */}
-                    <circle
-                      cx="50"
-                      cy="50"
-                      r="40"
-                      fill="none"
-                      stroke="#1e40af"
-                      strokeWidth="8"
-                      strokeDasharray={`${2 * Math.PI * 40 * 0.7} ${2 * Math.PI * 40}`}
-                      strokeDashoffset="0"
-                    />
-                    {/* 中学生 30% (6/20) */}
-                    <circle
-                      cx="50"
-                      cy="50"
-                      r="40"
-                      fill="none"
-                      stroke="#3b82f6"
-                      strokeWidth="8"
-                      strokeDasharray={`${2 * Math.PI * 40 * 0.3} ${2 * Math.PI * 40}`}
-                      strokeDashoffset={`-${2 * Math.PI * 40 * 0.7}`}
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-sm font-bold">20人</span>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-4 flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-4">
-                <div className="flex items-center">
-                  <div className="w-4 h-4 bg-blue-800 rounded-full mr-2"></div>
-                  <span className="text-xs md:text-sm">高校生 14人</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-4 h-4 bg-blue-500 rounded-full mr-2"></div>
-                  <span className="text-xs md:text-sm">中学生 6人</span>
-                </div>
-              </div>
-            </div>
-
-            {/* 男女比の円グラフ */}
-            <div className="rounded-lg border border-gray-200 p-5">
-              <h3 className="text-lg font-bold mb-4 text-center">男女比</h3>
-              <div className="flex justify-center items-center">
-                <div className="relative w-32 h-32">
-                  <svg className="w-32 h-32 transform -rotate-90" viewBox="0 0 100 100">
-                    {/* 男性 60% (12/20) */}
-                    <circle
-                      cx="50"
-                      cy="50"
-                      r="40"
-                      fill="none"
-                      stroke="#60a5fa"
-                      strokeWidth="8"
-                      strokeDasharray={`${2 * Math.PI * 40 * 0.6} ${2 * Math.PI * 40}`}
-                      strokeDashoffset="0"
-                    />
-                    {/* 女性 40% (8/20) */}
-                    <circle
-                      cx="50"
-                      cy="50"
-                      r="40"
-                      fill="none"
-                      stroke="#f472b6"
-                      strokeWidth="8"
-                      strokeDasharray={`${2 * Math.PI * 40 * 0.4} ${2 * Math.PI * 40}`}
-                      strokeDashoffset={`-${2 * Math.PI * 40 * 0.6}`}
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-sm font-bold">20人</span>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-4 flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-4">
-                <div className="flex items-center">
-                  <div className="w-4 h-4 bg-blue-400 rounded-full mr-2"></div>
-                  <span className="text-xs md:text-sm">男性 12人</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-4 h-4 bg-pink-400 rounded-full mr-2"></div>
-                  <span className="text-xs md:text-sm">女性 8人</span>
-                </div>
-              </div>
-            </div>
+            <PieChart
+              title="中高生比"
+              total={20}
+              segments={[
+                { label: '高校生', value: 14, color: '#1e40af', percentage: 0.7 },
+                { label: '中学生', value: 6, color: '#3b82f6', percentage: 0.3 }
+              ]}
+            />
+            <PieChart
+              title="男女比"
+              total={20}
+              segments={[
+                { label: '男性', value: 12, color: '#60a5fa', percentage: 0.6 },
+                { label: '女性', value: 8, color: '#f472b6', percentage: 0.4 }
+              ]}
+            />
         </div>
 
                   {/* 種目と活動の雰囲気 */}
@@ -208,12 +154,13 @@ export default function Home() {
         </div>
       </div>
 
-      <MemberVoices />
+        <MemberVoices />
 
-      <FAQ />
+        <FAQ />
 
-      <div id="experience-form" className="py-4">
-        <ExperienceForm />
+        <div id="experience-form" className="py-4 px-4">
+          <ExperienceForm />
+        </div>
       </div>
 
       {/* ページトップボタン */}

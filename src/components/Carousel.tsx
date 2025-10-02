@@ -33,7 +33,7 @@ export default function Carousel() {
       >
         {topPhotos.map((photo, idx) => (
           <SwiperSlide key={idx}>
-            <div className="relative w-full h-[200px] md:h-[300px] group">
+            <div className="relative w-full h-[200px] sm:h-[350px] md:h-[300px] group">
               <Image
                 src={photo.path}
                 alt={photo.alt}
