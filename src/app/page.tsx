@@ -37,10 +37,10 @@ export default function Home() {
       {/* ヒーローセクション */}
       <div id="intro" className="relative w-full h-screen sm:h-[80vh] md:h-screen flex items-center justify-center">
         <div className="text-center text-white">
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black mb-4 drop-shadow-lg font-serif tracking-wider" style={{ fontFamily: 'var(--font-noto-serif-jp)' }}>
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black mb-4 drop-shadow-lg tracking-wider" style={{ fontFamily: 'var(--font-noto-serif-jp)' }}>
             野田学園陸上競技部
           </h1>
-          <p className="text-lg sm:text-xl md:text-2xl drop-shadow-md font-serif font-bold" style={{ fontFamily: 'var(--font-noto-serif-jp)' }}>
+          <p className="text-lg sm:text-xl md:text-2xl drop-shadow-md font-bold" style={{ fontFamily: 'var(--font-noto-serif-jp)' }}>
             共に走り、共に強く
           </p>
         </div>
@@ -54,11 +54,20 @@ export default function Home() {
         <div id="news" className="py-2 px-4 md:py-8">
           <div className="max-w-2xl mx-auto">
             <h2 className="text-lg font-bold mb-2 text-center md:text-xl md:mb-3">ニュース</h2>
-            <ul className="text-left space-y-1 md:space-y-0">
-              <li className="text-xs md:text-sm bg-blue-100 p-1 md:p-2">2025年10月3日〜10月7日　第79回 国民スポーツ大会</li>
-              <li className="text-xs md:text-sm bg-blue-50 p-1 md:p-2">2025年10月11日〜10月12日　令和７年度　中国高等学校新人陸上競技対校選手権大会</li>
-              <li className="text-xs md:text-sm bg-blue-100 p-1 md:p-2">2025年10月17日〜10月19日　第56回 U16陸上競技大会</li>
-            </ul>
+            <dl className="text-left space-y-1 md:space-y-0">
+              <div className="bg-blue-100 p-1 md:p-2 flex flex-col md:flex-row md:gap-4">
+                <dt className="text-xs md:text-sm font-semibold md:w-48 md:flex-shrink-0">2025年10月3日〜10月7日</dt>
+                <dd className="text-xs md:text-sm">第79回 国民スポーツ大会</dd>
+              </div>
+              <div className="bg-blue-50 p-1 md:p-2 flex flex-col md:flex-row md:gap-4">
+                <dt className="text-xs md:text-sm font-semibold md:w-48 md:flex-shrink-0">2025年10月11日〜10月12日</dt>
+                <dd className="text-xs md:text-sm">令和７年度　中国高等学校新人陸上競技対校選手権大会</dd>
+              </div>
+              <div className="bg-blue-100 p-1 md:p-2 flex flex-col md:flex-row md:gap-4">
+                <dt className="text-xs md:text-sm font-semibold md:w-48 md:flex-shrink-0">2025年10月17日〜10月19日</dt>
+                <dd className="text-xs md:text-sm">第56回 U16陸上競技大会</dd>
+              </div>
+            </dl>
           </div>
         </div>
 
