@@ -2,7 +2,7 @@
 
 export default function Schedule() {
   return (
-    <div id="schedule" className="py-4 px-4">
+    <div id="schedule" className="py-4 px-4 md:py-8">
       <h2 className="text-xl font-bold mb-3">スケジュール</h2>
       <div className="overflow-x-auto">
         <table className="w-full max-w-2xl mx-auto border-collapse border border-gray-300 rounded-lg text-sm">

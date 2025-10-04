@@ -204,7 +204,7 @@ export default function Sidebar() {
       {/* オーバーレイ */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 md:hidden"
+          className="fixed inset-0 z-40"
           style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}
           onClick={closeSidebar}
         />

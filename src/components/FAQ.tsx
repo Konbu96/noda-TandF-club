@@ -39,7 +39,7 @@ export default function FAQ() {
   };
 
   return (
-    <div id="faq" className="py-6 px-4 bg-gray-50">
+    <div id="faq" className="py-6 px-4 md:py-8 bg-gray-50">
       <h2 className="text-xl font-bold mb-4 text-center">よくある質問</h2>
       <div className="max-w-3xl mx-auto">
         <div className="space-y-2">

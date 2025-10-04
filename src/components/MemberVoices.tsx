@@ -115,22 +115,19 @@ const getEventIcon = (event: string) => {
 
 export default function MemberVoices() {
   return (
-    <div id="voices" className="py-6 px-4">
+    <div id="voices" className="py-6 px-4 md:py-8">
       <h2 className="text-xl font-bold mb-3 text-center">みんなの声</h2>
       <div className="max-w-4xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-3">
           {memberVoices.map((voice) => (
             <div key={voice.id} className="bg-blue-50 p-2 md:p-6 rounded-lg border border-blue-200">
-              <div className="flex items-start mb-2 md:mb-3">
+              <div className="flex items-center mb-2 md:mb-3">
                 <div className="w-8 h-8 md:w-12 md:h-12 bg-blue-600 rounded-full flex items-center justify-center text-white mr-2 md:mr-4 flex-shrink-0">
                   <div className="flex items-center justify-center w-6 h-6 md:w-10 md:h-10">
                     {getEventIcon(voice.event)}
                   </div>
                 </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-blue-900 text-xs md:text-base">{voice.name}（{voice.grade}）</h3>
-                  <p className="text-xs text-blue-700 mt-1">{voice.event}</p>
-                </div>
+                <h3 className="font-semibold text-blue-900 text-xs md:text-base">{voice.name}（{voice.grade}）</h3>
               </div>
               <p className="text-gray-700 leading-relaxed text-left text-xs md:text-base">
                 「{voice.message}」

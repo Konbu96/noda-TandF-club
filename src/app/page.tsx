@@ -37,7 +37,7 @@ export default function Home() {
       {/* ヒーローセクション */}
       <div id="intro" className="relative w-full h-screen sm:h-[80vh] md:h-screen flex items-center justify-center">
         <div className="text-center text-white">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black mb-4 drop-shadow-lg font-serif" style={{ fontFamily: 'var(--font-noto-serif-jp)' }}>
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black mb-4 drop-shadow-lg font-serif tracking-wider" style={{ fontFamily: 'var(--font-noto-serif-jp)' }}>
             野田学園陸上競技部
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl drop-shadow-md font-serif font-bold" style={{ fontFamily: 'var(--font-noto-serif-jp)' }}>
@@ -47,16 +47,11 @@ export default function Home() {
       </div>
 
       {/* フェードインエリア（ヒーローからニュースまで） */}
-      <div 
-        className="relative z-10 h-32 sm:h-40 md:h-48"
-        style={{
-          background: 'linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 20%, rgba(255,255,255,0.3) 40%, rgba(255,255,255,0.8) 70%, rgba(255,255,255,1) 100%)'
-        }}
-      ></div>
+      <div className="relative z-10 h-32 sm:h-40 md:h-48 bg-gradient-to-b from-transparent via-white/30 to-white"></div>
 
       {/* コンテンツエリア */}
       <div className="relative z-10 bg-white">
-        <div id="news" className="py-2 px-4 md:py-4">
+        <div id="news" className="py-2 px-4 md:py-8">
           <div className="max-w-2xl mx-auto">
             <h2 className="text-lg font-bold mb-2 text-center md:text-xl md:mb-3">ニュース</h2>
             <ul className="text-left space-y-1 md:space-y-0">
@@ -75,7 +70,7 @@ export default function Home() {
 
         <FAQ />
 
-        <div id="experience-form" className="py-4 px-4">
+        <div id="experience-form" className="py-4 px-4 md:py-8">
           <ExperienceForm />
         </div>
       </div>

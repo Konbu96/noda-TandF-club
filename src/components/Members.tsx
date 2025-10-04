@@ -4,7 +4,7 @@ import PieChart from './PieChart';
 
 export default function Members() {
   return (
-    <div id="members" className="py-4 px-4">
+    <div id="members" className="py-4 px-4 md:py-8">
       <h2 className="text-xl font-bold mb-3">メンバー構成</h2>
       <div className="mx-auto max-w-3xl">
         {/* 円グラフ */}
@@ -29,7 +29,7 @@ export default function Members() {
 
         {/* 種目と活動の雰囲気 */}
         <div className="rounded-lg border border-gray-200 p-5 text-left mt-2 md:mt-6">
-          <p className="text-gray-700 mb-3">短距離から長距離、跳躍・投擲まで幅広く活動しています。</p>
+          <p className="text-gray-700 mb-3 text-center">短距離から長距離、跳躍・投擲まで幅広く活動しています。</p>
           <div className="flex flex-wrap gap-2 justify-center">
             <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">短距離</span>
             <span className="px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-sm">中長距離</span>
