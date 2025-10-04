@@ -56,13 +56,15 @@ export default function Home() {
 
       {/* コンテンツエリア */}
       <div className="relative z-10 bg-white">
-        <div id="news" className="py-4 px-4">
-          <h2 className="text-xl font-bold mb-3 text-center">ニュース</h2>
-          <ul className="text-left">
-            <li className="text-sm bg-blue-100 p-2">2025年10月3日〜10月7日　第79回 国民スポーツ大会</li>
-            <li className="text-sm bg-blue-50 p-2">2025年10月11日〜10月12日　令和７年度　中国高等学校新人陸上競技対校選手権大会</li>
-            <li className="text-sm bg-blue-100 p-2">2025年10月17日〜10月19日　第56回 U16陸上競技大会</li>
-          </ul>
+        <div id="news" className="py-2 px-4 md:py-4">
+          <div className="max-w-2xl mx-auto">
+            <h2 className="text-lg font-bold mb-2 text-center md:text-xl md:mb-3">ニュース</h2>
+            <ul className="text-left space-y-1 md:space-y-0">
+              <li className="text-xs md:text-sm bg-blue-100 p-1 md:p-2">2025年10月3日〜10月7日　第79回 国民スポーツ大会</li>
+              <li className="text-xs md:text-sm bg-blue-50 p-1 md:p-2">2025年10月11日〜10月12日　令和７年度　中国高等学校新人陸上競技対校選手権大会</li>
+              <li className="text-xs md:text-sm bg-blue-100 p-1 md:p-2">2025年10月17日〜10月19日　第56回 U16陸上競技大会</li>
+            </ul>
+          </div>
         </div>
 
         <Schedule />
