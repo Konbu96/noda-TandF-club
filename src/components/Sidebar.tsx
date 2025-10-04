@@ -237,10 +237,6 @@ export default function Sidebar() {
           </svg>
         </button>
 
-        <h1 className="leading-tight text-[14px] sm:text-[28px] font-bold m-2 text-white text-center">
-          野田学園<br/>陸上競技部
-        </h1>
-        
         <div className="mt-8">
           <ul className="text-[20px] leading-15 text-center">
             {menus.map((menu, index) => (

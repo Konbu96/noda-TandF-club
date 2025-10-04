@@ -47,9 +47,9 @@ export default function PieChart({ title, total, segments }: PieChartProps) {
           </div>
         </div>
       </div>
-      <div className="mt-4 flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-4">
+      <div className="mt-4 flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-4 justify-center">
         {segments.map((segment, index) => (
-          <div key={index} className="flex items-center">
+          <div key={index} className="flex items-center justify-center">
             <div className="w-4 h-4 rounded-full mr-2" style={{ backgroundColor: segment.color }}></div>
             <span className="text-xs md:text-sm">{segment.label} {segment.value}人</span>
           </div>
