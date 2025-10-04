@@ -49,9 +49,9 @@ const getEventIcon = (event: string) => {
         <Image
           src="/icons/short.png"
           alt="短距離"
-          width={24}
-          height={24}
-          className="w-6 h-6 filter brightness-0 invert"
+          width={32}
+          height={32}
+          className="w-6 h-6 md:w-8 md:h-8 filter brightness-0 invert"
         />
       );
     case "中長距離":
@@ -59,9 +59,9 @@ const getEventIcon = (event: string) => {
         <Image
           src="/icons/long.png"
           alt="中長距離"
-          width={24}
-          height={24}
-          className="w-6 h-6 filter brightness-0 invert"
+          width={32}
+          height={32}
+          className="w-6 h-6 md:w-8 md:h-8 filter brightness-0 invert"
         />
       );
     case "跳躍":
@@ -69,9 +69,9 @@ const getEventIcon = (event: string) => {
         <Image
           src="/icons/long-jump.png"
           alt="跳躍"
-          width={24}
-          height={24}
-          className="w-6 h-6 filter brightness-0 invert"
+          width={32}
+          height={32}
+          className="w-6 h-6 md:w-8 md:h-8 filter brightness-0 invert"
         />
       );
     case "投擲":
@@ -79,9 +79,9 @@ const getEventIcon = (event: string) => {
         <Image
           src="/icons/shot-put.png"
           alt="砲丸投げ"
-          width={24}
-          height={24}
-          className="w-6 h-6 filter brightness-0 invert"
+          width={32}
+          height={32}
+          className="w-6 h-6 md:w-8 md:h-8 filter brightness-0 invert"
         />
       );
     case "ハードル":
@@ -89,9 +89,9 @@ const getEventIcon = (event: string) => {
         <Image
           src="/icons/hurdle.png"
           alt="ハードル"
-          width={24}
-          height={24}
-          className="w-6 h-6 filter brightness-0 invert"
+          width={32}
+          height={32}
+          className="w-6 h-6 md:w-8 md:h-8 filter brightness-0 invert"
         />
       );
     case "リレー":
@@ -99,9 +99,9 @@ const getEventIcon = (event: string) => {
         <Image
           src="/icons/relay.png"
           alt="リレー"
-          width={24}
-          height={24}
-          className="w-6 h-6 filter brightness-0 invert"
+          width={32}
+          height={32}
+          className="w-6 h-6 md:w-8 md:h-8 filter brightness-0 invert"
         />
       );
     default:
@@ -123,7 +123,7 @@ export default function MemberVoices() {
             <div key={voice.id} className="bg-blue-50 p-2 md:p-6 rounded-lg border border-blue-200">
               <div className="flex items-start mb-2 md:mb-3">
                 <div className="w-8 h-8 md:w-12 md:h-12 bg-blue-600 rounded-full flex items-center justify-center text-white mr-2 md:mr-4 flex-shrink-0">
-                  <div className="flex items-center justify-center w-6 h-6 md:w-8 md:h-8">
+                  <div className="flex items-center justify-center w-6 h-6 md:w-10 md:h-10">
                     {getEventIcon(voice.event)}
                   </div>
                 </div>
