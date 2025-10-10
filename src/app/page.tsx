@@ -35,149 +35,79 @@ export default function Home() {
       </div>
 
       {/* ヒーローセクション */}
-      <div id="intro" className="relative w-full h-screen sm:h-[80vh] md:h-screen flex items-center justify-center">
+      <div id="intro" className="relative w-full h-screen lg:h-screen flex items-center justify-center">
         <div className="text-center text-white">
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black mb-4 drop-shadow-lg tracking-wider font-serif">
+          <h1 className="text-3xl lg:text-6xl font-black mb-4 drop-shadow-lg tracking-wider font-serif">
             野田学園陸上競技部
           </h1>
-          <p className="text-lg sm:text-xl md:text-2xl drop-shadow-md font-bold font-serif">
+          <p className="text-lg lg:text-2xl drop-shadow-md font-bold font-serif">
             共に走り、共に強く
           </p>
         </div>
       </div>
 
       {/* フェードインエリア（ヒーローからニュースまで） */}
-      <div className="relative z-10 h-32 sm:h-40 md:h-48 bg-gradient-to-b from-transparent via-white/30 to-white"></div>
+      <div className="relative z-10 h-32 lg:h-48 bg-gradient-to-b from-transparent via-white/30 to-white"></div>
 
       {/* コンテンツエリア */}
-      <div className="relative z-10 bg-white">
-        {/* セクション1: ニュース */}
-        <div className="py-2 px-4 md:py-8">
+      <div className="relative z-10 bg-white px-4 lg:px-0">
+        <div id="news" className="py-2 lg:py-8">
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-center">
-              {/* 写真 */}
-              <div className="order-1 md:order-1 md:pr-4">
-                <div className="aspect-video bg-gray-200 overflow-hidden">
-                  <Image
-                    src="/img/image2.jpg"
-                    alt="ニュース"
-                    width={600}
-                    height={400}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+            <h2 className="text-lg font-bold mb-2 text-center lg:text-xl lg:mb-3">ニュース</h2>
+            <div className="flex flex-col lg:flex-row lg:items-stretch lg:gap-8">
+              <div className="flex-1">
+            <dl className="text-left space-y-1 lg:space-y-0">
+              <div className="bg-blue-100 p-1 lg:p-2 flex flex-col lg:flex-row lg:gap-4">
+                <dt className="text-xs lg:text-sm font-semibold lg:w-48 lg:flex-shrink-0">2025年10月25日〜10月26日</dt>
+                <dd className="text-xs lg:text-sm">高校秋季県大会</dd>
               </div>
-              {/* コンテンツ */}
-              <div className="order-2 md:order-2" id="news">
-                <h2 className="text-lg font-bold mb-2 text-center md:text-xl md:mb-3">ニュース</h2>
-                <dl className="text-left space-y-1 md:space-y-0">
-                  <div className="bg-blue-100 p-1 md:p-2 flex flex-col md:flex-row md:gap-4">
-                    <dt className="text-xs md:text-sm font-semibold md:w-48 md:flex-shrink-0">2025年10月3日〜10月7日</dt>
-                    <dd className="text-xs md:text-sm">第79回 国民スポーツ大会</dd>
-                  </div>
-                  <div className="bg-blue-50 p-1 md:p-2 flex flex-col md:flex-row md:gap-4">
-                    <dt className="text-xs md:text-sm font-semibold md:w-48 md:flex-shrink-0">2025年10月11日〜10月12日</dt>
-                    <dd className="text-xs md:text-sm">令和７年度　中国高等学校新人陸上競技対校選手権大会</dd>
-                  </div>
-                  <div className="bg-blue-100 p-1 md:p-2 flex flex-col md:flex-row md:gap-4">
-                    <dt className="text-xs md:text-sm font-semibold md:w-48 md:flex-shrink-0">2025年10月17日〜10月19日</dt>
-                    <dd className="text-xs md:text-sm">第56回 U16陸上競技大会</dd>
-                  </div>
-                </dl>
+              <div className="bg-blue-50 p-1 lg:p-2 flex flex-col lg:flex-row lg:gap-4">
+                <dt className="text-xs lg:text-sm font-semibold lg:w-48 lg:flex-shrink-0">2025年10月17日〜10月19日</dt>
+                <dd className="text-xs lg:text-sm">第56回 U16陸上競技大会</dd>
+              </div>
+              <div className="bg-blue-100 p-1 lg:p-2 flex flex-col lg:flex-row lg:gap-4">
+                <dt className="text-xs lg:text-sm font-semibold lg:w-48 lg:flex-shrink-0">2025年10月11日〜10月12日</dt>
+                <dd className="text-xs lg:text-sm">令和７年度　中国高等学校新人陸上競技対校選手権大会</dd>
+              </div>
+              <div className="bg-blue-50 p-1 lg:p-2 flex flex-col lg:flex-row lg:gap-4">
+                <dt className="text-xs lg:text-sm font-semibold lg:w-48 lg:flex-shrink-0">2025年10月3日〜10月7日</dt>
+                <dd className="text-xs lg:text-sm">第79回 国民スポーツ大会</dd>
+              </div>
+              <div className="bg-blue-100 p-1 lg:p-2 flex flex-col lg:flex-row lg:gap-4">
+                <dt className="text-xs lg:text-sm font-semibold lg:w-48 lg:flex-shrink-0">2025年9月20日〜9月21日</dt>
+                <dd className="text-xs lg:text-sm">山口県高等学校新人競技選手権大会で3名が中国高校新人大会への出場権を獲得しました。</dd>
+              </div>
+            </dl>
+              </div>
+              <div className="flex-shrink-0 w-full lg:w-80 mt-4 lg:mt-0">
+                <Image
+                  src="/img/image2.jpg"
+                  alt="陸上競技部の練習"
+                  width={320}
+                  height={240}
+                  className="shadow-lg object-cover w-full h-64 lg:h-full"
+                />
               </div>
             </div>
           </div>
         </div>
 
-        {/* セクション2: スケジュール */}
-        <div className="py-4 px-4 md:py-8">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-center">
-              {/* 写真 */}
-              <div className="order-1 md:order-2 md:pl-4">
-                <div className="aspect-video bg-gray-200 overflow-hidden">
-                  <Image
-                    src="/img/image3.jpg"
-                    alt="スケジュール"
-                    width={600}
-                    height={400}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-              {/* コンテンツ */}
-              <div className="order-2 md:order-1" id="schedule">
-                <Schedule />
-              </div>
-            </div>
-          </div>
+        <Schedule />
+
+        <Members />
+
+        <MemberVoices />
+
+        <FAQ />
+
+        <div id="experience-form" className="py-4 lg:py-8">
+          <ExperienceForm />
         </div>
 
-        {/* セクション3: メンバー */}
-        <div className="py-4 px-4 md:py-8">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-center">
-              {/* 写真 */}
-              <div className="order-1 md:order-1 md:pr-4">
-                <div className="aspect-video bg-gray-200 overflow-hidden">
-                  <Image
-                    src="/img/image4.jpg"
-                    alt="メンバー"
-                    width={600}
-                    height={400}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-              {/* コンテンツ */}
-              <div className="order-2 md:order-2" id="members">
-                <Members />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* セクション4: みんなの声 */}
-        <div className="py-6 px-4 md:py-8">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-center">
-              {/* 写真 */}
-              <div className="order-1 md:order-2 md:pl-4">
-                <div className="aspect-video bg-gray-200 overflow-hidden">
-                  <Image
-                    src="/img/image1.jpg"
-                    alt="みんなの声"
-                    width={600}
-                    height={400}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-              {/* コンテンツ */}
-              <div className="order-2 md:order-1" id="voices">
-                <MemberVoices />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* セクション5: よくある質問 */}
-        <div className="py-6 px-4 md:py-8">
-          <div className="max-w-6xl mx-auto">
-            <div id="faq">
-              <FAQ />
-            </div>
-          </div>
-        </div>
-
-        {/* セクション6: 体験入部申し込み */}
-        <div className="py-4 px-4 md:py-8">
-          <div className="max-w-6xl mx-auto">
-            <div id="experience-form">
-              <ExperienceForm />
-            </div>
-          </div>
-        </div>
+        {/* フッター */}
+        <footer className="py-8 text-center text-xs text-gray-500">
+          <p>&copy; Noda Track and Field Club</p>
+        </footer>
       </div>
 
       {/* ページトップボタン */}

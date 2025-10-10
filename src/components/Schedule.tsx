@@ -1,10 +1,15 @@
 'use client';
 
+import Image from 'next/image';
+
 export default function Schedule() {
   return (
-    <div id="schedule" className="py-4 px-4 md:py-8">
-      <h2 className="text-xl font-bold mb-3">スケジュール</h2>
-      <div className="overflow-x-auto">
+    <div id="schedule" className="py-4 lg:py-8">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-xl font-bold mb-3 text-center">スケジュール</h2>
+        <div className="flex flex-col lg:flex-row lg:flex-row-reverse lg:items-stretch lg:gap-8">
+          <div className="flex-1">
+            <div className="overflow-x-auto">
         <table className="w-full max-w-2xl mx-auto border-collapse border border-gray-300 rounded-lg text-sm">
           <thead>
             <tr className="bg-blue-900 text-white">
@@ -51,6 +56,18 @@ export default function Schedule() {
             </tr>
           </tbody>
         </table>
+      </div>
+          </div>
+          <div className="flex-shrink-0 w-full lg:w-80 mt-4 lg:mt-0">
+            <Image
+              src="/img/image3.jpg"
+              alt="陸上競技部のスケジュール"
+              width={320}
+              height={240}
+              className="shadow-lg object-cover w-full h-64 lg:h-full"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

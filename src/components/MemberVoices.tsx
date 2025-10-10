@@ -13,31 +13,31 @@ interface MemberVoice {
 const memberVoices: MemberVoice[] = [
   {
     id: 1,
-    name: "田中さん",
+    name: "門出",
     grade: "高2",
     event: "短距離",
-    message: "陸上部に入ってから体力がついて、勉強にも集中できるようになりました。みんなで目標に向かって頑張れる環境が最高です！"
+    message: "先輩たちのアドバイスでフォームが改善されて、記録も伸びました。"
   },
   {
     id: 2,
-    name: "佐藤さん",
+    name: "岡本",
     grade: "中3",
     event: "中長距離",
-    message: "先輩たちが優しく教えてくれるので、初心者の私でも安心して練習できます。大会で自己ベストを更新できた時は本当に嬉しかったです。"
+    message: "体力がついて勉強にも集中できるようになりました。"
   },
   {
     id: 3,
-    name: "山田さん",
+    name: "村田",
     grade: "高1",
     event: "跳躍",
-    message: "陸上競技は個人競技だと思っていましたが、チーム一丸となって応援し合える仲間ができて、毎日の練習が楽しみです。"
+    message: "先生が幅跳びを専門的に教えてくださるので、技術が向上しています。"
   },
   {
     id: 4,
-    name: "高橋さん",
+    name: "加藤",
     grade: "高2",
     event: "ハードル",
-    message: "ハードルは技術が重要ですが、先輩たちのアドバイスでフォームが改善され、記録も伸びました。"
+    message: "競技場での練習もできるので、本格的な環境で競技に取り組めます。"
   }
 ];
 
@@ -115,28 +115,43 @@ const getEventIcon = (event: string) => {
 
 export default function MemberVoices() {
   return (
-    <div id="voices" className="py-6 px-4 md:py-8">
-      <h2 className="text-xl font-bold mb-3 text-center">みんなの声</h2>
+    <div id="voices" className="py-6 lg:py-8">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-2 gap-2 md:gap-3">
+        <h2 className="text-xl font-bold mb-3 text-center">みんなの声</h2>
+        <div className="flex flex-col lg:flex-row lg:flex-row-reverse lg:items-stretch lg:gap-8">
+          <div className="flex-1">
+            <div className="max-w-4xl mx-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-2 gap-2 lg:gap-3">
           {memberVoices.map((voice) => (
-            <div key={voice.id} className="bg-blue-50 p-2 md:p-6 rounded-lg border border-blue-200">
-              <div className="flex items-start mb-2 md:mb-3">
-                <div className="w-8 h-8 md:w-12 md:h-12 bg-blue-600 rounded-full flex items-center justify-center text-white mr-2 md:mr-4 flex-shrink-0">
-                  <div className="flex items-center justify-center w-6 h-6 md:w-10 md:h-10">
+            <div key={voice.id} className="bg-blue-50 p-2 lg:p-6 rounded-lg border border-blue-200">
+              <div className="flex items-start mb-2 lg:mb-3">
+                <div className="w-8 h-8 lg:w-12 lg:h-12 bg-blue-600 rounded-full flex items-center justify-center text-white mr-2 lg:mr-4 flex-shrink-0">
+                  <div className="flex items-center justify-center w-6 h-6 lg:w-10 lg:h-10">
                     {getEventIcon(voice.event)}
                   </div>
                 </div>
                 <div className="flex-1 text-left">
-                  <h3 className="font-semibold text-blue-900 text-sm md:text-lg">{voice.name}（{voice.grade}）</h3>
+                  <h3 className="font-semibold text-blue-900 text-sm lg:text-lg">{voice.name}</h3>
                   <p className="text-xs md:text-sm text-blue-600">{voice.event}</p>
                 </div>
               </div>
-              <p className="text-gray-700 leading-relaxed text-left text-xs md:text-base">
-                「{voice.message}」
+              <p className="text-gray-700 leading-relaxed text-left text-xs lg:text-base">
+                {voice.message}
               </p>
             </div>
           ))}
+        </div>
+            </div>
+          </div>
+          <div className="flex-shrink-0 w-full lg:w-80 mt-4 lg:mt-0">
+            <Image
+              src="/img/image1.jpg"
+              alt="陸上競技部の練習風景"
+              width={320}
+              height={240}
+              className="shadow-lg object-cover w-full h-64 lg:h-full"
+            />
+          </div>
         </div>
       </div>
     </div>
