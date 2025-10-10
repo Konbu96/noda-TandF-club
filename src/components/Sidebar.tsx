@@ -162,7 +162,7 @@ export default function Sidebar() {
     closeSidebar();
   };
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, menu: any) => {
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, menu: { href: string; isExternal?: boolean }) => {
     if (menu.isExternal) {
       closeSidebar();
     } else {

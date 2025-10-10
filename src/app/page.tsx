@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
 import ExperienceForm from "../components/ExperienceForm";
 import MemberVoices from "../components/MemberVoices";
@@ -9,17 +8,6 @@ import Schedule from "../components/Schedule";
 import Members from "../components/Members";
 
 export default function Home() {
-  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
-  const [clickedCard, setClickedCard] = useState<string | null>(null);
-
-  const handleCardClick = (cardType: string) => {
-    setClickedCard(clickedCard === cardType ? null : cardType);
-  };
-
-  const handleCardHover = (cardType: string | null) => {
-    setHoveredCard(cardType);
-  };
-
   return (
     <div className="text-center text-black text-sm">
       {/* 固定背景画像 */}
