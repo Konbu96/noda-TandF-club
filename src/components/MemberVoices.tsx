@@ -145,7 +145,7 @@ export default function MemberVoices() {
           </div>
           <div className="flex-shrink-0 w-full lg:w-80 mt-4 lg:mt-0">
             <Image
-              src="/img/image1.jpg"
+              src="/img/image4.png"
               alt="陸上競技部の練習風景"
               width={320}
               height={240}

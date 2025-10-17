@@ -13,7 +13,7 @@ export default function Home() {
       {/* 固定背景画像 */}
       <div className="fixed inset-0 z-0">
         <Image
-          src="/img/image1.jpg"
+          src="/img/main.jpg"
           alt="野田学園陸上競技部"
           fill
           className="object-cover"
@@ -69,7 +69,7 @@ export default function Home() {
               </div>
               <div className="flex-shrink-0 w-full lg:w-80 mt-4 lg:mt-0">
                 <Image
-                  src="/img/image2.jpg"
+                  src="/img/image1.jpg"
                   alt="陸上競技部の練習"
                   width={320}
                   height={240}

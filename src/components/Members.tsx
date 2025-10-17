@@ -53,10 +53,10 @@ export default function Members() {
             style={{ height: `${imageHeight}px` }}
           >
             <Image
-              src="/img/image4.jpg"
+              src="/img/image3.jpg"
               alt="陸上競技部のメンバー"
               fill
-              className="shadow-lg object-cover"
+              className="shadow-lg object-cover object-bottom"
             />
           </div>
         </div>
