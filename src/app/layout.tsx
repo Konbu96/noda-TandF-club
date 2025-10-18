@@ -17,7 +17,29 @@ const notoSerifJP = Noto_Serif_JP({
 
 export const metadata: Metadata = {
   title: "野田学園陸上競技部",
-  description: "野田学園陸上競技部の公式サイト",
+  description: "中学生から高校生まで、男女問わず仲良く一緒に活動しています。短距離から長距離、跳躍・投擲まで幅広く取り組んでいます。",
+  openGraph: {
+    title: "野田学園陸上競技部",
+    description: "中学生から高校生まで、男女問わず仲良く一緒に活動しています。短距離から長距離、跳躍・投擲まで幅広く取り組んでいます。",
+    url: "noda-tandf-club.vercel.app", 
+    siteName: "野田学園陸上競技部",
+    images: [
+      {
+        url: "/img/ogp.jpg", // OGP画像のパス
+        width: 1200,
+        height: 630,
+        alt: "野田学園陸上競技部",
+      },
+    ],
+    locale: "ja_JP",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "野田学園陸上競技部",
+    description: "中学生から高校生まで、男女問わず仲良く一緒に活動しています。短距離から長距離、跳躍・投擲まで幅広く取り組んでいます。",
+    images: ["/img/main.jpg"],
+  },
 };
 
 export default function RootLayout({

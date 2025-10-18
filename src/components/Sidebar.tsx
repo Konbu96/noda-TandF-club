@@ -16,7 +16,7 @@ const menus = [
     isExternal: false,
   },
   {
-    label: 'メンバー',
+    label: 'メンバー構成',
     href: '#members',
     isExternal: false,
   },
@@ -71,11 +71,11 @@ function MenuIcon({ label }: { label: string }) {
           className="w-5 h-5"
         />
       );
-    case 'メンバー':
+    case 'メンバー構成':
       return (
         <Image
           src="/icons/member.svg"
-          alt="メンバー"
+          alt="構成"
           width={20}
           height={20}
           className="w-5 h-5"
