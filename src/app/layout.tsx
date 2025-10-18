@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "野田学園陸上競技部",
     description: "中学生から高校生まで、男女問わず仲良く一緒に活動しています。短距離から長距離、跳躍・投擲まで幅広く取り組んでいます。",
-    images: ["/img/main.jpg"],
+    images: ["/img/ogp.jpg"],
   },
 };
 
