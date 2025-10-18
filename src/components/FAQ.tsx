@@ -41,6 +41,7 @@ export default function FAQ() {
   return (
     <div id="faq" className="py-6 lg:py-8 bg-gray-50">
       <h2 className="text-xl font-bold mb-4 text-center">よくある質問</h2>
+      <p className="text-center text-gray-700 mb-4 text-sm lg:text-base">気になることがあればぜひご覧ください</p>
       <div className="max-w-3xl mx-auto">
         <div className="space-y-2">
           {faqData.map((faq) => (

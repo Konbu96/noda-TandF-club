@@ -24,6 +24,7 @@ export default function Members() {
     <div id="members" className="py-4 lg:py-8">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-xl font-bold mb-3 text-center">メンバー構成</h2>
+        <p className="text-center text-gray-700 mb-4 text-sm lg:text-base">中学生から高校生まで、男女問わず仲良く一緒に活動しています</p>
         <div className="flex flex-col lg:flex-row lg:items-start lg:gap-8">
           <div className="flex-1">
             <div className="mx-auto max-w-3xl">

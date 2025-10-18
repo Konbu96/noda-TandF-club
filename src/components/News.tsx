@@ -5,6 +5,7 @@ export default function News() {
     <div id="news" className="py-2 lg:py-8">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-lg font-bold mb-2 text-center lg:text-xl lg:mb-3">ニュース</h2>
+        <p className="text-center text-gray-700 mb-4 text-sm lg:text-base">部活動の最新ニュースです</p>
         <div className="flex flex-col lg:flex-row lg:items-stretch lg:gap-8">
           <div className="flex-1">
             <div className="max-w-6xl mx-auto">

@@ -118,6 +118,7 @@ export default function MemberVoices() {
     <div id="voices" className="py-6 lg:py-8">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-xl font-bold mb-3 text-center">みんなの声</h2>
+        <p className="text-center text-gray-700 mb-4 text-sm lg:text-base">部員たちの実際の声をご紹介します</p>
         <div className="flex flex-col lg:flex-row lg:flex-row-reverse lg:items-stretch lg:gap-8">
           <div className="flex-1">
             <div className="max-w-4xl mx-auto">

@@ -7,8 +7,10 @@ import FAQ from "../components/FAQ";
 import Schedule from "../components/Schedule";
 import Members from "../components/Members";
 import News from "../components/News";
+import { scrollToTop } from "../components/TopPage";
 
 export default function Home() {
+
   return (
     <div className="text-center text-black text-sm">
       {/* 固定背景画像 */}
@@ -62,17 +64,7 @@ export default function Home() {
 
       {/* ページトップボタン */}
       <button
-        onClick={() => {
-          if (typeof window !== 'undefined') {
-            // メインコンテンツエリアをスクロール
-            const mainElement = document.querySelector('main');
-            if (mainElement) {
-              mainElement.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-            // 念のためwindowもスクロール
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }
-        }}
+        onClick={scrollToTop}
         className="fixed bottom-6 right-6 w-12 h-12 bg-blue-900 text-white rounded-full shadow-lg hover:bg-blue-600 hover:scale-110 transition-all duration-200 z-50 flex items-center justify-center"
         aria-label="ページトップへ"
       >

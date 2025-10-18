@@ -3,112 +3,59 @@
 import Image from 'next/image';
 
 export default function Schedule() {
-  const schedule = [
-    { id: 1, day: '月', time: '15:30~', location: '学校' },
-    { id: 2, day: '火', time: '16:25~', location: '学校' },
-    { id: 3, day: '水', time: '15:50~', location: '競技場' },
-    { id: 4, day: '木', time: '16:25~', location: '学校' },
-    { id: 5, day: '金', time: '16:25~', location: '学校' },
-    { id: 6, day: '土', time: '13:50~', location: '競技場' },
-    { id: 7, day: '日', time: '-', location: '休み', isHoliday: true },
+  const scheduleLocations = [
+    {
+      id: 1,
+      location: '学校',
+      days: '月, 火, 木, 金',
+      description: '基本的に走り系の練習',
+      bgColor: 'bg-blue-50',
+      borderColor: 'border-blue-200',
+      textColor: 'text-blue-900'
+    },
+    {
+      id: 2,
+      location: '競技場',
+      days: '水, 土',
+      description: '専門競技の練習',
+      bgColor: 'bg-green-50',
+      borderColor: 'border-green-200',
+      textColor: 'text-green-900'
+    },
+    {
+      id: 3,
+      location: '休み',
+      days: '日, 習い事等用事のある日',
+      description: '',
+      bgColor: 'bg-gray-50',
+      borderColor: 'border-gray-300',
+      textColor: 'text-gray-700'
+    }
   ];
 
   return (
     <div id="schedule" className="py-4 lg:py-8">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-xl font-bold mb-3 text-center">スケジュール</h2>
+        <p className="text-center text-gray-700 mb-4 text-sm lg:text-base">週ごとの活動スケジュールです</p>
         <div className="flex flex-col lg:flex-row lg:flex-row-reverse lg:items-stretch lg:gap-8">
-          <div className="flex-1">
-            {/* スマホ版：4列と3列のグリッド */}
-            <div className="lg:hidden space-y-3">
-              {/* 1段目：月〜木 */}
-              <div className="grid grid-cols-4 gap-3">
-                {schedule.slice(0, 4).map((item) => (
-                  <div 
-                    key={item.id} 
-                    className="bg-blue-50 border border-blue-200 p-2 rounded-lg text-center flex flex-col justify-center aspect-square"
-                  >
-                    <div className="text-base font-bold mb-1 text-blue-900">
-                      {item.day}
-                    </div>
-                    <div className="text-sm text-gray-700">{item.time}</div>
-                    <div className="text-sm text-gray-600">{item.location}</div>
-                  </div>
-                ))}
-              </div>
-
-              {/* 2段目：金〜日（中央揃え） */}
-              <div className="flex justify-center gap-3">
-                {schedule.slice(4).map((item) => (
-                  <div 
-                    key={item.id} 
-                    className={`p-2 rounded-lg border text-center flex flex-col justify-center aspect-square w-[calc(25%-0.5rem)] ${
-                      item.isHoliday 
-                        ? 'bg-gray-50 border-gray-300' 
-                        : 'bg-blue-50 border-blue-200'
-                    }`}
-                  >
-                    <div className={`text-base font-bold mb-1 ${
-                      item.isHoliday ? 'text-gray-700' : 'text-blue-900'
-                    }`}>
-                      {item.day}
-                    </div>
-                    <div className="text-sm text-gray-700">{item.time}</div>
-                    <div className="text-sm text-gray-600">{item.location}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* PC版：2段レイアウト */}
-            <div className="hidden lg:block max-w-5xl mx-auto space-y-2">
-              {/* 1段目：月〜木 */}
-              <div className="grid grid-cols-4 gap-2">
-                {schedule.slice(0, 4).map((item) => (
-                  <div 
-                    key={item.id}
-                    className="bg-blue-50 border border-blue-200 p-4 rounded-lg text-center"
-                  >
-                    <div className="text-lg font-bold mb-2 text-blue-900">
-                      {item.day}
-                    </div>
-                    <div className="text-sm font-semibold text-gray-700 mb-1">
-                      {item.time}
-                    </div>
-                    <div className="text-xs text-gray-600">
-                      {item.location}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* 2段目：金〜日 + 空白 */}
-              <div className="grid grid-cols-4 gap-2">
-                {schedule.slice(4).map((item) => (
-                  <div 
-                    key={item.id}
-                    className={`p-4 rounded-lg border text-center ${
-                      item.isHoliday 
-                        ? 'bg-gray-50 border-gray-300' 
-                        : 'bg-blue-50 border-blue-200'
-                    }`}
-                  >
-                    <div className={`text-lg font-bold mb-2 ${
-                      item.isHoliday ? 'text-gray-700' : 'text-blue-900'
-                    }`}>
-                      {item.day}
-                    </div>
-                    <div className="text-sm font-semibold text-gray-700 mb-1">
-                      {item.time}
-                    </div>
-                    <div className="text-xs text-gray-600">
-                      {item.location}
-                    </div>
-                  </div>
-                ))}
-                {/* 空白スペース */}
-                <div></div>
-              </div>
+          <div className="flex-1 flex items-center">
+            <div className="text-left border border-gray-300 lg:h-full lg:flex lg:flex-col w-full">
+              {scheduleLocations.map((item, index) => (
+                <div 
+                  key={item.id} 
+                  className={`text-lg flex p-6 lg:flex-1 lg:items-center ${index < scheduleLocations.length - 1 ? 'border-b border-gray-300' : ''} ${item.bgColor}`}
+                >
+                  <span className="font-bold text-blue-900 w-20">{item.location}</span>
+                  <span className="text-blue-900">：</span>
+                  <span className="text-gray-700 flex-1">
+                    {item.days}
+                    {item.description && (
+                      <span className="text-gray-600">　（{item.description}）</span>
+                    )}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
           <div className="flex-shrink-0 w-full lg:w-80 mt-4 lg:mt-0">
