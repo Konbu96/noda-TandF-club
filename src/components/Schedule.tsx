@@ -25,8 +25,8 @@ export default function Schedule() {
     {
       id: 3,
       location: '休み',
-      days: '日, 習い事等用事のある日',
-      description: '',
+      days: '日',
+      description: '習い事等用事のある日、祝日',
       bgColor: 'bg-gray-50',
       borderColor: 'border-gray-300',
       textColor: 'text-gray-700'
