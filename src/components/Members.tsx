@@ -32,18 +32,18 @@ export default function Members() {
               <div ref={pieChartsRef} className="grid grid-cols-2 gap-2 lg:gap-6">
                 <PieChart
                   title="中高生比"
-                  total={19}
+                  total={20}
                   segments={[
-                    { label: '高校生', value: 13, color: '#1e40af', percentage: 0.684 },
-                    { label: '中学生', value: 6, color: '#3b82f6', percentage: 0.316 }
+                    { label: '高校生', value: 14, color: '#1e40af', percentage: 0.7 },
+                    { label: '中学生', value: 6, color: '#3b82f6', percentage: 0.3 }
                   ]}
                 />
                 <PieChart
                   title="男女比"
-                  total={19}
+                  total={20}
                   segments={[
-                    { label: '男性', value: 11, color: '#60a5fa', percentage: 0.579 },
-                    { label: '女性', value: 8, color: '#f472b6', percentage: 0.421 }
+                    { label: '男性', value: 12, color: '#60a5fa', percentage: 0.6 },
+                    { label: '女性', value: 8, color: '#f472b6', percentage: 0.4 }
                   ]}
                 />
               </div>
