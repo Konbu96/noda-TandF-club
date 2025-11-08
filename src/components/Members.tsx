@@ -8,6 +8,19 @@ export default function Members() {
   const pieChartsRef = useRef<HTMLDivElement>(null);
   const [imageHeight, setImageHeight] = useState<number>(256);
 
+  // 開発者が入力する基本的な人数
+  const highSchoolStudents = 14; // 高校生の人数
+  const middleSchoolStudents = 6; // 中学生の人数
+  const maleStudents = 12; // 男子の人数
+  const femaleStudents = 8; // 女子の人数
+
+  // 計算で算出される値
+  const total = maleStudents + femaleStudents;
+  const highSchoolPercentage = highSchoolStudents / total;
+  const middleSchoolPercentage = middleSchoolStudents / total;
+  const malePercentage = maleStudents / total;
+  const femalePercentage = femaleStudents / total;
+
   useEffect(() => {
     const updateHeight = () => {
       if (pieChartsRef.current) {
@@ -32,18 +45,18 @@ export default function Members() {
               <div ref={pieChartsRef} className="grid grid-cols-2 gap-2 lg:gap-6">
                 <PieChart
                   title="中高生比"
-                  total={20}
+                  total={total}
                   segments={[
-                    { label: '高校生', value: 14, color: '#1e40af', percentage: 0.7 },
-                    { label: '中学生', value: 6, color: '#3b82f6', percentage: 0.3 }
+                    { label: '高校生', value: highSchoolStudents, color: '#1e40af', percentage: highSchoolPercentage },
+                    { label: '中学生', value: middleSchoolStudents, color: '#3b82f6', percentage: middleSchoolPercentage }
                   ]}
                 />
                 <PieChart
                   title="男女比"
-                  total={20}
+                  total={total}
                   segments={[
-                    { label: '男性', value: 12, color: '#60a5fa', percentage: 0.6 },
-                    { label: '女性', value: 8, color: '#f472b6', percentage: 0.4 }
+                    { label: '男性', value: maleStudents, color: '#60a5fa', percentage: malePercentage },
+                    { label: '女性', value: femaleStudents, color: '#f472b6', percentage: femalePercentage }
                   ]}
                 />
               </div>
