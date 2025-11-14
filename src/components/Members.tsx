@@ -59,7 +59,7 @@ export default function Members() {
                     { label: '女性', value: femaleStudents, color: '#f472b6', percentage: femalePercentage }
                   ]}
                 />
-              </div>
+              </div>ω
             </div>
           </div>
           <div 
