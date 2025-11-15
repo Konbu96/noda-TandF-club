@@ -40,11 +40,11 @@ const menus = [
     href: 'https://www.instagram.com/noda_track.field?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==',
     isExternal: true,
   },
-  {
-    label: 'NEKONIWA',
-    href: 'https://neko-niwa.com/',
-    isExternal: true,
-  },
+  // {
+  //   label: 'NEKONIWA',
+  //   href: 'https://neko-niwa.com/',
+  //   isExternal: true,
+  // },
 ];
 
 function MenuIcon({ label }: { label: string }) {
@@ -119,13 +119,13 @@ function MenuIcon({ label }: { label: string }) {
           <circle cx="17.5" cy="6.5" r="1"/>
         </svg>
       );
-    case 'NEKONIWA':
-      return (
-        <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M7 17L17 7"/>
-          <path d="M7 7h10v10"/>
-        </svg>
-      );
+    // case 'NEKONIWA':
+    //   return (
+    //     <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    //       <path d="M7 17L17 7"/>
+    //       <path d="M7 7h10v10"/>
+    //     </svg>
+    //   );
     default:
       return (
         <svg className={common} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

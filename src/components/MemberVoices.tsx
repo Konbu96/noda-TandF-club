@@ -13,29 +13,29 @@ interface MemberVoice {
 const memberVoices: MemberVoice[] = [
   {
     id: 1,
-    name: "門出",
-    grade: "高2",
+    name: "中2",
+    grade: "中2",
     event: "短距離",
     message: "先輩たちのアドバイスでフォームが改善されて、記録も伸びました。"
   },
   {
     id: 2,
-    name: "岡本",
+    name: "中3",
     grade: "中3",
     event: "中長距離",
     message: "体力がついて勉強にも集中できるようになりました。"
   },
   {
     id: 3,
-    name: "村田",
+    name: "高1",
     grade: "高1",
     event: "跳躍",
     message: "先生が幅跳びを専門的に教えてくださるので、技術が向上しています。"
   },
   {
     id: 4,
-    name: "加藤",
-    grade: "高2",
+    name: "高1",
+    grade: "高1",
     event: "ハードル",
     message: "競技場での練習もできるので、本格的な環境で競技に取り組めます。"
   }

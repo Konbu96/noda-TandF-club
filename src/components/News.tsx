@@ -11,20 +11,20 @@ export default function News() {
             <div className="max-w-6xl mx-auto">
               <dl className="text-left space-y-1 lg:space-y-0">
                 <div className="bg-blue-100 p-1 lg:p-2 flex flex-col lg:flex-row lg:gap-4">
+                  <dt className="text-xs lg:text-sm font-semibold lg:w-48 lg:flex-shrink-0">2025年11月16日</dt>
+                  <dd className="text-xs lg:text-sm">第75回 山口県陸上競技強化記録会</dd>
+                </div>
+                <div className="bg-blue-50 p-1 lg:p-2 flex flex-col lg:flex-row lg:gap-4">
                   <dt className="text-xs lg:text-sm font-semibold lg:w-48 lg:flex-shrink-0">2025年10月25日〜10月26日</dt>
                   <dd className="text-xs lg:text-sm">高校秋季県大会</dd>
                 </div>
-                <div className="bg-blue-50 p-1 lg:p-2 flex flex-col lg:flex-row lg:gap-4">
+                <div className="bg-blue-100 p-1 lg:p-2 flex flex-col lg:flex-row lg:gap-4">
                   <dt className="text-xs lg:text-sm font-semibold lg:w-48 lg:flex-shrink-0">2025年10月17日〜10月19日</dt>
                   <dd className="text-xs lg:text-sm">第56回 U16陸上競技大会</dd>
                 </div>
-                <div className="bg-blue-100 p-1 lg:p-2 flex flex-col lg:flex-row lg:gap-4">
+                <div className="bg-blue-50 p-1 lg:p-2 flex flex-col lg:flex-row lg:gap-4">
                   <dt className="text-xs lg:text-sm font-semibold lg:w-48 lg:flex-shrink-0">2025年10月11日〜10月12日</dt>
                   <dd className="text-xs lg:text-sm">令和７年度　中国高等学校新人陸上競技対校選手権大会</dd>
-                </div>
-                <div className="bg-blue-50 p-1 lg:p-2 flex flex-col lg:flex-row lg:gap-4">
-                  <dt className="text-xs lg:text-sm font-semibold lg:w-48 lg:flex-shrink-0">2025年10月3日〜10月7日</dt>
-                  <dd className="text-xs lg:text-sm">第79回 国民スポーツ大会</dd>
                 </div>
                 <div className="bg-blue-100 p-1 lg:p-2 flex flex-col lg:flex-row lg:gap-4">
                   <dt className="text-xs lg:text-sm font-semibold lg:w-48 lg:flex-shrink-0">2025年9月20日〜9月21日</dt>
