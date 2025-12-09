@@ -28,7 +28,7 @@ export default async function News() {
                 <dl className="text-left space-y-1 lg:space-y-0">
                   {newsItems.map((item, index) => (
                     <div
-                      key={item.id}
+                      key={item.docId}
                       className={`${index % 2 === 0 ? 'bg-blue-100' : 'bg-blue-50'} p-1 lg:p-2 flex flex-col lg:flex-row lg:gap-4`}
                     >
                       <dt className="text-xs lg:text-sm font-semibold lg:w-48 lg:flex-shrink-0">
