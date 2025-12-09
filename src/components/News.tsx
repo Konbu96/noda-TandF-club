@@ -1,6 +1,17 @@
 import Image from 'next/image';
+import { getNews, NewsItem } from '@/lib/news';
 
-export default function News() {
+export default async function News() {
+  let newsItems: NewsItem[] = [];
+  let error: string | null = null;
+
+  try {
+    newsItems = await getNews(5);
+  } catch (e) {
+    console.error('Failed to fetch news:', e);
+    error = 'ニュースの取得に失敗しました';
+  }
+
   return (
     <div id="news" className="py-2 lg:py-8">
       <div className="max-w-6xl mx-auto">
@@ -9,28 +20,25 @@ export default function News() {
         <div className="flex flex-col lg:flex-row lg:items-stretch lg:gap-8">
           <div className="flex-1">
             <div className="max-w-6xl mx-auto">
-              <dl className="text-left space-y-1 lg:space-y-0">
-                <div className="bg-blue-100 p-1 lg:p-2 flex flex-col lg:flex-row lg:gap-4">
-                  <dt className="text-xs lg:text-sm font-semibold lg:w-48 lg:flex-shrink-0">2025年11月16日</dt>
-                  <dd className="text-xs lg:text-sm">第75回 山口県陸上競技強化記録会</dd>
-                </div>
-                <div className="bg-blue-50 p-1 lg:p-2 flex flex-col lg:flex-row lg:gap-4">
-                  <dt className="text-xs lg:text-sm font-semibold lg:w-48 lg:flex-shrink-0">2025年10月25日〜10月26日</dt>
-                  <dd className="text-xs lg:text-sm">高校秋季県大会</dd>
-                </div>
-                <div className="bg-blue-100 p-1 lg:p-2 flex flex-col lg:flex-row lg:gap-4">
-                  <dt className="text-xs lg:text-sm font-semibold lg:w-48 lg:flex-shrink-0">2025年10月17日〜10月19日</dt>
-                  <dd className="text-xs lg:text-sm">第56回 U16陸上競技大会</dd>
-                </div>
-                <div className="bg-blue-50 p-1 lg:p-2 flex flex-col lg:flex-row lg:gap-4">
-                  <dt className="text-xs lg:text-sm font-semibold lg:w-48 lg:flex-shrink-0">2025年10月11日〜10月12日</dt>
-                  <dd className="text-xs lg:text-sm">令和７年度　中国高等学校新人陸上競技対校選手権大会</dd>
-                </div>
-                <div className="bg-blue-100 p-1 lg:p-2 flex flex-col lg:flex-row lg:gap-4">
-                  <dt className="text-xs lg:text-sm font-semibold lg:w-48 lg:flex-shrink-0">2025年9月20日〜9月21日</dt>
-                  <dd className="text-xs lg:text-sm">山口県高等学校新人競技選手権大会で3名が中国高校新人大会への出場権を獲得しました。</dd>
-                </div>
-              </dl>
+              {error ? (
+                <p className="text-center text-red-500">{error}</p>
+              ) : newsItems.length === 0 ? (
+                <p className="text-center text-gray-500">ニュースはまだありません</p>
+              ) : (
+                <dl className="text-left space-y-1 lg:space-y-0">
+                  {newsItems.map((item, index) => (
+                    <div
+                      key={item.id}
+                      className={`${index % 2 === 0 ? 'bg-blue-100' : 'bg-blue-50'} p-1 lg:p-2 flex flex-col lg:flex-row lg:gap-4`}
+                    >
+                      <dt className="text-xs lg:text-sm font-semibold lg:w-48 lg:flex-shrink-0">
+                        {item.date}
+                      </dt>
+                      <dd className="text-xs lg:text-sm">{item.text}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
             </div>
           </div>
           <div className="flex-shrink-0 w-full lg:w-80 mt-4 lg:mt-0">
@@ -47,4 +55,3 @@ export default function News() {
     </div>
   );
 }
-
