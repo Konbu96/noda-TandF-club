@@ -20,11 +20,11 @@ export interface NewsItem {
 /**
  * Firestoreのnewsコレクションからニュース一覧を取得する
  * @param limitCount 取得する件数（デフォルト: 100件）
- * @returns 日付の昇順でソートされたニュース一覧
+ * @returns 日付の降順（新しい順）でソートされたニュース一覧
  */
 export async function fetchNews(limitCount: number = 100): Promise<NewsItem[]> {
   const newsRef = collection(db, 'news');
-  const q = query(newsRef, orderBy('date', 'asc'), limit(limitCount));
+  const q = query(newsRef, orderBy('date', 'desc'), limit(limitCount));
   
   const snapshot = await getDocs(q);
   
