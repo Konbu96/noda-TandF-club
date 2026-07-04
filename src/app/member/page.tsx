@@ -17,7 +17,7 @@ export default function MemberPage() {
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push('/signin');
+      router.push('/noda-members');
     }
   }, [user, loading, router]);
 
