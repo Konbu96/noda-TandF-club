@@ -1,11 +1,11 @@
 import Image from 'next/image';
-import ExperienceForm from "../components/ExperienceForm";
-import MemberVoices from "../components/MemberVoices";
-import FAQ from "../components/FAQ";
-import Schedule from "../components/Schedule";
-import Members from "../components/Members";
-import News from "../components/News";
-import ScrollToTopButton from "../components/ScrollToTopButton";
+import ExperienceForm from "@/components/ExperienceForm";
+import MemberVoices from "@/components/MemberVoices";
+import FAQ from "@/components/FAQ";
+import Schedule from "@/components/Schedule";
+import Members from "@/components/Members";
+import News from "@/components/News";
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 
 export default function Home() {
   return (

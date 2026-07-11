@@ -6,6 +6,7 @@ export type MemberProfile = {
   event: string;
   bibNumber: string;
   restDay: string;
+  pb?: string;
 };
 
 export type Record = {

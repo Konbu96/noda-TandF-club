@@ -1,19 +1,33 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { useAuth } from '@/member-app/auth/AuthContext';
-import { db } from '@/lib/firebase';
 import { MemberProfile, Record } from '@/member-app/profile/types';
 import MemberBasicInfo from '@/member-app/profile/MemberBasicInfo';
 import RecordGraph from '@/member-app/profile/RecordGraph';
 
+const dummyProfile: MemberProfile = {
+  name: '野田 太郎',
+  grade: '高校2年',
+  gender: '男',
+  block: '短距離',
+  event: '100m',
+  bibNumber: '15',
+  restDay: '水曜日',
+  pb: '100m/11.03',
+};
+
+const dummyRecords: Record[] = [
+  { id: '1', event: '100m', result: '11.8', date: '04/19(日)', competition: '春季大会' },
+  { id: '2', event: '100m', result: '11.6', date: '06/06(土)', competition: '地区予選' },
+  { id: '3', event: '100m', result: '11.4', date: '09/12(土)', competition: '秋季大会' },
+  { id: '4', event: '100m', result: '11.2', date: '11/07(土)', competition: '県大会' },
+];
+
 export default function MemberPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
-  const [profile, setProfile] = useState<MemberProfile | null>(null);
-  const [records, setRecords] = useState<Record[]>([]);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -21,39 +35,12 @@ export default function MemberPage() {
     }
   }, [user, loading, router]);
 
-  useEffect(() => {
-    if (!user) return;
-
-    const fetchData = async () => {
-      const profileSnap = await getDoc(doc(db, 'members', user.uid));
-      if (profileSnap.exists()) {
-        setProfile(profileSnap.data() as MemberProfile);
-      }
-
-      const recordsSnap = await getDocs(
-        query(collection(db, 'records'), where('userId', '==', user.uid))
-      );
-      setRecords(recordsSnap.docs.map((d) => ({ id: d.id, ...d.data() } as Record)));
-    };
-
-    fetchData();
-  }, [user]);
-
   if (loading || !user) return null;
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-6 space-y-4">
-      <h1 className="text-lg font-bold text-blue-900">マイページ</h1>
-      {profile ? (
-        <>
-          <MemberBasicInfo profile={profile} />
-          <RecordGraph records={records} event={profile.event} />
-        </>
-      ) : (
-        <div className="bg-white rounded-2xl shadow p-5 text-sm text-gray-400 text-center">
-          プロフィールが登録されていません
-        </div>
-      )}
+    <div className="px-4 py-6 space-y-4">
+      <MemberBasicInfo profile={dummyProfile} />
+      <RecordGraph records={dummyRecords} event={dummyProfile.event} />
     </div>
   );
 }

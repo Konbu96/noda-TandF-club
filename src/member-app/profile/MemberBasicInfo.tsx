@@ -11,6 +11,7 @@ const rows = [
   { label: '専門種目', key: 'event' },
   { label: 'ゼッケン番号', key: 'bibNumber' },
   { label: '定期休養', key: 'restDay' },
+  { label: 'PB', key: 'pb' },
 ] as const;
 
 export default function MemberBasicInfo({ profile }: Props) {
