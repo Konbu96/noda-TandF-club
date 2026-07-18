@@ -1,8 +1,3 @@
-'use client';
-
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/member-app/auth/AuthContext';
 import { MemberProfile, Record } from '@/member-app/profile/types';
 import MemberBasicInfo from '@/member-app/profile/MemberBasicInfo';
 import RecordGraph from '@/member-app/profile/RecordGraph';
@@ -26,17 +21,6 @@ const dummyRecords: Record[] = [
 ];
 
 export default function MemberPage() {
-  const { user, loading } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!loading && !user) {
-      router.push('/noda-members');
-    }
-  }, [user, loading, router]);
-
-  if (loading || !user) return null;
-
   return (
     <div className="px-4 py-6 space-y-4">
       <MemberBasicInfo profile={dummyProfile} />
