@@ -8,6 +8,7 @@ export type UserRecord = {
   email: string;
   role: UserRole | null;
   displayName?: string;
+  canEditMenu?: boolean;
 };
 
 export const ROLE_LABELS: Record<UserRole, string> = {

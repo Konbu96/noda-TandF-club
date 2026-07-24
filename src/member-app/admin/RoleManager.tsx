@@ -43,7 +43,7 @@ export default function RoleManager({ onClose }: { onClose: () => void }) {
           <ul className="divide-y">
             {users.map((u) => (
               <li key={u.uid} className="flex items-center justify-between px-5 py-3 gap-3">
-                <span className="text-sm text-gray-700 truncate flex-1">{u.email}</span>
+                <span className="text-sm text-gray-700 truncate flex-1">{u.displayName || u.email}</span>
                 <select
                   value={u.role ?? ''}
                   onChange={(e) => handleChange(u.uid, e.target.value)}
