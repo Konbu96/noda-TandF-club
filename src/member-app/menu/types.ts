@@ -60,7 +60,7 @@ export const TEMPLATES: {
     category: "本練習",
     spec: {
       parts: [
-        { kind: "fixed", text: "前後左右" },
+        { kind: "multicheck", options: ["前後", "左右"], separator: "・" },
         { kind: "number", suffix: "本づつ" },
       ],
     },
