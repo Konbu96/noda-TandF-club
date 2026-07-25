@@ -68,7 +68,12 @@ export const TEMPLATES: {
   {
     title: "200m",
     category: "本練習",
-    spec: { parts: [{ kind: "number", suffix: "セット" }] },
+    spec: {
+      parts: [
+        { kind: "number", suffix: "本" },
+        { kind: "number", suffix: "セット" },
+      ],
+    },
   },
   {
     title: "150m",
