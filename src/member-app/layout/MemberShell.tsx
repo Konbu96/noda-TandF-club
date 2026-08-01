@@ -12,7 +12,7 @@ export default function MemberShell({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push('/noda-members');
+      router.push('/noda-member-login');
     }
   }, [user, loading, router]);
 

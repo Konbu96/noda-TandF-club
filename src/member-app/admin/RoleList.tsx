@@ -4,6 +4,15 @@ import { useEffect, useState } from 'react';
 import { getAllUsers, updateUserRole, UserRecord, UserRole, ROLE_LABELS } from '@/lib/users';
 
 const ROLES = Object.entries(ROLE_LABELS) as [UserRole, string][];
+const ROLE_ORDER = Object.keys(ROLE_LABELS) as UserRole[];
+
+function sortByRole(users: UserRecord[]): UserRecord[] {
+  return [...users].sort((a, b) => {
+    const ai = a.role ? ROLE_ORDER.indexOf(a.role) : ROLE_ORDER.length;
+    const bi = b.role ? ROLE_ORDER.indexOf(b.role) : ROLE_ORDER.length;
+    return ai - bi;
+  });
+}
 
 export default function RoleList() {
   const [users, setUsers] = useState<UserRecord[]>([]);
@@ -11,7 +20,7 @@ export default function RoleList() {
 
   useEffect(() => {
     getAllUsers().then((data) => {
-      setUsers(data);
+      setUsers(sortByRole(data));
       setLoading(false);
     });
   }, []);
@@ -19,7 +28,7 @@ export default function RoleList() {
   const handleChange = async (uid: string, value: string) => {
     const role = value === '' ? null : (value as UserRole);
     await updateUserRole(uid, role);
-    setUsers((prev) => prev.map((u) => (u.uid === uid ? { ...u, role } : u)));
+    setUsers((prev) => sortByRole(prev.map((u) => (u.uid === uid ? { ...u, role } : u))));
   };
 
   if (loading) {

@@ -40,7 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             } else {
               setRole(stored);
               setCanEditMenu(
-                stored === 'teacher' || stored === 'captain' || stored === 'block_leader' || data.canEditMenu === true
+                stored === 'teacher' || stored === 'captain' || stored === 'vice_captain' || stored === 'block_leader' || data.canEditMenu === true
               );
             }
           } else {

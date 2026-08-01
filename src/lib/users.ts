@@ -1,7 +1,7 @@
 import { collection, doc, getDocs, updateDoc } from 'firebase/firestore';
 import { db } from './firebase';
 
-export type UserRole = 'teacher' | 'manager' | 'captain' | 'block_leader' | 'member';
+export type UserRole = 'teacher' | 'captain' | 'vice_captain' | 'manager' | 'block_leader' | 'member';
 
 export type UserRecord = {
   uid: string;
@@ -11,10 +11,12 @@ export type UserRecord = {
   canEditMenu?: boolean;
 };
 
+// 表示・並び替えの基準となる役職順（顧問→キャプテン→副キャプテン→マネージャー→ブロック長→部員）
 export const ROLE_LABELS: Record<UserRole, string> = {
   teacher: '先生',
-  manager: 'マネージャー',
   captain: 'キャプテン',
+  vice_captain: '副キャプテン',
+  manager: 'マネージャー',
   block_leader: 'ブロック長',
   member: '部員',
 };
