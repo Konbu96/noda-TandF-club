@@ -19,6 +19,8 @@ function sortByDate(list: Competition[]): Competition[] {
   return [...list].sort((a, b) => a.date.localeCompare(b.date));
 }
 
+const LOCATION_PRESETS = ['補助競技場', 'みらいふ'];
+
 function ChevronIcon({ open }: { open: boolean }) {
   return (
     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -36,6 +38,7 @@ export default function CompetitionPage() {
   const [draft, setDraft] = useState<Competition | null>(null);
   const [creating, setCreating] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [customLocation, setCustomLocation] = useState(false);
 
   useEffect(() => {
     listCompetitions()
@@ -46,6 +49,7 @@ export default function CompetitionPage() {
   const startCreate = () => {
     setCreating(true);
     setDraft(emptyCompetition());
+    setCustomLocation(false);
   };
 
   const cancelCreate = () => {
@@ -57,6 +61,7 @@ export default function CompetitionPage() {
     setEditingId(competition.id);
     setDraft(competition);
     setExpandedId(competition.id);
+    setCustomLocation(!LOCATION_PRESETS.includes(competition.location));
   };
 
   const cancelEdit = () => {

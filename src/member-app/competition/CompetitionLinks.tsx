@@ -25,6 +25,8 @@ export default function CompetitionLinks() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+  const [newTitle, setNewTitle] = useState('');
+  const [newUrl, setNewUrl] = useState('');
 
   useEffect(() => {
     getCompetitionLinks()
@@ -38,13 +40,18 @@ export default function CompetitionLinks() {
 
   const startEdit = () => {
     setDraft(links);
+    setNewTitle('');
+    setNewUrl('');
     setIsEditing(true);
   };
 
-  const updateDraft = (id: string, field: 'title' | 'url', value: string) =>
-    setDraft((prev) => prev.map((l) => (l.id === id ? { ...l, [field]: value } : l)));
+  const addDraft = () => {
+    if (!newTitle.trim() || !newUrl.trim()) return;
+    setDraft((prev) => [...prev, { id: newId(), title: newTitle.trim(), url: newUrl.trim() }]);
+    setNewTitle('');
+    setNewUrl('');
+  };
 
-  const addDraft = () => setDraft((prev) => [...prev, { id: newId(), title: '', url: '' }]);
   const removeDraft = (id: string) => setDraft((prev) => prev.filter((l) => l.id !== id));
 
   const handleSave = async () => {
@@ -88,34 +95,46 @@ export default function CompetitionLinks() {
 
       {isEditing ? (
         <>
-          <div className="space-y-2">
-            {draft.map((link) => (
-              <div key={link.id} className="flex gap-2 items-start">
-                <div className="flex-1 space-y-1">
-                  <input
-                    type="text"
-                    value={link.title}
-                    onChange={(e) => updateDraft(link.id, 'title', e.target.value)}
-                    placeholder="リンク名（例: 速報）"
-                    className="w-full text-sm border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-900"
-                  />
-                  <input
-                    type="text"
-                    value={link.url}
-                    onChange={(e) => updateDraft(link.id, 'url', e.target.value)}
-                    placeholder="https://..."
-                    className="w-full text-sm border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-900"
-                  />
+          {draft.length > 0 && (
+            <div className="divide-y">
+              {draft.map((link) => (
+                <div key={link.id} className="flex items-center gap-2 py-2">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm text-gray-800 truncate">{link.title}</p>
+                    <p className="text-xs text-gray-400 truncate">{link.url}</p>
+                  </div>
+                  <button onClick={() => removeDraft(link.id)} className="text-xs text-red-500 px-2 py-1 shrink-0">
+                    削除
+                  </button>
                 </div>
-                <button onClick={() => removeDraft(link.id)} className="text-xs text-red-500 px-2 py-2">
-                  削除
-                </button>
-              </div>
-            ))}
+              ))}
+            </div>
+          )}
+
+          <div className="space-y-2 pt-1">
+            <p className="text-xs text-gray-500">リンクを追加</p>
+            <input
+              type="text"
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              placeholder="リンク名（例: 速報）"
+              className="w-full text-sm border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-900"
+            />
+            <input
+              type="text"
+              value={newUrl}
+              onChange={(e) => setNewUrl(e.target.value)}
+              placeholder="https://..."
+              className="w-full text-sm border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-900"
+            />
+            <button
+              onClick={addDraft}
+              disabled={!newTitle.trim() || !newUrl.trim()}
+              className="w-full text-sm border border-dashed border-gray-300 text-gray-500 py-2 rounded-xl disabled:opacity-50"
+            >
+              ＋追加
+            </button>
           </div>
-          <button onClick={addDraft} className="w-full text-sm border border-dashed border-gray-300 text-gray-500 py-2 rounded-xl">
-            ＋リンクを追加
-          </button>
           {error && <p className="text-xs text-red-500">{error}</p>}
           <div className="flex gap-2">
             <button onClick={() => setIsEditing(false)} className="flex-1 text-sm border border-gray-300 text-gray-600 py-2 rounded-xl">
