@@ -4,8 +4,12 @@ import { db } from '@/lib/firebase';
 const COLLECTION = 'managerGuide';
 const DOC_ID = 'main';
 
+export const GUIDE_SECTION_TITLES = ['アクティベーション', '動き作り'] as const;
+
+export type GuideSection = { title: string; content: string };
+
 export type ManagerGuide = {
-  content: string;
+  sections: GuideSection[];
   updatedBy: string;
   updatedAt: string;
 };

@@ -5,6 +5,7 @@ import { useAuth } from '@/member-app/auth/AuthContext';
 import { Competition } from '@/member-app/competition/types';
 import { deleteCompetition, listCompetitions, saveCompetition } from '@/member-app/competition/competitionService';
 import EntryEditor from '@/member-app/competition/EntryEditor';
+import CompetitionLinks from '@/member-app/competition/CompetitionLinks';
 
 function newId() {
   return Math.random().toString(36).slice(2, 9);
@@ -136,6 +137,8 @@ export default function CompetitionPage() {
         </div>
       ) : (
         <>
+          <CompetitionLinks />
+
           {canEditMenu && !creating && (
             <button
               onClick={startCreate}

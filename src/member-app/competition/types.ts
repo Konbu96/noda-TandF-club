@@ -4,6 +4,12 @@ export type CompetitionEntry = {
   event: string;
 };
 
+export type CompetitionLink = {
+  id: string;
+  title: string;
+  url: string;
+};
+
 export type Competition = {
   id: string;
   name: string;
