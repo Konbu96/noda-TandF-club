@@ -119,13 +119,52 @@ export default function CompetitionPage() {
           onChange={(e) => setDraft({ ...draft, date: e.target.value })}
           className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-900"
         />
-        <input
-          type="text"
-          value={draft.location}
-          onChange={(e) => setDraft({ ...draft, location: e.target.value })}
-          placeholder="場所"
-          className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-900"
-        />
+        <div className="space-y-2">
+          <div className="flex flex-wrap gap-2">
+            {LOCATION_PRESETS.map((loc) => (
+              <button
+                key={loc}
+                type="button"
+                onClick={() => {
+                  setDraft({ ...draft, location: loc });
+                  setCustomLocation(false);
+                }}
+                className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                  !customLocation && draft.location === loc
+                    ? 'bg-sky-100 text-sky-700 border-sky-300'
+                    : 'bg-white text-gray-600 border-gray-300'
+                }`}
+              >
+                {loc}
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={() => {
+                if (LOCATION_PRESETS.includes(draft.location)) {
+                  setDraft({ ...draft, location: '' });
+                }
+                setCustomLocation(true);
+              }}
+              className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                customLocation
+                  ? 'bg-sky-100 text-sky-700 border-sky-300'
+                  : 'bg-white text-gray-600 border-gray-300'
+              }`}
+            >
+              その他
+            </button>
+          </div>
+          {customLocation && (
+            <input
+              type="text"
+              value={draft.location}
+              onChange={(e) => setDraft({ ...draft, location: e.target.value })}
+              placeholder="場所を入力"
+              className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-900"
+            />
+          )}
+        </div>
         <p className="text-xs font-bold text-blue-900 pt-1">エントリー</p>
         <EntryEditor entries={draft.entries} onChange={(entries) => setDraft({ ...draft, entries })} />
       </div>
