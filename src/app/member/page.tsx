@@ -8,6 +8,7 @@ import MemberBasicInfo from '@/member-app/profile/MemberBasicInfo';
 import RecordGraph from '@/member-app/profile/RecordGraph';
 import RoleList from '@/member-app/admin/RoleList';
 import ManagerGuideEditor from '@/member-app/admin/ManagerGuideEditor';
+import MoodCheck from '@/member-app/mood/MoodCheck';
 
 const dummyProfile: MemberProfile = {
   name: '野田 太郎',
@@ -49,10 +50,16 @@ export default function MemberPage() {
       </>
     );
   } else if (role === 'manager') {
-    content = <ManagerGuideEditor />;
+    content = (
+      <>
+        <MoodCheck />
+        <ManagerGuideEditor />
+      </>
+    );
   } else {
     content = (
       <>
+        <MoodCheck />
         <MemberBasicInfo profile={dummyProfile} />
         <RecordGraph records={dummyRecords} event={dummyProfile.event} />
       </>
