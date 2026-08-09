@@ -1,7 +1,9 @@
+import { ReactNode } from 'react';
 import { MemberProfile } from './types';
 
 type Props = {
   profile: MemberProfile;
+  moodAvatar?: ReactNode;
 };
 
 const rows = [
@@ -14,10 +16,13 @@ const rows = [
   { label: 'PB', key: 'pb' },
 ] as const;
 
-export default function MemberBasicInfo({ profile }: Props) {
+export default function MemberBasicInfo({ profile, moodAvatar }: Props) {
   return (
     <div className="bg-white rounded-2xl shadow p-5">
-      <h2 className="text-lg font-bold text-blue-900 mb-1">{profile.name}</h2>
+      <div className="flex items-center gap-3 mb-1">
+        {moodAvatar}
+        <h2 className="text-lg font-bold text-blue-900">{profile.name}</h2>
+      </div>
       <div className="divide-y">
         {rows.map(({ label, key }) => (
           <div key={key} className="flex justify-between py-2 text-sm">

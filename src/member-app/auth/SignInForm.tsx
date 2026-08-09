@@ -22,7 +22,7 @@ export default function SignInForm() {
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
       }
-      router.push('/member');
+      router.push('/member/menu');
     } catch (e) {
       if (e instanceof FirebaseError && e.code === 'auth/email-already-in-use') {
         setError('このメールアドレスはすでに登録されています。ログインしてください');

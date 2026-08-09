@@ -8,7 +8,9 @@ import MemberBasicInfo from '@/member-app/profile/MemberBasicInfo';
 import RecordGraph from '@/member-app/profile/RecordGraph';
 import RoleList from '@/member-app/admin/RoleList';
 import ManagerGuideEditor from '@/member-app/admin/ManagerGuideEditor';
-import MoodCheck from '@/member-app/mood/MoodCheck';
+import MoodAvatar from '@/member-app/mood/MoodAvatar';
+import MoodPicker from '@/member-app/mood/MoodPicker';
+import { useTodayMood } from '@/member-app/mood/useTodayMood';
 
 const dummyProfile: MemberProfile = {
   name: '野田 太郎',
@@ -30,6 +32,7 @@ const dummyRecords: Record[] = [
 
 export default function MemberPage() {
   const { role, loading } = useAuth();
+  const { mood, choose } = useTodayMood();
 
   if (loading) {
     return (
@@ -52,15 +55,22 @@ export default function MemberPage() {
   } else if (role === 'manager') {
     content = (
       <>
-        <MoodCheck />
+        <div className="bg-white rounded-2xl shadow p-4 flex items-center gap-3">
+          <MoodAvatar mood={mood} />
+          <div>
+            <p className="text-lg font-bold text-blue-900">{dummyProfile.name}</p>
+            <p className="text-sm text-gray-500">{dummyProfile.grade}</p>
+          </div>
+        </div>
+        <MoodPicker mood={mood} onChoose={choose} />
         <ManagerGuideEditor />
       </>
     );
   } else {
     content = (
       <>
-        <MoodCheck />
-        <MemberBasicInfo profile={dummyProfile} />
+        <MemberBasicInfo profile={dummyProfile} moodAvatar={<MoodAvatar mood={mood} />} />
+        <MoodPicker mood={mood} onChoose={choose} />
         <RecordGraph records={dummyRecords} event={dummyProfile.event} />
       </>
     );
