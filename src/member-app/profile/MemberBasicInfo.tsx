@@ -18,7 +18,7 @@ const rows = [
 
 export default function MemberBasicInfo({ profile, moodAvatar }: Props) {
   return (
-    <div className="bg-white rounded-2xl shadow p-5">
+    <div>
       <div className="flex items-center gap-3 mb-1">
         {moodAvatar}
         <h2 className="text-lg font-bold text-blue-900">{profile.displayName || '未設定'}</h2>

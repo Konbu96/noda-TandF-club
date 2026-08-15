@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useAuth } from '@/member-app/auth/AuthContext';
 import { deleteMenu, listMenuDates } from '@/member-app/menu/menuService';
 import { today, formatDateWithWeekday } from '@/member-app/menu/dateUtils';
+import MoodSummary from '@/member-app/mood/MoodSummary';
 
 export default function MenuListPage() {
   const { canEditMenu, loading: authLoading } = useAuth();
@@ -40,7 +41,7 @@ export default function MenuListPage() {
   }, [authLoading, canEditMenu]);
 
   return (
-    <div className="px-4 py-6 space-y-4">
+    <div className="px-4 py-6 pb-16 space-y-4">
       <div className="text-sm text-gray-500">メニュー</div>
 
       {loading ? (
@@ -82,6 +83,8 @@ export default function MenuListPage() {
               </Link>
             ))}
           </div>
+
+          <MoodSummary />
         </>
       )}
     </div>

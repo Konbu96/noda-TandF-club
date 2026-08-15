@@ -12,13 +12,15 @@ export default function ProfileCard({
   moodAvatar,
   onSave,
   editableName,
+  initialEditing,
 }: {
   profile: UserRecord;
   moodAvatar?: ReactNode;
   onSave: (data: Partial<UserRecord>) => Promise<void>;
   editableName?: boolean;
+  initialEditing?: boolean;
 }) {
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(!!initialEditing);
   const [draft, setDraft] = useState<Partial<UserRecord>>(profile);
   const [saving, setSaving] = useState(false);
 
@@ -36,7 +38,7 @@ export default function ProfileCard({
 
   if (!isEditing) {
     return (
-      <div className="space-y-2">
+      <div className="bg-white rounded-2xl shadow p-5 space-y-3">
         <MemberBasicInfo profile={profile} moodAvatar={moodAvatar} />
         <button onClick={startEdit} className="w-full text-sm bg-blue-900 text-white py-2 rounded-xl">
           編集

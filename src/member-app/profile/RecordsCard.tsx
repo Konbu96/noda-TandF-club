@@ -49,7 +49,7 @@ export default function RecordsCard({
 
   if (!isEditing) {
     return (
-      <div className="space-y-2">
+      <div className="bg-white rounded-2xl shadow p-5 space-y-3">
         <RecordGraph records={records} event={event} />
         <button onClick={startEdit} className="w-full text-sm bg-blue-900 text-white py-2 rounded-xl">
           記録を編集

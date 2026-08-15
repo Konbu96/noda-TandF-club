@@ -27,14 +27,14 @@ export default function RecordGraph({ records, event }: Props) {
 
   if (data.length === 0) {
     return (
-      <div className="bg-white rounded-2xl shadow p-5 text-center text-sm text-gray-400">
+      <p className="text-center text-sm text-gray-400">
         記録がまだありません
-      </div>
+      </p>
     );
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow p-5">
+    <div>
       <h3 className="text-sm font-bold text-blue-900 mb-4">{event} 記録推移</h3>
       <div ref={containerRef} style={{ WebkitTapHighlightColor: 'transparent' }}>
         <ResponsiveContainer width="100%" height={200}>

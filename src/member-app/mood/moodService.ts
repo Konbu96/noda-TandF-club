@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs, query, setDoc, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDoc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
 const COLLECTION = 'moods';
@@ -33,4 +33,13 @@ export async function saveTodayMood(uid: string, displayName: string, date: stri
     mood,
     updatedAt: new Date().toISOString(),
   });
+}
+
+export async function getUserMoods(uid: string): Promise<MoodEntry[]> {
+  const snap = await getDocs(query(collection(db, COLLECTION), where('uid', '==', uid)));
+  return snap.docs.map((d) => d.data() as MoodEntry);
+}
+
+export async function deleteMood(uid: string, date: string): Promise<void> {
+  await deleteDoc(doc(db, COLLECTION, docId(uid, date)));
 }

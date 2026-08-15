@@ -5,18 +5,11 @@ import { getAllUsers, updateUserProfile, MemberRecord, UserRecord } from '@/lib/
 import ProfileCard from '@/member-app/profile/ProfileCard';
 import RecordsCard from '@/member-app/profile/RecordsCard';
 
-function ChevronIcon({ open }: { open: boolean }) {
-  return (
-    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={open ? 'M5 15l7-7 7 7' : 'M19 9l-7 7-7-7'} />
-    </svg>
-  );
-}
-
 export default function MemberProfileEditor() {
   const [users, setUsers] = useState<UserRecord[]>([]);
   const [loading, setLoading] = useState(true);
-  const [expandedUid, setExpandedUid] = useState<string | null>(null);
+  const [selectedUid, setSelectedUid] = useState('');
+  const [editingUid, setEditingUid] = useState('');
 
   useEffect(() => {
     getAllUsers().then((data) => {
@@ -43,36 +36,47 @@ export default function MemberProfileEditor() {
     return <div className="text-sm text-gray-400 text-center py-4">ユーザーがいません</div>;
   }
 
-  return (
-    <div className="space-y-2">
-      {users.map((u) => {
-        const isOpen = expandedUid === u.uid;
-        return (
-          <div key={u.uid} className="bg-white rounded-2xl shadow p-4">
-            <button
-              type="button"
-              onClick={() => setExpandedUid(isOpen ? null : u.uid)}
-              className="w-full flex items-center justify-between"
-            >
-              <span className="text-sm text-gray-700 truncate">{u.displayName || u.email}</span>
-              <span className="text-gray-300">
-                <ChevronIcon open={isOpen} />
-              </span>
-            </button>
+  const selected = users.find((u) => u.uid === selectedUid);
 
-            {isOpen && (
-              <div className="mt-3 pt-3 border-t border-gray-100 space-y-3">
-                <ProfileCard profile={u} onSave={(data) => saveProfile(u.uid, data)} editableName />
-                <RecordsCard
-                  records={u.records ?? []}
-                  event={u.event ?? ''}
-                  onSave={(records) => saveRecords(u.uid, records)}
-                />
-              </div>
-            )}
-          </div>
-        );
-      })}
+  return (
+    <div className="space-y-3">
+      <select
+        value={selectedUid}
+        onChange={(e) => {
+          setSelectedUid(e.target.value);
+          setEditingUid('');
+        }}
+        className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-blue-900"
+      >
+        <option value="">部員を選択...</option>
+        {users.map((u) => (
+          <option key={u.uid} value={u.uid}>
+            {u.displayName || u.email}
+          </option>
+        ))}
+      </select>
+
+      {selected && editingUid !== selected.uid && (
+        <button
+          onClick={() => setEditingUid(selected.uid)}
+          className="w-full text-sm bg-blue-900 text-white py-2 rounded-xl"
+        >
+          編集
+        </button>
+      )}
+
+      {selected && editingUid === selected.uid && (
+        <div key={selected.uid} className="space-y-3">
+          <ProfileCard profile={selected} onSave={(data) => saveProfile(selected.uid, data)} editableName initialEditing />
+          {selected.role !== 'teacher' && selected.role !== 'manager' && (
+            <RecordsCard
+              records={selected.records ?? []}
+              event={selected.event ?? ''}
+              onSave={(records) => saveRecords(selected.uid, records)}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 }
