@@ -2,10 +2,10 @@
 
 import { useEffect, useRef } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { Record } from './types';
+import { MemberRecord } from '@/lib/users';
 
 type Props = {
-  records: Record[];
+  records: MemberRecord[];
   event: string;
 };
 

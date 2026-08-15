@@ -1,40 +1,45 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/member-app/auth/AuthContext';
-import { MemberProfile, Record } from '@/member-app/profile/types';
-import MemberBasicInfo from '@/member-app/profile/MemberBasicInfo';
-import RecordGraph from '@/member-app/profile/RecordGraph';
+import { getUser, updateUserProfile, MemberRecord, UserRecord } from '@/lib/users';
+import ProfileCard from '@/member-app/profile/ProfileCard';
+import RecordsCard from '@/member-app/profile/RecordsCard';
 import RoleList from '@/member-app/admin/RoleList';
+import MemberProfileEditor from '@/member-app/admin/MemberProfileEditor';
 import ManagerGuideEditor from '@/member-app/admin/ManagerGuideEditor';
 import MoodAvatar from '@/member-app/mood/MoodAvatar';
 import MoodPicker from '@/member-app/mood/MoodPicker';
 import { useTodayMood } from '@/member-app/mood/useTodayMood';
 
-const dummyProfile: MemberProfile = {
-  name: '野田 太郎',
-  grade: '高校2年',
-  gender: '男',
-  block: '短距離',
-  event: '100m',
-  bibNumber: '15',
-  restDay: '水曜日',
-  pb: '100m/11.03',
-};
-
-const dummyRecords: Record[] = [
-  { id: '1', event: '100m', result: '11.8', date: '04/19(日)', competition: '春季大会' },
-  { id: '2', event: '100m', result: '11.6', date: '06/06(土)', competition: '地区予選' },
-  { id: '3', event: '100m', result: '11.4', date: '09/12(土)', competition: '秋季大会' },
-  { id: '4', event: '100m', result: '11.2', date: '11/07(土)', competition: '県大会' },
-];
-
 export default function MemberPage() {
-  const { role, loading } = useAuth();
+  const { user, role, loading } = useAuth();
   const { mood, choose } = useTodayMood();
+  const [profile, setProfile] = useState<UserRecord | null>(null);
+  const [profileLoading, setProfileLoading] = useState(true);
 
-  if (loading) {
+  useEffect(() => {
+    if (!user) return;
+    getUser(user.uid)
+      .then(setProfile)
+      .finally(() => setProfileLoading(false));
+  }, [user]);
+
+  const saveProfile = async (data: Partial<UserRecord>) => {
+    if (!user) return;
+    await updateUserProfile(user.uid, data);
+    setProfile((prev) => (prev ? { ...prev, ...data } : prev));
+  };
+
+  const saveRecords = async (records: MemberRecord[]) => {
+    if (!user) return;
+    await updateUserProfile(user.uid, { records });
+    setProfile((prev) => (prev ? { ...prev, records } : prev));
+  };
+
+  if (loading || profileLoading || !profile) {
     return (
       <div className="flex justify-center py-10">
         <div className="w-6 h-6 border-4 border-blue-900 border-t-transparent rounded-full animate-spin" />
@@ -50,6 +55,8 @@ export default function MemberPage() {
         <div className="bg-white rounded-2xl shadow p-4">
           <RoleList />
         </div>
+        <div className="text-sm text-gray-500 pt-2">部員情報の編集</div>
+        <MemberProfileEditor />
       </>
     );
   } else if (role === 'manager') {
@@ -58,8 +65,8 @@ export default function MemberPage() {
         <div className="bg-white rounded-2xl shadow p-4 flex items-center gap-3">
           <MoodAvatar mood={mood} />
           <div>
-            <p className="text-lg font-bold text-blue-900">{dummyProfile.name}</p>
-            <p className="text-sm text-gray-500">{dummyProfile.grade}</p>
+            <p className="text-lg font-bold text-blue-900">{profile.displayName || '未設定'}</p>
+            <p className="text-sm text-gray-500">{profile.grade || '未設定'}</p>
           </div>
         </div>
         <MoodPicker mood={mood} onChoose={choose} />
@@ -69,9 +76,9 @@ export default function MemberPage() {
   } else {
     content = (
       <>
-        <MemberBasicInfo profile={dummyProfile} moodAvatar={<MoodAvatar mood={mood} />} />
+        <ProfileCard profile={profile} moodAvatar={<MoodAvatar mood={mood} />} onSave={saveProfile} editableName />
         <MoodPicker mood={mood} onChoose={choose} />
-        <RecordGraph records={dummyRecords} event={dummyProfile.event} />
+        <RecordsCard records={profile.records ?? []} event={profile.event ?? ''} onSave={saveRecords} />
       </>
     );
   }
