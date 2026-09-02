@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { today } from '@/member-app/menu/dateUtils';
 import { getMoodsForDate, MoodEntry } from './moodService';
-import { useTodayMood } from './useTodayMood';
+import { useMood } from './MoodContext';
 import { MOODS } from './moods';
 
 export default function MoodSummary() {
-  const { mood } = useTodayMood();
+  const { mood } = useMood();
   const [everyone, setEveryone] = useState<MoodEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState<string | null>(null);
@@ -25,7 +25,7 @@ export default function MoodSummary() {
 
   if (!mood) {
     return (
-      <div className="fixed bottom-16 left-0 right-0 z-10 bg-white border-t border-gray-200 px-4 py-2.5 text-center">
+      <div className="bg-white border-t border-gray-200 px-4 py-2.5 text-center">
         <p className="text-xs text-gray-600">
           今日の気分を決めて、みんなの気分を確認しましょう
           <Link href="/member" className="ml-2 text-blue-900 font-medium">
@@ -38,7 +38,7 @@ export default function MoodSummary() {
 
   if (loading) {
     return (
-      <div className="fixed bottom-16 left-0 right-0 z-10 bg-white border-t border-gray-200 py-2.5 flex justify-center">
+      <div className="bg-white border-t border-gray-200 py-2.5 flex justify-center">
         <div className="w-4 h-4 border-4 border-blue-900 border-t-transparent rounded-full animate-spin" />
       </div>
     );
@@ -53,7 +53,7 @@ export default function MoodSummary() {
   const expandedGroup = grouped.find((g) => g.id === expanded);
 
   return (
-    <div className="fixed bottom-16 left-0 right-0 z-10">
+    <div>
       {expandedGroup && (
         <div className="bg-white border-t border-gray-200 shadow-lg px-4 py-3">
           <p className="text-xs text-gray-500 mb-1.5">{expandedGroup.label}</p>

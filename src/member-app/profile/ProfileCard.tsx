@@ -143,12 +143,12 @@ export default function ProfileCard({
 
       <div>
         <label className="block text-xs text-gray-500 mb-1">PB</label>
-        <input
-          type="text"
+        <textarea
           value={draft.pb ?? ''}
           onChange={(e) => setDraft({ ...draft, pb: e.target.value })}
           placeholder="例: 100m/11.03"
-          className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-900"
+          rows={3}
+          className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-900 resize-none"
         />
       </div>
 

@@ -13,7 +13,6 @@ const rows = [
   { label: '専門種目', key: 'event' },
   { label: 'ゼッケン番号', key: 'bibNumber' },
   { label: '定期休養', key: 'restDay' },
-  { label: 'PB', key: 'pb' },
 ] as const;
 
 export default function MemberBasicInfo({ profile, moodAvatar }: Props) {
@@ -30,6 +29,10 @@ export default function MemberBasicInfo({ profile, moodAvatar }: Props) {
             <span className="font-medium">{profile[key] || '未設定'}</span>
           </div>
         ))}
+        <div className="py-2 text-sm">
+          <span className="text-gray-500">PB</span>
+          <p className="font-medium whitespace-pre-wrap mt-1">{profile.pb || '未設定'}</p>
+        </div>
       </div>
     </div>
   );
