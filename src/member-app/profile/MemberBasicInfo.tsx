@@ -29,9 +29,9 @@ export default function MemberBasicInfo({ profile, moodAvatar }: Props) {
             <span className="font-medium">{profile[key] || '未設定'}</span>
           </div>
         ))}
-        <div className="py-2 text-sm">
+        <div className="flex justify-between py-2 text-sm">
           <span className="text-gray-500">PB</span>
-          <p className="font-medium whitespace-pre-wrap mt-1 text-right">{profile.pb || '未設定'}</p>
+          <span className="font-medium whitespace-pre-wrap text-right">{profile.pb || '未設定'}</span>
         </div>
       </div>
     </div>
