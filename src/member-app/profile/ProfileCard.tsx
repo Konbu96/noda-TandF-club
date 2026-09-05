@@ -38,11 +38,11 @@ export default function ProfileCard({
 
   if (!isEditing) {
     return (
-      <div className="bg-white rounded-2xl shadow p-5 space-y-3">
-        <MemberBasicInfo profile={profile} moodAvatar={moodAvatar} />
-        <button onClick={startEdit} className="w-full text-sm bg-blue-900 text-white py-2 rounded-xl">
+      <div className="relative bg-white rounded-2xl shadow p-5">
+        <button onClick={startEdit} className="absolute top-5 right-5 text-xs text-blue-900">
           編集
         </button>
+        <MemberBasicInfo profile={profile} moodAvatar={moodAvatar} />
       </div>
     );
   }
@@ -142,11 +142,11 @@ export default function ProfileCard({
       </div>
 
       <div>
-        <label className="block text-xs text-gray-500 mb-1">PB</label>
+        <label className="block text-xs text-gray-500 mb-1">PB（2種目以上ある場合は改行して1種目ずつ入力）</label>
         <textarea
           value={draft.pb ?? ''}
           onChange={(e) => setDraft({ ...draft, pb: e.target.value })}
-          placeholder="例: 100m/11.03"
+          placeholder={'例:\n100m/11.03\n200m/23.50'}
           rows={3}
           className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-900 resize-none"
         />

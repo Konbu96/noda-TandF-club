@@ -31,7 +31,7 @@ export default function MemberBasicInfo({ profile, moodAvatar }: Props) {
         ))}
         <div className="py-2 text-sm">
           <span className="text-gray-500">PB</span>
-          <p className="font-medium whitespace-pre-wrap mt-1">{profile.pb || '未設定'}</p>
+          <p className="font-medium whitespace-pre-wrap mt-1 text-right">{profile.pb || '未設定'}</p>
         </div>
       </div>
     </div>

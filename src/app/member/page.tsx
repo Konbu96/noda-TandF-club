@@ -82,7 +82,7 @@ export default function MemberPage() {
       {content}
       <button
         onClick={() => signOut(auth)}
-        className="w-full text-sm border border-gray-300 text-gray-600 py-2 rounded-xl"
+        className="w-full text-sm border border-red-200 text-red-500 py-2 rounded-xl"
       >
         ログアウト
       </button>

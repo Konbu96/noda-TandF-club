@@ -131,7 +131,14 @@ export default function ManagerGuideEditor() {
 
   return (
     <div className="bg-white rounded-2xl shadow p-4 space-y-3">
-      <p className="text-sm font-bold text-blue-900">部活の準備の手順書</p>
+      <div className="flex items-center justify-between">
+        <p className="text-sm font-bold text-blue-900">部活の準備の手順書</p>
+        {!isEditing && (
+          <button onClick={startEdit} className="text-xs text-blue-900">
+            編集
+          </button>
+        )}
+      </div>
 
       {isEditing ? (
         <>
@@ -179,9 +186,6 @@ export default function ManagerGuideEditor() {
               );
             })}
           </div>
-          <button onClick={startEdit} className="w-full text-sm bg-blue-900 text-white py-2 rounded-xl">
-            編集
-          </button>
         </>
       )}
     </div>
