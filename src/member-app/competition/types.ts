@@ -5,7 +5,25 @@ export type CompetitionEntry = {
 };
 
 // エントリー種目の選択肢。今後追加予定。
-export const COMPETITION_EVENTS = ['100m', '200m', '400m'];
+export const COMPETITION_EVENTS = [
+  '100m',
+  '200m',
+  '400m',
+  '110mH',
+  '400mH',
+  '800m',
+  '1500m',
+  '5000m',
+  '走幅跳',
+  '走高跳',
+  '三段跳',
+  '砲丸投',
+  '円盤投',
+  'ハンマー投',
+  'やり投',
+  '4×100mR',
+  '4×400mR',
+];
 
 export type CompetitionLink = {
   id: string;
@@ -19,7 +37,6 @@ export type Competition = {
   date: string;
   location: string;
   entries: CompetitionEntry[];
-  entriesClosed?: boolean;
   updatedBy: string;
   updatedAt: string;
 };

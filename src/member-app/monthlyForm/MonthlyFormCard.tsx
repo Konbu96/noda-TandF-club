@@ -2,82 +2,33 @@
 
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/member-app/auth/AuthContext';
-import { getUser } from '@/lib/users';
-import { currentMonth, getMonthlyFormsForMonth, MonthlyFormAnswers, MonthlyFormEntry } from './monthlyFormService';
-import { useMonthlyForm } from './useMonthlyForm';
-
-const LEVELS = ['1', '2', '3', '4', '5'];
-
-const EMPTY: MonthlyFormAnswers = {
-  name: '',
-  lastMonthGoal: '',
-  achievementLevel: '',
-  reflection: '',
-  nextGoal: '',
-};
-
-function ChevronIcon({ open }: { open: boolean }) {
-  return (
-    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={open ? 'M5 15l7-7 7 7' : 'M19 9l-7 7-7-7'} />
-    </svg>
-  );
-}
-
-function AnswerView({ entry }: { entry: MonthlyFormEntry }) {
-  return (
-    <div className="space-y-3">
-      <div>
-        <p className="text-xs text-gray-500">先月の個人目標</p>
-        <p className="text-sm text-gray-800 whitespace-pre-wrap">{entry.lastMonthGoal || '未回答'}</p>
-      </div>
-      <div>
-        <p className="text-xs text-gray-500">目標達成度</p>
-        <p className="text-sm text-gray-800">{entry.achievementLevel ? `${entry.achievementLevel} / 5` : '未回答'}</p>
-      </div>
-      <div>
-        <p className="text-xs text-gray-500">達成できた部分・できなかった部分・新たな課題</p>
-        <p className="text-sm text-gray-800 whitespace-pre-wrap">{entry.reflection || '未回答'}</p>
-      </div>
-      <div>
-        <p className="text-xs text-gray-500">来月の個人目標</p>
-        <p className="text-sm text-gray-800 whitespace-pre-wrap">{entry.nextGoal || '未回答'}</p>
-      </div>
-    </div>
-  );
-}
+import { getMonthlyFormLink, saveMonthlyFormLink } from './monthlyFormLinkService';
 
 export default function MonthlyFormCard() {
-  const { user } = useAuth();
-  const { entry, submit, loading } = useMonthlyForm();
+  const { role } = useAuth();
+  const canEditLink = role === 'captain' || role === 'vice_captain';
+
+  const [url, setUrl] = useState('');
+  const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
-  const [draft, setDraft] = useState<MonthlyFormAnswers>(EMPTY);
+  const [draft, setDraft] = useState('');
   const [saving, setSaving] = useState(false);
 
-  const [everyone, setEveryone] = useState<MonthlyFormEntry[]>([]);
-  const [everyoneLoading, setEveryoneLoading] = useState(true);
-  const [expandedUid, setExpandedUid] = useState<string | null>(null);
-
   useEffect(() => {
-    if (!entry) return;
-    getMonthlyFormsForMonth(currentMonth())
-      .then(setEveryone)
-      .finally(() => setEveryoneLoading(false));
-  }, [entry]);
+    getMonthlyFormLink()
+      .then(setUrl)
+      .finally(() => setLoading(false));
+  }, []);
 
-  const startEdit = async () => {
-    if (entry) {
-      setDraft(entry);
-    } else {
-      const profile = user ? await getUser(user.uid).catch(() => null) : null;
-      setDraft({ ...EMPTY, name: profile?.displayName || '' });
-    }
+  const startEdit = () => {
+    setDraft(url);
     setIsEditing(true);
   };
 
   const handleSave = async () => {
     setSaving(true);
-    await submit(draft);
+    await saveMonthlyFormLink(draft.trim());
+    setUrl(draft.trim());
     setSaving(false);
     setIsEditing(false);
   };
@@ -90,132 +41,47 @@ export default function MonthlyFormCard() {
     );
   }
 
-  if (!isEditing) {
-    return (
-      <div className="bg-white rounded-2xl shadow p-5 space-y-3">
-        <p className="text-sm font-bold text-blue-900">月末フォーム</p>
-        <p className="text-xs text-gray-500">月末の振り返り、目標設定の回答は全員で共有します</p>
-
-        {entry ? <AnswerView entry={entry} /> : <p className="text-sm text-gray-400">今月はまだ回答していません</p>}
-
-        <button onClick={startEdit} className="w-full text-sm bg-blue-900 text-white py-2 rounded-xl">
-          {entry ? '編集する' : '回答する'}
-        </button>
-
-        {entry && (
-          <div className="pt-3 border-t border-gray-100 space-y-2">
-            <p className="text-xs text-gray-500">みんなの回答</p>
-            {everyoneLoading ? (
-              <p className="text-xs text-gray-400">読み込み中...</p>
-            ) : everyone.length === 0 ? (
-              <p className="text-xs text-gray-400">まだ回答がありません</p>
-            ) : (
-              <ul className="divide-y">
-                {everyone.map((e) => {
-                  const isOpen = expandedUid === e.uid;
-                  return (
-                    <li key={e.uid} className="py-2">
-                      <button
-                        type="button"
-                        onClick={() => setExpandedUid(isOpen ? null : e.uid)}
-                        className="w-full flex items-center justify-between"
-                      >
-                        <span className="text-sm text-gray-700 truncate">{e.name || '（名前未設定）'}</span>
-                        <ChevronIcon open={isOpen} />
-                      </button>
-                      {isOpen && (
-                        <div className="mt-2">
-                          <AnswerView entry={e} />
-                        </div>
-                      )}
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-          </div>
-        )}
-      </div>
-    );
-  }
-
   return (
     <div className="bg-white rounded-2xl shadow p-5 space-y-3">
-      <p className="text-sm font-bold text-blue-900">月末フォーム</p>
-      <p className="text-xs text-gray-500">月末の振り返り、目標設定の回答は全員で共有します</p>
-
-      <div>
-        <label className="block text-xs text-gray-500 mb-1">氏名</label>
-        <input
-          type="text"
-          value={draft.name}
-          onChange={(e) => setDraft({ ...draft, name: e.target.value })}
-          className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-900"
-        />
+      <div className="flex items-center justify-between">
+        <p className="text-sm font-bold text-blue-900">月末フォーム</p>
+        {canEditLink && !isEditing && (
+          <button onClick={startEdit} className="text-xs text-blue-900">
+            リンクを編集
+          </button>
+        )}
       </div>
 
-      <div>
-        <label className="block text-xs text-gray-500 mb-1">あなたの先月の個人目標は何でしたか？</label>
-        <textarea
-          value={draft.lastMonthGoal}
-          onChange={(e) => setDraft({ ...draft, lastMonthGoal: e.target.value })}
-          rows={3}
-          className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-900 resize-none"
-        />
-      </div>
-
-      <div>
-        <label className="block text-xs text-gray-500 mb-1">目標をどのくらい達成できたか、自分が思うものを選んでください</label>
-        <div className="flex gap-2">
-          {LEVELS.map((level) => (
-            <button
-              key={level}
-              type="button"
-              onClick={() => setDraft({ ...draft, achievementLevel: level })}
-              className={`flex-1 text-sm py-2 rounded-lg border transition-colors ${
-                draft.achievementLevel === level
-                  ? 'bg-sky-100 text-sky-700 border-sky-300'
-                  : 'bg-white text-gray-600 border-gray-300'
-              }`}
-            >
-              {level}
+      {isEditing ? (
+        <div className="space-y-2">
+          <input
+            type="text"
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            placeholder="https://docs.google.com/forms/..."
+            className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-900"
+          />
+          <div className="flex gap-2">
+            <button onClick={() => setIsEditing(false)} className="flex-1 text-sm border border-gray-300 text-gray-600 py-2 rounded-xl">
+              キャンセル
             </button>
-          ))}
+            <button onClick={handleSave} disabled={saving} className="flex-1 text-sm bg-blue-900 text-white py-2 rounded-xl disabled:opacity-50">
+              {saving ? '保存中...' : '保存'}
+            </button>
+          </div>
         </div>
-        <p className="text-[10px] text-gray-400 mt-1">1：達成できなかった 〜 5：完璧に達成できた</p>
-      </div>
-
-      <div>
-        <label className="block text-xs text-gray-500 mb-1">
-          この1ヶ月で目標のどのような部分が達成できたのか・達成できなかったのかや、新たに生まれた課題について具体的に書いてください
-        </label>
-        <textarea
-          value={draft.reflection}
-          onChange={(e) => setDraft({ ...draft, reflection: e.target.value })}
-          rows={4}
-          className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-900 resize-none"
-        />
-      </div>
-
-      <div>
-        <label className="block text-xs text-gray-500 mb-1">上記の内容や目標達成シートを参考に来月の個人目標を入力してください</label>
-        <textarea
-          value={draft.nextGoal}
-          onChange={(e) => setDraft({ ...draft, nextGoal: e.target.value })}
-          rows={3}
-          className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-900 resize-none"
-        />
-        <p className="text-[10px] text-gray-400 mt-1">※抽象的な目標は避け、月末に振り返りやすいよう具体的に書きましょう</p>
-      </div>
-
-      <div className="flex gap-2">
-        <button onClick={() => setIsEditing(false)} className="flex-1 text-sm border border-gray-300 text-gray-600 py-2 rounded-xl">
-          キャンセル
-        </button>
-        <button onClick={handleSave} disabled={saving} className="flex-1 text-sm bg-blue-900 text-white py-2 rounded-xl disabled:opacity-50">
-          {saving ? '保存中...' : '保存'}
-        </button>
-      </div>
+      ) : url ? (
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block w-full text-center text-sm bg-blue-900 text-white py-2 rounded-xl"
+        >
+          月末フォームを開く →
+        </a>
+      ) : (
+        <p className="text-sm text-gray-400">まだリンクが設定されていません</p>
+      )}
     </div>
   );
 }

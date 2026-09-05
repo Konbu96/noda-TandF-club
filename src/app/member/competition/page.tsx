@@ -39,7 +39,7 @@ function PencilIcon() {
 }
 
 export default function CompetitionPage() {
-  const { user, role, canEditMenu } = useAuth();
+  const { user, role } = useAuth();
   const [competitions, setCompetitions] = useState<Competition[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -119,18 +119,6 @@ export default function CompetitionPage() {
     setCompetitions((prev) => prev.map((c) => (c.id === toSave.id ? toSave : c)));
   };
 
-  const toggleEntriesClosed = async (competition: Competition) => {
-    if (!user) return;
-    const toSave: Competition = {
-      ...competition,
-      entriesClosed: !competition.entriesClosed,
-      updatedBy: user.email ?? user.uid,
-      updatedAt: new Date().toISOString(),
-    };
-    await saveCompetition(toSave);
-    setCompetitions((prev) => prev.map((c) => (c.id === toSave.id ? toSave : c)));
-  };
-
   const renderForm = () => {
     if (!draft) return null;
     return (
@@ -198,6 +186,16 @@ export default function CompetitionPage() {
     );
   };
 
+  if (role === 'member') {
+    return (
+      <div className="px-4 py-6">
+        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
+          <p className="text-gray-400 text-sm">大会ページは現在製作中です</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="px-4 py-6 space-y-4">
       <div className="text-sm text-gray-500">大会</div>
@@ -210,7 +208,7 @@ export default function CompetitionPage() {
         <>
           <CompetitionLinks />
 
-          {canEditMenu && !creating && (
+          {role === 'teacher' && !creating && (
             <button
               onClick={startCreate}
               className="w-full text-sm bg-blue-900 text-white py-2 rounded-xl"
@@ -283,7 +281,7 @@ export default function CompetitionPage() {
                                   <li key={entry.uid}>
                                     <div className="text-sm text-gray-800 flex items-center justify-between gap-2">
                                       <span className="flex-1 truncate">{entry.displayName}</span>
-                                      <span className="text-gray-500">{entry.events.join('・')}</span>
+                                      <span className="text-gray-500">{entry.events.join(' / ')}</span>
                                       {role === 'teacher' && (
                                         <button
                                           onClick={() =>
@@ -316,28 +314,13 @@ export default function CompetitionPage() {
                             )}
 
                             {role !== 'teacher' && role !== 'manager' && (
-                              competition.entriesClosed ? (
-                                <p className="text-xs text-gray-400 pt-3 mt-3 border-t border-gray-100">
-                                  エントリーは締め切られました
-                                </p>
-                              ) : (
-                                <EventSelector
-                                  entries={competition.entries}
-                                  onChange={(next) => handleEntriesChange(competition, next)}
-                                />
-                              )
+                              <EventSelector
+                                entries={competition.entries}
+                                onChange={(next) => handleEntriesChange(competition, next)}
+                              />
                             )}
 
                             {role === 'teacher' && (
-                              <button
-                                onClick={() => toggleEntriesClosed(competition)}
-                                className="w-full text-sm border border-gray-300 text-gray-600 py-2 rounded-xl mt-3"
-                              >
-                                {competition.entriesClosed ? 'エントリーを再開する' : 'エントリーを締め切る'}
-                              </button>
-                            )}
-
-                            {canEditMenu && (
                               <div className="flex gap-2 mt-3">
                                 <button
                                   onClick={() => startEdit(competition)}

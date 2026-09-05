@@ -81,7 +81,7 @@ export default function EventSelector({
         </>
       ) : (
         <>
-          <p className="text-sm text-gray-800">{myEvents.length > 0 ? myEvents.join('・') : '未選択'}</p>
+          <p className="text-sm text-gray-800">{myEvents.length > 0 ? myEvents.join(' / ') : '未選択'}</p>
           <button onClick={startEdit} className="w-full text-sm bg-blue-900 text-white py-2 rounded-xl">
             編集
           </button>
