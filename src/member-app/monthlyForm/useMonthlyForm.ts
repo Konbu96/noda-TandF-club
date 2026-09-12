@@ -23,7 +23,7 @@ export function useMonthlyForm() {
     if (!user) return;
     const month = currentMonth();
     await saveMonthlyForm(user.uid, month, answers);
-    setEntry({ uid: user.uid, month, ...answers, updatedAt: new Date().toISOString() });
+    setEntry({ uid: user.uid, month, ...answers });
   };
 
   return { entry, submit, loading };

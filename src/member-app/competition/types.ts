@@ -2,6 +2,7 @@ export type CompetitionEntry = {
   uid: string;
   displayName: string;
   events: string[];
+  results?: Record<string, string>; // 種目名 → 自己記録（このentryの本人が入力）
 };
 
 // エントリー種目の選択肢。今後追加予定。

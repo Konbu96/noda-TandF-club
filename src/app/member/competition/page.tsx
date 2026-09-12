@@ -281,7 +281,11 @@ export default function CompetitionPage() {
                                   <li key={entry.uid}>
                                     <div className="text-sm text-gray-800 flex items-center justify-between gap-2">
                                       <span className="flex-1 truncate">{entry.displayName}</span>
-                                      <span className="text-gray-500">{entry.events.join(' / ')}</span>
+                                      <span className="text-gray-500">
+                                        {entry.events
+                                          .map((ev) => (entry.results?.[ev] ? `${ev}(${entry.results[ev]})` : ev))
+                                          .join(' / ')}
+                                      </span>
                                       {role === 'teacher' && (
                                         <button
                                           onClick={() =>
@@ -299,10 +303,18 @@ export default function CompetitionPage() {
                                         onCancel={() => setEditingEntryUid(null)}
                                         onSave={async (events) => {
                                           const rest = competition.entries.filter((e) => e.uid !== entry.uid);
-                                          const next =
-                                            events.length > 0
-                                              ? [...rest, { uid: entry.uid, displayName: entry.displayName, events }]
-                                              : rest;
+                                          const filteredResults = entry.results
+                                            ? Object.fromEntries(
+                                                Object.entries(entry.results).filter(([ev]) => events.includes(ev))
+                                              )
+                                            : {};
+                                          const updatedEntry = {
+                                            uid: entry.uid,
+                                            displayName: entry.displayName,
+                                            events,
+                                            ...(Object.keys(filteredResults).length > 0 ? { results: filteredResults } : {}),
+                                          };
+                                          const next = events.length > 0 ? [...rest, updatedEntry] : rest;
                                           await handleEntriesChange(competition, next);
                                           setEditingEntryUid(null);
                                         }}

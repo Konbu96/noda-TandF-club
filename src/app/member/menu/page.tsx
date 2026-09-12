@@ -7,6 +7,7 @@ import { deleteMenu, listMenuDates } from '@/member-app/menu/menuService';
 import { today, formatDateWithWeekday } from '@/member-app/menu/dateUtils';
 import MoodSummary from '@/member-app/mood/MoodSummary';
 import MonthlyFormBanner from '@/member-app/monthlyForm/MonthlyFormBanner';
+import MyGoalBanner from '@/member-app/monthlyForm/MyGoalBanner';
 
 export default function MenuListPage() {
   const { canEditMenu, loading: authLoading } = useAuth();
@@ -42,7 +43,9 @@ export default function MenuListPage() {
   }, [authLoading, canEditMenu]);
 
   return (
-    <div className="px-4 py-6 pb-64 space-y-4">
+    <div className="px-4 pt-3 pb-64 space-y-4">
+      <MyGoalBanner />
+
       <div className="text-sm text-gray-500">メニュー</div>
 
       {loading ? (

@@ -14,7 +14,6 @@ export type MonthlyFormAnswers = {
 export type MonthlyFormEntry = MonthlyFormAnswers & {
   uid: string;
   month: string; // "YYYY-MM"
-  updatedAt: string;
 };
 
 const RELEASE_DAY = 25;
@@ -39,6 +38,20 @@ export function currentMonthLabel(): string {
   return `${effectiveDate().getMonth() + 1}月`;
 }
 
+function previousEffectiveDate(): Date {
+  const d = effectiveDate();
+  return new Date(d.getFullYear(), d.getMonth() - 1, 1);
+}
+
+export function previousMonth(): string {
+  const d = previousEffectiveDate();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+}
+
+export function previousMonthLabel(): string {
+  return `${previousEffectiveDate().getMonth() + 1}月`;
+}
+
 function docId(uid: string, month: string): string {
   return `${uid}_${month}`;
 }
@@ -58,6 +71,5 @@ export async function saveMonthlyForm(uid: string, month: string, answers: Month
     uid,
     month,
     ...answers,
-    updatedAt: new Date().toISOString(),
   });
 }

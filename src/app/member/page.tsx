@@ -11,18 +11,30 @@ import ManagerGuideEditor from '@/member-app/admin/ManagerGuideEditor';
 import MoodAvatar from '@/member-app/mood/MoodAvatar';
 import { useMood } from '@/member-app/mood/MoodContext';
 import MonthlyFormCard from '@/member-app/monthlyForm/MonthlyFormCard';
+import EveryoneGoals from '@/member-app/monthlyForm/EveryoneGoals';
+import RecordGraph from '@/member-app/profile/RecordGraph';
+import { getMemberRecords } from '@/member-app/competition/competitionService';
+import { MemberRecord } from '@/lib/users';
 
 export default function MemberPage() {
   const { user, role, loading } = useAuth();
   const { mood } = useMood();
   const [profile, setProfile] = useState<UserRecord | null>(null);
   const [profileLoading, setProfileLoading] = useState(true);
+  const [records, setRecords] = useState<MemberRecord[]>([]);
 
   useEffect(() => {
     if (!user) return;
     getUser(user.uid)
       .then(setProfile)
       .finally(() => setProfileLoading(false));
+  }, [user]);
+
+  useEffect(() => {
+    if (!user) return;
+    getMemberRecords(user.uid)
+      .then(setRecords)
+      .catch(() => setRecords([]));
   }, [user]);
 
   const saveProfile = async (data: Partial<UserRecord>) => {
@@ -72,7 +84,9 @@ export default function MemberPage() {
     content = (
       <>
         <ProfileCard profile={profile} moodAvatar={<MoodAvatar mood={mood} />} onSave={saveProfile} editableName />
+        <RecordGraph records={records.filter((r) => r.event === profile.event?.trim())} />
         <MonthlyFormCard />
+        <EveryoneGoals />
       </>
     );
   }
