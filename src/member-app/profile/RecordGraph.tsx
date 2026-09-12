@@ -8,6 +8,23 @@ function formatDate(date: string) {
   return m && d ? `${Number(m)}/${Number(d)}` : date;
 }
 
+function RecordTooltip({
+  active,
+  payload,
+}: {
+  active?: boolean;
+  payload?: { payload: MemberRecord }[];
+}) {
+  if (!active || !payload || payload.length === 0) return null;
+  const record = payload[0].payload;
+  return (
+    <div className="bg-white border border-gray-200 rounded-lg shadow px-3 py-1.5 text-xs">
+      <p className="text-gray-500">{formatDate(record.date)}</p>
+      <p className="font-medium text-gray-800">{record.result}</p>
+    </div>
+  );
+}
+
 export default function RecordGraph({ records }: { records: MemberRecord[] }) {
   if (records.length === 0) {
     return (
@@ -46,10 +63,7 @@ export default function RecordGraph({ records }: { records: MemberRecord[] }) {
                     <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                     <XAxis dataKey="date" tickFormatter={formatDate} tick={{ fontSize: 11 }} />
                     <YAxis tick={{ fontSize: 11 }} domain={['auto', 'auto']} />
-                    <Tooltip
-                      labelFormatter={(label) => formatDate(String(label))}
-                      formatter={(_value, _name, item) => [item.payload.result, item.payload.competition]}
-                    />
+                    <Tooltip content={<RecordTooltip />} />
                     <Line type="monotone" dataKey="value" stroke="#1e3a8a" strokeWidth={2} dot={{ r: 3 }} />
                   </LineChart>
                 </ResponsiveContainer>
