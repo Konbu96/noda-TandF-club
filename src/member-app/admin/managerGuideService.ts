@@ -4,7 +4,9 @@ import { db } from '@/lib/firebase';
 const COLLECTION = 'managerGuide';
 const DOC_ID = 'main';
 
-export const GUIDE_SECTION_TITLES = ['アクティベーション', '動き作り'] as const;
+// 初回（まだ何も保存されていない状態）にだけ使うデフォルトのセクション名。
+// 保存後はマネージャーが自由にセクションを追加・削除・改名できる。
+export const DEFAULT_GUIDE_SECTION_TITLES = ['アクティベーション', '動き作り'] as const;
 
 export type GuideSection = { title: string; content: string };
 

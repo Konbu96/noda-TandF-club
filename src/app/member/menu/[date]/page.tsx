@@ -28,6 +28,7 @@ export default function MenuDetailPage() {
   const [items, setItems] = useState<MenuItem[]>([]);
   const [teacherNote, setTeacherNote] = useState('');
   const [isEditing, setIsEditing] = useState(false);
+  const [expandedCategory, setExpandedCategory] = useState<MenuCategory | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -63,6 +64,7 @@ export default function MenuDetailPage() {
       })
       .finally(() => {
         setIsEditing(false);
+        setExpandedCategory(null);
         setExpandedId(null);
         setLoading(false);
       });
@@ -110,68 +112,87 @@ export default function MenuDetailPage() {
         </div>
       ) : (
         <>
-          <div className="bg-white rounded-2xl shadow p-4 space-y-4">
-            {isEditing ? (
-              CATEGORIES.map((category) => (
-                <div key={category}>
-                  <p className="text-xs font-bold text-blue-900 mb-2 tracking-wide">{category}</p>
-                  <div className="space-y-0.5">
-                    {itemsByCategory(category).map((item) => {
-                      const spec = TEMPLATE_SPECS[item.title];
-                      const isOpen = expandedId === item.id;
-                      return (
-                        <div key={item.id}>
-                          <div className="flex items-center gap-3 py-1.5">
-                            <input
-                              type="checkbox"
-                              checked={item.checked}
-                              onChange={() => toggle(item.id)}
-                              className="w-5 h-5 accent-blue-900 shrink-0"
-                            />
-                            <span className="flex-1 text-sm text-gray-800">
-                              {item.title}{displayNote(item) ? `（${displayNote(item)}）` : ''}
-                            </span>
-                              <button
-                              type="button"
-                              onClick={() => setExpandedId(isOpen ? null : item.id)}
-                              className={`p-1 rounded transition-colors ${isOpen ? 'text-blue-900' : 'text-gray-300'}`}
-                            >
-                              <ChevronIcon open={isOpen} />
-                            </button>
-                          </div>
-                          {isOpen && (
-                            <>
-                              {spec && (
-                                <ItemOptions
-                                  spec={spec}
-                                  onChange={(note) => updateNote(item.id, note)}
-                                />
-                              )}
-                              <CustomItemOptions
-                                options={item.customOptions ?? []}
-                                onChange={(opts, note) =>
-                                  setItems((prev) =>
-                                    prev.map((i) =>
-                                      i.id === item.id
-                                        ? { ...i, customOptions: opts, note: spec ? i.note : note }
-                                        : i
-                                    )
-                                  )
-                                }
-                              />
+          {isEditing ? (
+            <div className="space-y-2">
+              {CATEGORIES.map((category) => {
+                const isCategoryOpen = expandedCategory === category;
+                const checkedCount = checkedByCategory(category).length;
+                return (
+                  <div key={category} className="bg-white rounded-2xl shadow p-4">
+                    <button
+                      type="button"
+                      onClick={() => setExpandedCategory(isCategoryOpen ? null : category)}
+                      className="w-full flex items-center justify-between"
+                    >
+                      <span className="text-sm font-bold text-blue-900 tracking-wide">
+                        {category}{checkedCount > 0 ? `（${checkedCount}）` : ''}
+                      </span>
+                      <ChevronIcon open={isCategoryOpen} />
+                    </button>
 
-                            </>
-                          )}
-                        </div>
-                      );
-                    })}
+                    {isCategoryOpen && (
+                      <div className="mt-3 pt-3 border-t border-gray-100 space-y-0.5">
+                        {itemsByCategory(category).map((item) => {
+                          const spec = TEMPLATE_SPECS[item.title];
+                          const isOpen = expandedId === item.id;
+                          return (
+                            <div key={item.id}>
+                              <div className="flex items-center gap-3 py-1.5">
+                                <input
+                                  type="checkbox"
+                                  checked={item.checked}
+                                  onChange={() => toggle(item.id)}
+                                  className="w-5 h-5 accent-blue-900 shrink-0"
+                                />
+                                <span className="flex-1 text-sm text-gray-800">
+                                  {item.title}{displayNote(item) ? `（${displayNote(item)}）` : ''}
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => setExpandedId(isOpen ? null : item.id)}
+                                  className={`p-1 rounded transition-colors ${isOpen ? 'text-blue-900' : 'text-gray-300'}`}
+                                >
+                                  <ChevronIcon open={isOpen} />
+                                </button>
+                              </div>
+                              {isOpen && (
+                                <>
+                                  {spec && (
+                                    <ItemOptions
+                                      spec={spec}
+                                      onChange={(note) => updateNote(item.id, note)}
+                                    />
+                                  )}
+                                  <CustomItemOptions
+                                    options={item.customOptions ?? []}
+                                    onChange={(opts, note) =>
+                                      setItems((prev) =>
+                                        prev.map((i) =>
+                                          i.id === item.id
+                                            ? { ...i, customOptions: opts, note: spec ? i.note : note }
+                                            : i
+                                        )
+                                      )
+                                    }
+                                  />
+                                </>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
-                </div>
-              ))
-            ) : !hasAnyChecked ? (
+                );
+              })}
+            </div>
+          ) : !hasAnyChecked ? (
+            <div className="bg-white rounded-2xl shadow p-4">
               <p className="text-sm text-gray-400 text-center py-4">本日のメニューは未設定です</p>
-            ) : (
-              CATEGORIES.map((category) => {
+            </div>
+          ) : (
+            <div className="bg-white rounded-2xl shadow p-4 space-y-4">
+              {CATEGORIES.map((category) => {
                 const checked = checkedByCategory(category);
                 if (checked.length === 0) return null;
                 return (
@@ -187,9 +208,9 @@ export default function MenuDetailPage() {
                     </ul>
                   </div>
                 );
-              })
-            )}
-          </div>
+              })}
+            </div>
+          )}
 
           {isEditing ? (
             <div className="bg-white rounded-2xl shadow p-4 space-y-2">

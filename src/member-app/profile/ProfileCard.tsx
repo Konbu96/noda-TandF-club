@@ -2,6 +2,7 @@
 
 import { ReactNode, useState } from 'react';
 import { UserRecord } from '@/lib/users';
+import { COMPETITION_EVENTS } from '@/member-app/competition/types';
 import MemberBasicInfo from './MemberBasicInfo';
 
 const GENDERS = ['男', '女'] as const;
@@ -111,13 +112,20 @@ export default function ProfileCard({
 
       <div>
         <label className="block text-xs text-gray-500 mb-1">専門種目</label>
-        <input
-          type="text"
-          value={draft.event ?? ''}
-          onChange={(e) => setDraft({ ...draft, event: e.target.value })}
-          placeholder="例: 100m"
-          className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-900"
-        />
+        <div className="flex flex-wrap gap-2">
+          {COMPETITION_EVENTS.map((ev) => (
+            <button
+              key={ev}
+              type="button"
+              onClick={() => setDraft({ ...draft, event: ev })}
+              className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                draft.event === ev ? 'bg-sky-100 text-sky-700 border-sky-300' : 'bg-white text-gray-600 border-gray-300'
+              }`}
+            >
+              {ev}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div>
