@@ -83,7 +83,7 @@ export default function CompetitionLinks() {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow p-4 space-y-3">
+    <div className="bg-white rounded-2xl card-shadow p-4 space-y-3">
       <div className="flex items-center justify-between">
         <p className="text-xs font-bold text-blue-900 tracking-wide">リンク</p>
         {canEditMenu && !isEditing && (

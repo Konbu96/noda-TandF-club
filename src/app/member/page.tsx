@@ -55,14 +55,14 @@ export default function MemberPage() {
   if (role === 'teacher') {
     content = (
       <>
-        <div className="bg-white rounded-2xl shadow p-4 flex items-center gap-3">
+        <div className="bg-white rounded-2xl card-shadow p-4 flex items-center gap-3">
           <MoodAvatar mood={mood} />
           <div>
             <p className="text-lg font-bold text-blue-900">{profile.displayName || '未設定'}</p>
             <p className="text-sm text-gray-500">{profile.grade || '未設定'}</p>
           </div>
         </div>
-        <div className="bg-white rounded-2xl shadow p-4">
+        <div className="bg-white rounded-2xl card-shadow p-4">
           <RoleList />
         </div>
       </>
@@ -70,7 +70,7 @@ export default function MemberPage() {
   } else if (role === 'manager') {
     content = (
       <>
-        <div className="bg-white rounded-2xl shadow p-4 flex items-center gap-3">
+        <div className="bg-white rounded-2xl card-shadow p-4 flex items-center gap-3">
           <MoodAvatar mood={mood} />
           <div>
             <p className="text-lg font-bold text-blue-900">{profile.displayName || '未設定'}</p>

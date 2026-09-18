@@ -37,7 +37,7 @@ export default function SignInForm() {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-sm">
+    <div className="bg-white rounded-2xl card-shadow-lg p-6 w-full max-w-sm">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-700">メールアドレス</label>

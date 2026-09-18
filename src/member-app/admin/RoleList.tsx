@@ -74,7 +74,7 @@ export default function RoleList() {
 
             {isEditing && (
               <div key={u.uid} className="mt-3 space-y-3">
-                <div className="bg-white rounded-2xl shadow p-5 space-y-1">
+                <div className="bg-white rounded-2xl card-shadow p-5 space-y-1">
                   <label className="block text-xs text-gray-500 mb-1">ロール</label>
                   <select
                     value={u.role ?? ''}

@@ -39,7 +39,7 @@ export default function ProfileCard({
 
   if (!isEditing) {
     return (
-      <div className="relative bg-white rounded-2xl shadow p-5">
+      <div className="relative bg-white rounded-2xl card-shadow p-5">
         <button onClick={startEdit} className="absolute top-5 right-5 text-xs text-blue-900">
           編集
         </button>
@@ -49,7 +49,7 @@ export default function ProfileCard({
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow p-5 space-y-3">
+    <div className="bg-white rounded-2xl card-shadow p-5 space-y-3">
       {editableName && (
         <div>
           <label className="block text-xs text-gray-500 mb-1">名前</label>

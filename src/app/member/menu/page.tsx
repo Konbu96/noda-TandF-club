@@ -78,7 +78,7 @@ export default function MenuListPage() {
               <Link
                 key={d}
                 href={`/member/menu/${d}`}
-                className="flex items-center justify-between bg-white rounded-2xl shadow px-4 py-3 text-sm"
+                className="flex items-center justify-between bg-white rounded-2xl card-shadow px-4 py-3 text-sm"
               >
                 <span className={d === today() ? 'text-blue-900 font-medium' : 'text-gray-800'}>
                   {formatDateWithWeekday(d)}{d === today() ? '（本日）' : ''}

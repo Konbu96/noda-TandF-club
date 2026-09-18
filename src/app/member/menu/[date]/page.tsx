@@ -118,7 +118,7 @@ export default function MenuDetailPage() {
                 const isCategoryOpen = expandedCategory === category;
                 const checkedCount = checkedByCategory(category).length;
                 return (
-                  <div key={category} className="bg-white rounded-2xl shadow p-4">
+                  <div key={category} className="bg-white rounded-2xl card-shadow p-4">
                     <button
                       type="button"
                       onClick={() => setExpandedCategory(isCategoryOpen ? null : category)}
@@ -187,11 +187,11 @@ export default function MenuDetailPage() {
               })}
             </div>
           ) : !hasAnyChecked ? (
-            <div className="bg-white rounded-2xl shadow p-4">
+            <div className="bg-white rounded-2xl card-shadow p-4">
               <p className="text-sm text-gray-400 text-center py-4">本日のメニューは未設定です</p>
             </div>
           ) : (
-            <div className="bg-white rounded-2xl shadow p-4 space-y-4">
+            <div className="bg-white rounded-2xl card-shadow p-4 space-y-4">
               {CATEGORIES.map((category) => {
                 const checked = checkedByCategory(category);
                 if (checked.length === 0) return null;
@@ -213,7 +213,7 @@ export default function MenuDetailPage() {
           )}
 
           {isEditing ? (
-            <div className="bg-white rounded-2xl shadow p-4 space-y-2">
+            <div className="bg-white rounded-2xl card-shadow p-4 space-y-2">
               <p className="text-sm font-medium text-blue-900">追加事項</p>
               <textarea
                 value={teacherNote}
@@ -224,7 +224,7 @@ export default function MenuDetailPage() {
               />
             </div>
           ) : teacherNote ? (
-            <div className="bg-white rounded-2xl shadow p-4">
+            <div className="bg-white rounded-2xl card-shadow p-4">
               <p className="text-sm text-gray-800 whitespace-pre-wrap">{teacherNote}</p>
             </div>
           ) : null}

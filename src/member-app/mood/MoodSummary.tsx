@@ -55,7 +55,7 @@ export default function MoodSummary() {
   return (
     <div>
       {expandedGroup && (
-        <div className="bg-white border-t border-gray-200 shadow-lg px-4 py-3">
+        <div className="bg-white border-t border-gray-200 card-shadow-lg px-4 py-3">
           <p className="text-xs text-gray-500 mb-1.5">{expandedGroup.label}</p>
           <div className="flex flex-wrap gap-x-3 gap-y-1">
             {expandedGroup.entries.map((e) => (

@@ -218,7 +218,7 @@ export default function CompetitionPage() {
           )}
 
           {creating && (
-            <div className="bg-white rounded-2xl shadow p-4 space-y-3">
+            <div className="bg-white rounded-2xl card-shadow p-4 space-y-3">
               {renderForm()}
               <div className="flex gap-2">
                 <button onClick={cancelCreate} className="flex-1 text-sm border border-gray-300 text-gray-600 py-2 rounded-xl">
@@ -240,7 +240,7 @@ export default function CompetitionPage() {
                 const isEditingThis = editingId === competition.id;
                 const entries = competition.entries.filter((e) => e.events && e.events.length > 0);
                 return (
-                  <div key={competition.id} className="bg-white rounded-2xl shadow p-4">
+                  <div key={competition.id} className="bg-white rounded-2xl card-shadow p-4">
                     <button
                       type="button"
                       onClick={() => setExpandedId(isOpen ? null : competition.id)}

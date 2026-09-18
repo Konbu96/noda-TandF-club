@@ -29,7 +29,7 @@ export default function EveryoneGoals({ hideUntilAnswered }: { hideUntilAnswered
   const label = entry ? currentMonthLabel() : previousMonthLabel();
 
   return (
-    <div className="bg-white rounded-2xl shadow p-5 space-y-2">
+    <div className="bg-white rounded-2xl card-shadow p-5 space-y-2">
       <p className="text-xs font-bold text-blue-900 tracking-wide">{label}末に設定した目標</p>
       {loading ? (
         <p className="text-xs text-gray-400">読み込み中...</p>

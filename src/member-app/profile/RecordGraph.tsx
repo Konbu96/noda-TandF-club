@@ -18,7 +18,7 @@ function RecordTooltip({
   if (!active || !payload || payload.length === 0) return null;
   const record = payload[0].payload;
   return (
-    <div className="bg-white border border-gray-200 rounded-lg shadow px-3 py-1.5 text-xs">
+    <div className="bg-white border border-gray-200 rounded-lg card-shadow px-3 py-1.5 text-xs">
       <p className="text-gray-500">{formatDate(record.date)}</p>
       <p className="font-medium text-gray-800">{record.result}</p>
     </div>
@@ -28,7 +28,7 @@ function RecordTooltip({
 export default function RecordGraph({ records }: { records: MemberRecord[] }) {
   if (records.length === 0) {
     return (
-      <div className="bg-white rounded-2xl shadow p-5">
+      <div className="bg-white rounded-2xl card-shadow p-5">
         <p className="text-sm font-bold text-blue-900 mb-2">記録グラフ</p>
         <p className="text-sm text-gray-400 text-center py-6">
           大会ページで記録を入力すると、ここにグラフが表示されます
@@ -44,7 +44,7 @@ export default function RecordGraph({ records }: { records: MemberRecord[] }) {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow p-5 space-y-5">
+    <div className="bg-white rounded-2xl card-shadow p-5 space-y-5">
       <p className="text-sm font-bold text-blue-900">記録グラフ</p>
       {Array.from(byEvent.entries()).map(([event, list]) => {
         const data = list

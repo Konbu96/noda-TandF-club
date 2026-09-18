@@ -54,11 +54,11 @@ export default function MonthlyFormOverlay() {
             <div className="w-6 h-6 border-4 border-blue-900 border-t-transparent rounded-full animate-spin" />
           </div>
         ) : entry ? (
-          <div className="bg-white rounded-2xl shadow p-5">
+          <div className="bg-white rounded-2xl card-shadow p-5">
             <p className="text-sm font-bold text-blue-900">{currentMonthLabel()}月末フォームは回答済みです。</p>
           </div>
         ) : (
-          <div className="bg-white rounded-2xl shadow p-5 space-y-3">
+          <div className="bg-white rounded-2xl card-shadow p-5 space-y-3">
             <p className="text-xs text-gray-500">月末の振り返り、目標設定の回答は全員で共有します</p>
 
             <div>
