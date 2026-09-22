@@ -1,0 +1,105 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
+import { useAuth } from '@/member-app/auth/AuthContext';
+import { getUser, updateUserProfile, UserRecord } from '@/lib/users';
+import ProfileCard from '@/member-app/profile/ProfileCard';
+import RoleList from '@/member-app/admin/RoleList';
+import ManagerGuideEditor from '@/member-app/admin/ManagerGuideEditor';
+import MoodAvatar from '@/member-app/mood/MoodAvatar';
+import { useMood } from '@/member-app/mood/MoodContext';
+import MonthlyFormCard from '@/member-app/monthlyForm/MonthlyFormCard';
+import EveryoneGoals from '@/member-app/monthlyForm/EveryoneGoals';
+import RecordGraph from '@/member-app/profile/RecordGraph';
+import { getMemberRecords } from '@/member-app/competition/competitionService';
+import { MemberRecord } from '@/lib/users';
+
+export default function MemberPage() {
+  const { user, role, loading } = useAuth();
+  const { mood } = useMood();
+  const [profile, setProfile] = useState<UserRecord | null>(null);
+  const [profileLoading, setProfileLoading] = useState(true);
+  const [records, setRecords] = useState<MemberRecord[]>([]);
+
+  useEffect(() => {
+    if (!user) return;
+    getUser(user.uid)
+      .then(setProfile)
+      .finally(() => setProfileLoading(false));
+  }, [user]);
+
+  useEffect(() => {
+    if (!user) return;
+    getMemberRecords(user.uid)
+      .then(setRecords)
+      .catch(() => setRecords([]));
+  }, [user]);
+
+  const saveProfile = async (data: Partial<UserRecord>) => {
+    if (!user) return;
+    await updateUserProfile(user.uid, data);
+    setProfile((prev) => (prev ? { ...prev, ...data } : prev));
+  };
+
+  if (loading || profileLoading || !profile) {
+    return (
+      <div className="flex justify-center py-10">
+        <div className="w-6 h-6 border-4 border-blue-900 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  let content;
+  if (role === 'teacher') {
+    content = (
+      <>
+        <div className="bg-white rounded-2xl card-shadow p-4 flex items-center gap-3">
+          <MoodAvatar mood={mood} />
+          <div>
+            <p className="text-lg font-bold text-blue-900">{profile.displayName || '未設定'}</p>
+            <p className="text-sm text-gray-500">{profile.grade || '未設定'}</p>
+          </div>
+        </div>
+        <div className="bg-white rounded-2xl card-shadow p-4">
+          <RoleList />
+        </div>
+      </>
+    );
+  } else if (role === 'manager') {
+    content = (
+      <>
+        <div className="bg-white rounded-2xl card-shadow p-4 flex items-center gap-3">
+          <MoodAvatar mood={mood} />
+          <div>
+            <p className="text-lg font-bold text-blue-900">{profile.displayName || '未設定'}</p>
+            <p className="text-sm text-gray-500">{profile.grade || '未設定'}</p>
+          </div>
+        </div>
+        <ManagerGuideEditor />
+      </>
+    );
+  } else {
+    content = (
+      <>
+        <ProfileCard profile={profile} moodAvatar={<MoodAvatar mood={mood} />} onSave={saveProfile} editableName />
+        <RecordGraph records={records.filter((r) => r.event === profile.event?.trim())} />
+        <MonthlyFormCard />
+        <EveryoneGoals />
+      </>
+    );
+  }
+
+  return (
+    <div className="px-4 py-6 space-y-4">
+      {content}
+      <button
+        onClick={() => signOut(auth)}
+        className="w-full text-sm border border-red-200 text-red-500 py-2 rounded-xl"
+      >
+        ログアウト
+      </button>
+    </div>
+  );
+}

@@ -7,8 +7,9 @@ import { MoodProvider, useMood } from '@/member-app/mood/MoodContext';
 import MoodPicker from '@/member-app/mood/MoodPicker';
 import { MonthlyFormOverlayProvider } from '@/member-app/monthlyForm/MonthlyFormOverlayContext';
 import MonthlyFormOverlay from '@/member-app/monthlyForm/MonthlyFormOverlay';
-import Header from './Header';
-import BottomNav from './BottomNav';
+import { TransitionOverlayProvider } from './TransitionOverlayContext';
+import TransitionOverlay from './TransitionOverlay';
+import HomeButton from './HomeButton';
 
 function GlobalMoodPicker() {
   const { mood, choose } = useMood();
@@ -38,23 +39,25 @@ export default function MemberShell({ children }: { children: React.ReactNode })
   return (
     <MoodProvider>
       <MonthlyFormOverlayProvider>
-        <div className="min-h-screen bg-gray-50 pb-16">
-          <Header />
-          <main>
-            {role === null ? (
-              <div className="flex flex-col items-center justify-center min-h-[70vh] px-6 text-center">
-                <p className="text-gray-500 text-sm leading-relaxed">
-                  役割がまだ設定されていません。<br />管理者にお問い合わせください。
-                </p>
-              </div>
-            ) : (
-              children
-            )}
-          </main>
-          {role !== null && <BottomNav />}
-          {role !== null && <GlobalMoodPicker />}
-          {role !== null && <MonthlyFormOverlay />}
-        </div>
+        <TransitionOverlayProvider>
+          <div className="min-h-screen bg-gray-50">
+            <main>
+              {role === null ? (
+                <div className="flex flex-col items-center justify-center min-h-[70vh] px-6 text-center">
+                  <p className="text-gray-500 text-sm leading-relaxed">
+                    役割がまだ設定されていません。<br />管理者にお問い合わせください。
+                  </p>
+                </div>
+              ) : (
+                children
+              )}
+            </main>
+            {role !== null && <HomeButton />}
+            {role !== null && <GlobalMoodPicker />}
+            {role !== null && <MonthlyFormOverlay />}
+            {role !== null && <TransitionOverlay />}
+          </div>
+        </TransitionOverlayProvider>
       </MonthlyFormOverlayProvider>
     </MoodProvider>
   );

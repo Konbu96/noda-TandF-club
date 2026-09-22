@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { today } from '@/member-app/menu/dateUtils';
 import { getMoodsForDate, MoodEntry } from './moodService';
 import { useMood } from './MoodContext';
@@ -26,12 +25,7 @@ export default function MoodSummary() {
   if (!mood) {
     return (
       <div className="bg-white border-t border-gray-200 px-4 py-2.5 text-center">
-        <p className="text-xs text-gray-600">
-          今日の気分を決めて、みんなの気分を確認しましょう
-          <Link href="/member" className="ml-2 text-blue-900 font-medium">
-            選ぶ →
-          </Link>
-        </p>
+        <p className="text-xs text-gray-600">今日の気分を決めて、みんなの気分を確認しましょう</p>
       </div>
     );
   }
