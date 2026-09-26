@@ -186,16 +186,6 @@ export default function CompetitionPage() {
     );
   };
 
-  if (role === 'member') {
-    return (
-      <div className="px-4 py-6">
-        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
-          <p className="text-gray-400 text-sm">大会ページは現在製作中です</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="px-4 py-6 space-y-4">
       <div className="text-sm text-gray-500">大会</div>
@@ -328,6 +318,7 @@ export default function CompetitionPage() {
                             {role !== 'teacher' && role !== 'manager' && (
                               <EventSelector
                                 entries={competition.entries}
+                                competitionDate={competition.date}
                                 onChange={(next) => handleEntriesChange(competition, next)}
                               />
                             )}

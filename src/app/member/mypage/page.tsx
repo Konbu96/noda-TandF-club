@@ -84,7 +84,11 @@ export default function MemberPage() {
     content = (
       <>
         <ProfileCard profile={profile} moodAvatar={<MoodAvatar mood={mood} />} onSave={saveProfile} editableName />
-        <RecordGraph records={records.filter((r) => r.event === profile.event?.trim())} />
+        <RecordGraph
+          records={records}
+          selectedEvents={profile.graphEvents ?? []}
+          onSaveSelection={(events) => saveProfile({ graphEvents: events })}
+        />
         <MonthlyFormCard />
         <EveryoneGoals />
       </>

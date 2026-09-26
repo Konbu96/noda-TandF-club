@@ -25,6 +25,7 @@ export type UserRecord = {
   restDay?: string;
   pb?: string;
   records?: MemberRecord[];
+  graphEvents?: string[];
 };
 
 // 表示・並び替えの基準となる役職順（顧問→キャプテン→副キャプテン→マネージャー→ブロック長→部員）

@@ -2,54 +2,17 @@
 
 import { useTransitionOverlay } from '@/member-app/layout/TransitionOverlayContext';
 
-const LANE_RADII = [200, 248, 295, 343, 390];
-const LANE_CX = 530;
-const LANE_CY = 610;
-const STRAIGHT_END_Y = 900; // 画面下端より下まで、曲げずに真っ直ぐ伸ばす
-
-// 中心から見て左上のカーブ（180°〜270°）だけを描き、そこから先は真下に直線で伸ばす
-// ＝実際の陸上トラック（カーブ＋直走路）のような形にする
-function lanePath(r: number) {
-  const steps = 24;
-  const points: string[] = [];
-  for (let i = 0; i <= steps; i++) {
-    const t = ((270 - (90 * i) / steps) * Math.PI) / 180;
-    const x = LANE_CX + r * Math.cos(t);
-    const y = LANE_CY + r * Math.sin(t);
-    points.push(`${x.toFixed(1)} ${y.toFixed(1)}`);
-  }
-  const [first, ...rest] = points;
-  const straightX = (LANE_CX - r).toFixed(1);
-  return `M ${first} L ${rest.join(' L ')} L ${straightX} ${STRAIGHT_END_Y}`;
-}
-
-// 陸上競技場のトラックのレーンラインを模した、背景の薄い装飾線
-function TrackLanes() {
+// 陸上競技場の写真を背景に敷き、上に白を40%重ねて薄くする。
+// 左下を基準に表示し、はみ出す部分は上・右側から切り取る。
+function TrackPhoto() {
   return (
-    <svg
-      className="absolute inset-0 w-full h-full"
-      viewBox="0 0 400 800"
-      preserveAspectRatio="xMidYMid slice"
-      fill="none"
-    >
-      {LANE_RADII.slice(1).map((r, i) => {
-        const prev = LANE_RADII[i];
-        const mid = (prev + r) / 2;
-        return (
-          <path
-            key={`band-${prev}`}
-            d={lanePath(mid)}
-            stroke="#dc2626"
-            strokeOpacity={0.12}
-            strokeWidth={r - prev}
-            fill="none"
-          />
-        );
-      })}
-      {LANE_RADII.map((r) => (
-        <path key={r} d={lanePath(r)} stroke="#dc2626" strokeOpacity={0.35} strokeWidth={5} fill="none" />
-      ))}
-    </svg>
+    <div className="absolute inset-0">
+      <div
+        className="absolute inset-0 bg-cover"
+        style={{ backgroundImage: "url('/img/track-stadium.jpg')", backgroundPosition: 'left bottom' }}
+      />
+      <div className="absolute inset-0 bg-white/40" />
+    </div>
   );
 }
 
@@ -113,7 +76,7 @@ export default function MemberHomePage() {
   return (
     <div className="relative z-0 min-h-screen flex flex-col justify-center gap-10 px-6 py-10 overflow-hidden">
       <div className="absolute inset-0 -z-10">
-        <TrackLanes />
+        <TrackPhoto />
       </div>
 
       {ITEMS.map((item) => (

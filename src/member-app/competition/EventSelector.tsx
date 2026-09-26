@@ -3,13 +3,16 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/member-app/auth/AuthContext';
 import { getUser } from '@/lib/users';
+import { today } from '@/member-app/menu/dateUtils';
 import { CompetitionEntry, COMPETITION_EVENTS } from './types';
 
 export default function EventSelector({
   entries,
+  competitionDate,
   onChange,
 }: {
   entries: CompetitionEntry[];
+  competitionDate: string;
   onChange: (entries: CompetitionEntry[]) => Promise<void> | void;
 }) {
   const { user } = useAuth();
@@ -34,6 +37,7 @@ export default function EventSelector({
   const mine = entries.find((e) => e.uid === user.uid);
   const myEvents = mine?.events ?? [];
   const myResults = mine?.results ?? {};
+  const canRecordResult = competitionDate <= today();
 
   const startEdit = () => {
     setDraftEvents(myEvents);
@@ -124,14 +128,16 @@ export default function EventSelector({
         <div className="space-y-2 pt-2 border-t border-gray-100">
           <div className="flex items-center justify-between">
             <p className="text-xs text-gray-500">自分の記録</p>
-            {!isEditingRecords && (
+            {canRecordResult && !isEditingRecords && (
               <button onClick={startRecordEdit} className="text-xs text-blue-900">
                 編集
               </button>
             )}
           </div>
 
-          {isEditingRecords ? (
+          {!canRecordResult ? (
+            <p className="text-xs text-gray-400">大会当日になったら記録を入力できます</p>
+          ) : isEditingRecords ? (
             <>
               {myEvents.map((event) => (
                 <div key={event} className="flex items-center gap-2">
