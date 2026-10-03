@@ -1,12 +1,25 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/member-app/auth/AuthContext';
+import { today } from '@/member-app/menu/dateUtils';
 import { CompetitionLink } from './types';
 import { getCompetitionLinks, saveCompetitionLinks } from './competitionLinksService';
 
 function newId() {
   return Math.random().toString(36).slice(2, 9);
+}
+
+const LINK_LIFETIME_DAYS = 7;
+
+// 追加してから一定期間経ったリンクは自動的に消す
+function isExpiredLink(link: CompetitionLink): boolean {
+  const [y, m, d] = (link.addedAt || today()).split('-').map(Number);
+  if (!y || !m || !d) return false;
+  const expiresAt = new Date(y, m - 1, d + LINK_LIFETIME_DAYS);
+  const [ty, tm, td] = today().split('-').map(Number);
+  return expiresAt <= new Date(ty, tm - 1, td);
 }
 
 function LinkIcon() {
@@ -19,6 +32,7 @@ function LinkIcon() {
 
 export default function CompetitionLinks() {
   const { canEditMenu } = useAuth();
+  const router = useRouter();
   const [links, setLinks] = useState<CompetitionLink[]>([]);
   const [draft, setDraft] = useState<CompetitionLink[]>([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -30,13 +44,20 @@ export default function CompetitionLinks() {
 
   useEffect(() => {
     getCompetitionLinks()
-      .then(setLinks)
+      .then((fetched) => {
+        const alive = fetched.filter((l) => !isExpiredLink(l));
+        setLinks(alive);
+        // 期限切れのリンクがあれば、編集権限を持つ人が開いたときに消しておく
+        if (alive.length !== fetched.length && canEditMenu) {
+          saveCompetitionLinks(alive).catch(() => {});
+        }
+      })
       .catch((e) => {
         console.error('リンクの読み込みに失敗しました', e);
         setError('リンクの読み込みに失敗しました');
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [canEditMenu]);
 
   const startEdit = () => {
     setDraft(links);
@@ -47,7 +68,7 @@ export default function CompetitionLinks() {
 
   const addDraft = () => {
     if (!newTitle.trim() || !newUrl.trim()) return;
-    setDraft((prev) => [...prev, { id: newId(), title: newTitle.trim(), url: newUrl.trim() }]);
+    setDraft((prev) => [...prev, { id: newId(), title: newTitle.trim(), url: newUrl.trim(), addedAt: today() }]);
     setNewTitle('');
     setNewUrl('');
   };
@@ -62,6 +83,7 @@ export default function CompetitionLinks() {
       await saveCompetitionLinks(cleaned);
       setLinks(cleaned);
       setIsEditing(false);
+      router.refresh();
     } catch (e) {
       console.error('リンクの保存に失敗しました', e);
       setError('保存に失敗しました。時間をおいて再度お試しください');

@@ -1,10 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useAuth } from '@/member-app/auth/AuthContext';
-import { getUser, updateUserProfile, UserRecord } from '@/lib/users';
+import { getSpecialtyEvents, getUser, updateUserProfile, UserRecord } from '@/lib/users';
 import ProfileCard from '@/member-app/profile/ProfileCard';
 import RoleList from '@/member-app/admin/RoleList';
 import ManagerGuideEditor from '@/member-app/admin/ManagerGuideEditor';
@@ -18,6 +19,7 @@ import { MemberRecord } from '@/lib/users';
 
 export default function MemberPage() {
   const { user, role, loading } = useAuth();
+  const router = useRouter();
   const { mood } = useMood();
   const [profile, setProfile] = useState<UserRecord | null>(null);
   const [profileLoading, setProfileLoading] = useState(true);
@@ -41,6 +43,7 @@ export default function MemberPage() {
     if (!user) return;
     await updateUserProfile(user.uid, data);
     setProfile((prev) => (prev ? { ...prev, ...data } : prev));
+    router.refresh();
   };
 
   if (loading || profileLoading || !profile) {
@@ -83,10 +86,11 @@ export default function MemberPage() {
   } else {
     content = (
       <>
-        <ProfileCard profile={profile} moodAvatar={<MoodAvatar mood={mood} />} onSave={saveProfile} editableName />
+        <ProfileCard profile={profile} moodAvatar={<MoodAvatar mood={mood} />} records={records} onSave={saveProfile} editableName />
         <RecordGraph
           records={records}
           selectedEvents={profile.graphEvents ?? []}
+          defaultEvents={getSpecialtyEvents(profile)}
           onSaveSelection={(events) => saveProfile({ graphEvents: events })}
         />
         <MonthlyFormCard />

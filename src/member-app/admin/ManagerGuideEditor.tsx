@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useAuth } from "@/member-app/auth/AuthContext";
 import {
   getManagerGuide,
@@ -102,6 +103,7 @@ function defaultSections(): GuideSection[] {
 
 export default function ManagerGuideEditor() {
   const { user } = useAuth();
+  const router = useRouter();
   const [sections, setSections] = useState<GuideSection[]>(defaultSections());
   const [draft, setDraft] = useState<GuideSection[]>(defaultSections());
   const [newTitle, setNewTitle] = useState("");
@@ -151,6 +153,7 @@ export default function ManagerGuideEditor() {
     });
     setSections(cleaned);
     setNewTitle("");
+    router.refresh();
     setNewContent("");
     setSaving(false);
     setIsEditing(false);

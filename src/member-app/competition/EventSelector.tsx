@@ -5,6 +5,13 @@ import { useAuth } from '@/member-app/auth/AuthContext';
 import { getUser } from '@/lib/users';
 import { today } from '@/member-app/menu/dateUtils';
 import { CompetitionEntry, COMPETITION_EVENTS } from './types';
+import { formatRecordInput, getEventSpec, nextRecordInput, recordPlaceholder, recordUnitLabel } from './events';
+
+// 入力は常に末尾から入るので、カーソルは常に一番右に置く
+function moveCaretToEnd(e: React.SyntheticEvent<HTMLInputElement>) {
+  const el = e.currentTarget;
+  requestAnimationFrame(() => el.setSelectionRange(el.value.length, el.value.length));
+}
 
 export default function EventSelector({
   entries,
@@ -72,7 +79,9 @@ export default function EventSelector({
     setSavingRecords(true);
     const rest = entries.filter((e) => e.uid !== user.uid);
     const results = Object.fromEntries(
-      Object.entries(recordDraft).filter(([event, value]) => myEvents.includes(event) && value.trim() !== '')
+      Object.entries(recordDraft)
+        .map(([event, value]) => [event, formatRecordInput(getEventSpec(event), value)] as const)
+        .filter(([event, value]) => myEvents.includes(event) && value.trim() !== '')
     );
     const next = [...rest, { uid: user.uid, displayName, events: myEvents, results }];
     await onChange(next);
@@ -139,18 +148,38 @@ export default function EventSelector({
             <p className="text-xs text-gray-400">大会当日になったら記録を入力できます</p>
           ) : isEditingRecords ? (
             <>
-              {myEvents.map((event) => (
-                <div key={event} className="flex items-center gap-2">
-                  <span className="text-xs text-gray-600 w-20 shrink-0">{event}</span>
-                  <input
-                    type="text"
-                    value={recordDraft[event] ?? ''}
-                    onChange={(e) => setRecordDraft((r) => ({ ...r, [event]: e.target.value }))}
-                    placeholder="例: 11.20"
-                    className="flex-1 text-sm border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-900"
-                  />
-                </div>
-              ))}
+              {myEvents.map((event) => {
+                const spec = getEventSpec(event);
+                const value = recordDraft[event] ?? '';
+                return (
+                  <div key={event} className="flex items-center gap-2">
+                    <span className="text-xs text-gray-600 w-20 shrink-0">{event}</span>
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      value={value}
+                      onChange={(e) => {
+                        const raw = e.target.value;
+                        setRecordDraft((r) => ({ ...r, [event]: nextRecordInput(spec, r[event] ?? '', raw) }));
+                      }}
+                      onFocus={moveCaretToEnd}
+                      onBlur={() =>
+                        setRecordDraft((r) => ({ ...r, [event]: formatRecordInput(spec, r[event] ?? '') }))
+                      }
+                      placeholder={recordPlaceholder(spec)}
+                      className="flex-1 min-w-0 text-sm border border-gray-300 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-900"
+                    />
+                    <span className="text-xs text-gray-500 w-4 shrink-0">{recordUnitLabel(spec, value)}</span>
+                    <button
+                      type="button"
+                      onClick={() => setRecordDraft((r) => ({ ...r, [event]: '' }))}
+                      className="text-xs text-gray-400 shrink-0 px-1"
+                    >
+                      消す
+                    </button>
+                  </div>
+                );
+              })}
               <div className="flex gap-2">
                 <button onClick={() => setIsEditingRecords(false)} className="flex-1 text-sm border border-gray-300 text-gray-600 py-2 rounded-xl">
                   キャンセル

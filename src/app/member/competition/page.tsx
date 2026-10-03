@@ -1,11 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/member-app/auth/AuthContext';
+import { today } from '@/member-app/menu/dateUtils';
 import { Competition } from '@/member-app/competition/types';
 import { deleteCompetition, listCompetitions, saveCompetition } from '@/member-app/competition/competitionService';
 import EventSelector from '@/member-app/competition/EventSelector';
 import EntryEventEditor from '@/member-app/competition/EntryEventEditor';
+import EntryRecordEditor from '@/member-app/competition/EntryRecordEditor';
 import CompetitionLinks from '@/member-app/competition/CompetitionLinks';
 
 function newId() {
@@ -18,6 +21,15 @@ function emptyCompetition(): Competition {
 
 function sortByDate(list: Competition[]): Competition[] {
   return [...list].sort((a, b) => a.date.localeCompare(b.date));
+}
+
+// 大会の日付から1週間経ったら「過去の大会」として扱う
+function isPastCompetition(date: string): boolean {
+  const [y, m, d] = date.split('-').map(Number);
+  if (!y || !m || !d) return false;
+  const cutoff = new Date(y, m - 1, d + 7);
+  const [ty, tm, td] = today().split('-').map(Number);
+  return cutoff <= new Date(ty, tm - 1, td);
 }
 
 const LOCATION_PRESETS = ['補助競技場', 'みらいふ'];
@@ -40,6 +52,7 @@ function PencilIcon() {
 
 export default function CompetitionPage() {
   const { user, role } = useAuth();
+  const router = useRouter();
   const [competitions, setCompetitions] = useState<Competition[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -49,6 +62,8 @@ export default function CompetitionPage() {
   const [saving, setSaving] = useState(false);
   const [customLocation, setCustomLocation] = useState(false);
   const [editingEntryUid, setEditingEntryUid] = useState<string | null>(null);
+  const [editingEntryRecordUid, setEditingEntryRecordUid] = useState<string | null>(null);
+  const [showPast, setShowPast] = useState(false);
 
   useEffect(() => {
     listCompetitions()
@@ -88,6 +103,7 @@ export default function CompetitionPage() {
     setSaving(false);
     setCreating(false);
     setDraft(null);
+    router.refresh();
   };
 
   const handleSaveEdit = async () => {
@@ -99,6 +115,7 @@ export default function CompetitionPage() {
     setSaving(false);
     setEditingId(null);
     setDraft(null);
+    router.refresh();
   };
 
   const handleDelete = async (id: string) => {
@@ -110,6 +127,7 @@ export default function CompetitionPage() {
       setEditingId(null);
       setDraft(null);
     }
+    router.refresh();
   };
 
   const handleEntriesChange = async (competition: Competition, entries: Competition['entries']) => {
@@ -117,6 +135,7 @@ export default function CompetitionPage() {
     const toSave: Competition = { ...competition, entries, updatedBy: user.email ?? user.uid, updatedAt: new Date().toISOString() };
     await saveCompetition(toSave);
     setCompetitions((prev) => prev.map((c) => (c.id === toSave.id ? toSave : c)));
+    router.refresh();
   };
 
   const renderForm = () => {
@@ -186,6 +205,171 @@ export default function CompetitionPage() {
     );
   };
 
+  const renderCompetitionCard = (competition: Competition, isPast = false) => {
+    const isOpen = expandedId === competition.id;
+    const isEditingThis = editingId === competition.id;
+    const entries = competition.entries.filter((e) => e.events && e.events.length > 0);
+    return (
+          <div
+            key={competition.id}
+            className={isPast ? 'pt-3 first:pt-0 border-t first:border-t-0 border-gray-100' : 'bg-white rounded-2xl card-shadow p-4'}
+          >
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setExpandedId(isOpen ? null : competition.id)}
+                className="flex-1 min-w-0 text-left"
+              >
+                <p className="text-sm font-medium text-gray-800">{competition.name || '（無題）'}</p>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  {competition.date.replace(/-/g, '/')}　{competition.location}
+                </p>
+              </button>
+              {role === 'teacher' && !isEditingThis && (
+                <div className="flex flex-col items-end gap-3 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => startEdit(competition)}
+                    className="text-xs text-blue-900"
+                  >
+                    編集
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(competition.id)}
+                    className="text-xs text-red-500"
+                  >
+                    削除
+                  </button>
+                </div>
+              )}
+              <button
+                type="button"
+                onClick={() => setExpandedId(isOpen ? null : competition.id)}
+                className="text-gray-300 shrink-0"
+              >
+                <ChevronIcon open={isOpen} />
+              </button>
+            </div>
+
+            {isOpen && (
+              <div className="mt-3 pt-3 border-t border-gray-100">
+                {isEditingThis ? (
+                  <div className="space-y-3">
+                    {renderForm()}
+                    <div className="flex gap-2">
+                      <button onClick={cancelEdit} className="flex-1 text-sm border border-gray-300 text-gray-600 py-2 rounded-xl">
+                        キャンセル
+                      </button>
+                      <button onClick={handleSaveEdit} disabled={saving} className="flex-1 text-sm bg-blue-900 text-white py-2 rounded-xl disabled:opacity-50">
+                        {saving ? '保存中...' : '保存'}
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    {entries.length === 0 ? (
+                      <p className="text-xs text-gray-400">エントリーはまだありません</p>
+                    ) : (
+                      <ul className="space-y-1">
+                        {entries.map((entry) => (
+                          <li key={entry.uid}>
+                            <div className="text-sm text-gray-800 flex items-center justify-between gap-2">
+                              <span className="flex-1 truncate">{entry.displayName}</span>
+                              <span className="text-gray-500">
+                                {entry.events
+                                  .map((ev) => (entry.results?.[ev] ? `${ev}(${entry.results[ev]})` : ev))
+                                  .join(' / ')}
+                              </span>
+                              {!isPast && role === 'teacher' && (
+                                <button
+                                  onClick={() => {
+                                    setEditingEntryRecordUid(null);
+                                    setEditingEntryUid(editingEntryUid === entry.uid ? null : entry.uid);
+                                  }}
+                                  className="text-gray-400 p-1 shrink-0"
+                                >
+                                  <PencilIcon />
+                                </button>
+                              )}
+                              {(role === 'manager' || (!isPast && role === 'teacher')) && (
+                                <button
+                                  onClick={() => {
+                                    setEditingEntryUid(null);
+                                    setEditingEntryRecordUid(
+                                      editingEntryRecordUid === entry.uid ? null : entry.uid
+                                    );
+                                  }}
+                                  className="text-xs text-blue-900 shrink-0"
+                                >
+                                  記録を編集
+                                </button>
+                              )}
+                            </div>
+                            {!isPast && role === 'teacher' && editingEntryUid === entry.uid && (
+                              <EntryEventEditor
+                                events={entry.events}
+                                onCancel={() => setEditingEntryUid(null)}
+                                onSave={async (events) => {
+                                  const rest = competition.entries.filter((e) => e.uid !== entry.uid);
+                                  const filteredResults = entry.results
+                                    ? Object.fromEntries(
+                                        Object.entries(entry.results).filter(([ev]) => events.includes(ev))
+                                      )
+                                    : {};
+                                  const updatedEntry = {
+                                    uid: entry.uid,
+                                    displayName: entry.displayName,
+                                    events,
+                                    ...(Object.keys(filteredResults).length > 0 ? { results: filteredResults } : {}),
+                                  };
+                                  const next = events.length > 0 ? [...rest, updatedEntry] : rest;
+                                  await handleEntriesChange(competition, next);
+                                  setEditingEntryUid(null);
+                                }}
+                              />
+                            )}
+                            {(role === 'manager' || (!isPast && role === 'teacher')) && editingEntryRecordUid === entry.uid && (
+                              <EntryRecordEditor
+                                events={entry.events}
+                                results={entry.results}
+                                onCancel={() => setEditingEntryRecordUid(null)}
+                                onSave={async (results) => {
+                                  const rest = competition.entries.filter((e) => e.uid !== entry.uid);
+                                  const updatedEntry = {
+                                    uid: entry.uid,
+                                    displayName: entry.displayName,
+                                    events: entry.events,
+                                    ...(Object.keys(results).length > 0 ? { results } : {}),
+                                  };
+                                  await handleEntriesChange(competition, [...rest, updatedEntry]);
+                                  setEditingEntryRecordUid(null);
+                                }}
+                              />
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {!isPast && role !== 'teacher' && role !== 'manager' && (
+                      <EventSelector
+                        entries={competition.entries}
+                        competitionDate={competition.date}
+                        onChange={(next) => handleEntriesChange(competition, next)}
+                      />
+                    )}
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+    );
+  };
+
+  const upcoming = competitions.filter((c) => !isPastCompetition(c.date));
+  const past = competitions.filter((c) => isPastCompetition(c.date));
+
   return (
     <div className="px-4 py-6 space-y-4">
       <div className="text-sm text-gray-500">大会</div>
@@ -224,129 +408,29 @@ export default function CompetitionPage() {
           {competitions.length === 0 && !creating ? (
             <p className="text-sm text-gray-400 text-center py-4">大会はまだ登録されていません</p>
           ) : (
-            <div className="space-y-2">
-              {competitions.map((competition) => {
-                const isOpen = expandedId === competition.id;
-                const isEditingThis = editingId === competition.id;
-                const entries = competition.entries.filter((e) => e.events && e.events.length > 0);
-                return (
-                  <div key={competition.id} className="bg-white rounded-2xl card-shadow p-4">
-                    <button
-                      type="button"
-                      onClick={() => setExpandedId(isOpen ? null : competition.id)}
-                      className="w-full flex items-center gap-3 text-left"
-                    >
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-gray-800">{competition.name || '（無題）'}</p>
-                        <p className="text-xs text-gray-500 mt-0.5">
-                          {competition.date.replace(/-/g, '/')}　{competition.location}
-                        </p>
-                      </div>
-                      <span className="text-gray-300">
-                        <ChevronIcon open={isOpen} />
-                      </span>
-                    </button>
+            <>
+              {upcoming.length > 0 && (
+                <div className="space-y-2">{upcoming.map((c) => renderCompetitionCard(c))}</div>
+              )}
 
-                    {isOpen && (
-                      <div className="mt-3 pt-3 border-t border-gray-100">
-                        {isEditingThis ? (
-                          <div className="space-y-3">
-                            {renderForm()}
-                            <div className="flex gap-2">
-                              <button onClick={cancelEdit} className="flex-1 text-sm border border-gray-300 text-gray-600 py-2 rounded-xl">
-                                キャンセル
-                              </button>
-                              <button onClick={handleSaveEdit} disabled={saving} className="flex-1 text-sm bg-blue-900 text-white py-2 rounded-xl disabled:opacity-50">
-                                {saving ? '保存中...' : '保存'}
-                              </button>
-                            </div>
-                          </div>
-                        ) : (
-                          <>
-                            {entries.length === 0 ? (
-                              <p className="text-xs text-gray-400">エントリーはまだありません</p>
-                            ) : (
-                              <ul className="space-y-1">
-                                {entries.map((entry) => (
-                                  <li key={entry.uid}>
-                                    <div className="text-sm text-gray-800 flex items-center justify-between gap-2">
-                                      <span className="flex-1 truncate">{entry.displayName}</span>
-                                      <span className="text-gray-500">
-                                        {entry.events
-                                          .map((ev) => (entry.results?.[ev] ? `${ev}(${entry.results[ev]})` : ev))
-                                          .join(' / ')}
-                                      </span>
-                                      {role === 'teacher' && (
-                                        <button
-                                          onClick={() =>
-                                            setEditingEntryUid(editingEntryUid === entry.uid ? null : entry.uid)
-                                          }
-                                          className="text-gray-400 p-1 shrink-0"
-                                        >
-                                          <PencilIcon />
-                                        </button>
-                                      )}
-                                    </div>
-                                    {role === 'teacher' && editingEntryUid === entry.uid && (
-                                      <EntryEventEditor
-                                        events={entry.events}
-                                        onCancel={() => setEditingEntryUid(null)}
-                                        onSave={async (events) => {
-                                          const rest = competition.entries.filter((e) => e.uid !== entry.uid);
-                                          const filteredResults = entry.results
-                                            ? Object.fromEntries(
-                                                Object.entries(entry.results).filter(([ev]) => events.includes(ev))
-                                              )
-                                            : {};
-                                          const updatedEntry = {
-                                            uid: entry.uid,
-                                            displayName: entry.displayName,
-                                            events,
-                                            ...(Object.keys(filteredResults).length > 0 ? { results: filteredResults } : {}),
-                                          };
-                                          const next = events.length > 0 ? [...rest, updatedEntry] : rest;
-                                          await handleEntriesChange(competition, next);
-                                          setEditingEntryUid(null);
-                                        }}
-                                      />
-                                    )}
-                                  </li>
-                                ))}
-                              </ul>
-                            )}
-
-                            {role !== 'teacher' && role !== 'manager' && (
-                              <EventSelector
-                                entries={competition.entries}
-                                competitionDate={competition.date}
-                                onChange={(next) => handleEntriesChange(competition, next)}
-                              />
-                            )}
-
-                            {role === 'teacher' && (
-                              <div className="flex gap-2 mt-3">
-                                <button
-                                  onClick={() => startEdit(competition)}
-                                  className="flex-1 text-sm border border-gray-300 text-gray-600 py-2 rounded-xl"
-                                >
-                                  編集
-                                </button>
-                                <button
-                                  onClick={() => handleDelete(competition.id)}
-                                  className="flex-1 text-sm border border-red-200 text-red-500 py-2 rounded-xl"
-                                >
-                                  削除
-                                </button>
-                              </div>
-                            )}
-                          </>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+              {past.length > 0 && (
+                <div className="bg-white rounded-2xl card-shadow p-4">
+                  <button
+                    type="button"
+                    onClick={() => setShowPast(!showPast)}
+                    className="w-full flex items-center justify-between text-sm text-gray-500"
+                  >
+                    <span>過去の大会（{past.length}）</span>
+                    <ChevronIcon open={showPast} />
+                  </button>
+                  {showPast && (
+                    <div className="mt-3 pt-3 border-t border-gray-100">
+                      {past.map((c) => renderCompetitionCard(c, true))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </>
           )}
         </>
       )}

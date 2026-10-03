@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { getAllUsers, updateUserProfile, updateUserRole, UserRecord, UserRole, ROLE_LABELS } from '@/lib/users';
 import ProfileCard from '@/member-app/profile/ProfileCard';
 
@@ -25,6 +26,7 @@ function PencilIcon() {
 
 export default function RoleList() {
   const [users, setUsers] = useState<UserRecord[]>([]);
+  const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [editingUid, setEditingUid] = useState<string | null>(null);
 
@@ -39,11 +41,13 @@ export default function RoleList() {
     const role = value === '' ? null : (value as UserRole);
     await updateUserRole(uid, role);
     setUsers((prev) => sortByRole(prev.map((u) => (u.uid === uid ? { ...u, role } : u))));
+    router.refresh();
   };
 
   const saveProfile = async (uid: string, data: Partial<UserRecord>) => {
     await updateUserProfile(uid, data);
     setUsers((prev) => prev.map((u) => (u.uid === uid ? { ...u, ...data } : u)));
+    router.refresh();
   };
 
   if (loading) {

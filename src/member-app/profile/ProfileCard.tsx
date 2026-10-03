@@ -1,7 +1,7 @@
 'use client';
 
 import { ReactNode, useState } from 'react';
-import { UserRecord } from '@/lib/users';
+import { getSpecialtyEvents, MemberRecord, UserRecord } from '@/lib/users';
 import { COMPETITION_EVENTS } from '@/member-app/competition/types';
 import MemberBasicInfo from './MemberBasicInfo';
 
@@ -11,12 +11,14 @@ const BLOCKS = ['短距離', '中長距離', '跳躍'] as const;
 export default function ProfileCard({
   profile,
   moodAvatar,
+  records,
   onSave,
   editableName,
   initialEditing,
 }: {
   profile: UserRecord;
   moodAvatar?: ReactNode;
+  records?: MemberRecord[];
   onSave: (data: Partial<UserRecord>) => Promise<void>;
   editableName?: boolean;
   initialEditing?: boolean;
@@ -26,13 +28,14 @@ export default function ProfileCard({
   const [saving, setSaving] = useState(false);
 
   const startEdit = () => {
-    setDraft(profile);
+    setDraft({ ...profile, specialtyEvents: getSpecialtyEvents(profile) });
     setIsEditing(true);
   };
 
   const handleSave = async () => {
     setSaving(true);
-    await onSave(draft);
+    const specialtyEvents = getSpecialtyEvents(draft);
+    await onSave({ ...draft, specialtyEvents, event: specialtyEvents[0] ?? '' });
     setSaving(false);
     setIsEditing(false);
   };
@@ -43,7 +46,7 @@ export default function ProfileCard({
         <button onClick={startEdit} className="absolute top-5 right-5 text-xs text-blue-900">
           編集
         </button>
-        <MemberBasicInfo profile={profile} moodAvatar={moodAvatar} />
+        <MemberBasicInfo profile={profile} moodAvatar={moodAvatar} records={records} />
       </div>
     );
   }
@@ -111,20 +114,27 @@ export default function ProfileCard({
       </div>
 
       <div>
-        <label className="block text-xs text-gray-500 mb-1">専門種目</label>
+        <label className="block text-xs text-gray-500 mb-1">専門種目（複数選択できます）</label>
         <div className="flex flex-wrap gap-2">
-          {COMPETITION_EVENTS.map((ev) => (
-            <button
-              key={ev}
-              type="button"
-              onClick={() => setDraft({ ...draft, event: ev })}
-              className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
-                draft.event === ev ? 'bg-sky-100 text-sky-700 border-sky-300' : 'bg-white text-gray-600 border-gray-300'
-              }`}
-            >
-              {ev}
-            </button>
-          ))}
+          {COMPETITION_EVENTS.map((ev) => {
+            const selected = getSpecialtyEvents(draft).includes(ev);
+            return (
+              <button
+                key={ev}
+                type="button"
+                onClick={() => {
+                  const current = getSpecialtyEvents(draft);
+                  const next = selected ? current.filter((e) => e !== ev) : [...current, ev];
+                  setDraft({ ...draft, specialtyEvents: next, event: next[0] ?? '' });
+                }}
+                className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                  selected ? 'bg-sky-100 text-sky-700 border-sky-300' : 'bg-white text-gray-600 border-gray-300'
+                }`}
+              >
+                {ev}
+              </button>
+            );
+          })}
         </div>
       </div>
 
@@ -149,16 +159,9 @@ export default function ProfileCard({
         />
       </div>
 
-      <div>
-        <label className="block text-xs text-gray-500 mb-1">PB（2種目以上ある場合は改行して1種目ずつ入力）</label>
-        <textarea
-          value={draft.pb ?? ''}
-          onChange={(e) => setDraft({ ...draft, pb: e.target.value })}
-          placeholder={'例:\n100m/11.03\n200m/23.50'}
-          rows={3}
-          className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-blue-900 resize-none"
-        />
-      </div>
+      <p className="text-xs text-gray-400">
+        PBは大会ページで入力した記録から自動で計算されるため、ここでの入力は不要です。
+      </p>
 
       <div className="flex gap-2">
         <button onClick={() => setIsEditing(false)} className="flex-1 text-sm border border-gray-300 text-gray-600 py-2 rounded-xl">

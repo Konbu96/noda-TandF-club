@@ -1,3 +1,5 @@
+import { EVENT_MASTER } from './events';
+
 export type CompetitionEntry = {
   uid: string;
   displayName: string;
@@ -5,31 +7,14 @@ export type CompetitionEntry = {
   results?: Record<string, string>; // 種目名 → 自己記録（このentryの本人が入力）
 };
 
-// エントリー種目の選択肢。今後追加予定。
-export const COMPETITION_EVENTS = [
-  '100m',
-  '200m',
-  '400m',
-  '110mH',
-  '400mH',
-  '800m',
-  '1500m',
-  '5000m',
-  '走幅跳',
-  '走高跳',
-  '三段跳',
-  '砲丸投',
-  '円盤投',
-  'ハンマー投',
-  'やり投',
-  '4×100mR',
-  '4×400mR',
-];
+// エントリー種目の選択肢。種目の増減・変更は events.ts（マスター）で行う。
+export const COMPETITION_EVENTS = EVENT_MASTER.map((e) => e.name);
 
 export type CompetitionLink = {
   id: string;
   title: string;
   url: string;
+  addedAt: string; // 追加した日（YYYY-MM-DD）。一定期間で自動的に消す
 };
 
 export type Competition = {

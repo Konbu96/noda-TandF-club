@@ -20,13 +20,21 @@ export type UserRecord = {
   grade?: string;
   gender?: '男' | '女';
   block?: '短距離' | '中長距離' | '跳躍';
-  event?: string;
+  event?: string; // 旧: 専門種目（1つ）。specialtyEvents が無いデータの互換用
+  specialtyEvents?: string[];
   bibNumber?: string;
   restDay?: string;
   pb?: string;
   records?: MemberRecord[];
   graphEvents?: string[];
 };
+
+// 専門種目（複数可）。specialtyEvents が未設定の古いデータは、event（1つ）を使う
+export function getSpecialtyEvents(p: { event?: string; specialtyEvents?: string[] }): string[] {
+  if (p.specialtyEvents && p.specialtyEvents.length > 0) return p.specialtyEvents;
+  const legacy = p.event?.trim();
+  return legacy ? [legacy] : [];
+}
 
 // 表示・並び替えの基準となる役職順（顧問→キャプテン→副キャプテン→マネージャー→ブロック長→部員）
 export const ROLE_LABELS: Record<UserRole, string> = {

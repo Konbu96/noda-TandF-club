@@ -86,6 +86,7 @@ export default function MenuDetailPage() {
     setSaving(true);
     await saveMenu({ date, items, teacherNote, updatedBy: user.email ?? user.uid, updatedAt: new Date().toISOString() });
     setSaving(false);
+    router.refresh();
     setIsEditing(false);
     setExpandedId(null);
   };
