@@ -1,6 +1,7 @@
 'use client';
 
 import { useTransitionOverlay } from '@/member-app/layout/TransitionOverlayContext';
+import { NAV_ITEMS } from '@/member-app/layout/navItems';
 
 // 陸上競技場の写真を背景に敷き、上に白を40%重ねて薄くする。
 // 左下を基準に表示し、はみ出す部分は上・右側から切り取る。
@@ -25,44 +26,13 @@ type LaunchItem = {
   icon: React.ReactNode;
 };
 
-const ITEMS: LaunchItem[] = [
-  {
-    label: 'マイページ',
-    href: '/member/mypage',
-    color: '#1e3a8a',
-    align: 'start',
-    blob: '62% 38% 55% 45% / 45% 60% 40% 55%',
-    icon: (
-      <svg className="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-      </svg>
-    ),
-  },
-  {
-    label: 'メニュー',
-    href: '/member/menu',
-    color: '#0369a1',
-    align: 'end',
-    blob: '40% 60% 65% 35% / 55% 40% 60% 45%',
-    icon: (
-      <svg className="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-      </svg>
-    ),
-  },
-  {
-    label: '大会',
-    href: '/member/competition',
-    color: '#0f766e',
-    align: 'start',
-    blob: '55% 45% 40% 60% / 60% 45% 55% 40%',
-    icon: (
-      <svg className="w-9 h-9" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-      </svg>
-    ),
-  },
+const LAUNCH_STYLE: { align: 'start' | 'end'; blob: string }[] = [
+  { align: 'start', blob: '62% 38% 55% 45% / 45% 60% 40% 55%' },
+  { align: 'end', blob: '40% 60% 65% 35% / 55% 40% 60% 45%' },
+  { align: 'start', blob: '55% 45% 40% 60% / 60% 45% 55% 40%' },
 ];
+
+const ITEMS: LaunchItem[] = NAV_ITEMS.map((item, i) => ({ ...item, ...LAUNCH_STYLE[i] }));
 
 export default function MemberHomePage() {
   const { overlay, trigger } = useTransitionOverlay();
@@ -90,7 +60,7 @@ export default function MemberHomePage() {
           }`}
           style={{ backgroundColor: item.color, borderRadius: item.blob }}
         >
-          {item.icon}
+          <div className="w-9 h-9">{item.icon}</div>
           <span className="text-sm font-bold">{item.label}</span>
         </button>
       ))}
