@@ -34,6 +34,7 @@ export default function MonthlyFormOverlay() {
   if (!open) return null;
 
   const handleSave = async () => {
+    if (entry || saving) return; // 回答済み・送信中は何もしない（二重送信防止）
     setSaving(true);
     await submit(draft);
     setSaving(false);
