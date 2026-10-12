@@ -8,7 +8,6 @@ import { today, formatDateWithWeekday } from '@/member-app/menu/dateUtils';
 import MoodSummary from '@/member-app/mood/MoodSummary';
 import MonthlyFormBanner from '@/member-app/monthlyForm/MonthlyFormBanner';
 import MyGoalBanner from '@/member-app/monthlyForm/MyGoalBanner';
-import PracticeRecordGraph from '@/member-app/menu/PracticeRecordGraph';
 import PracticeAttendanceBar from '@/member-app/menu/PracticeAttendanceBar';
 
 export default function MenuListPage() {
@@ -47,8 +46,6 @@ export default function MenuListPage() {
   return (
     <div className="px-4 pt-3 pb-64 space-y-4">
       <MyGoalBanner />
-
-      <div className="text-sm text-gray-500">メニュー</div>
 
       {loading ? (
         <div className="flex justify-center py-10">
@@ -90,9 +87,7 @@ export default function MenuListPage() {
             ))}
           </div>
 
-          <PracticeRecordGraph />
-
-          <div className="fixed bottom-0 left-0 right-0 z-10">
+          <div className="fixed bottom-0 left-0 right-0 z-30">
             <MonthlyFormBanner />
             <PracticeAttendanceBar />
             <MoodSummary />

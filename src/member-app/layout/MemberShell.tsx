@@ -10,6 +10,7 @@ import MonthlyFormOverlay from '@/member-app/monthlyForm/MonthlyFormOverlay';
 import { TransitionOverlayProvider } from './TransitionOverlayContext';
 import TransitionOverlay from './TransitionOverlay';
 import HomeButton from './HomeButton';
+import PageHeader from './PageHeader';
 
 function GlobalMoodPicker() {
   const { mood, choose } = useMood();
@@ -41,6 +42,7 @@ export default function MemberShell({ children }: { children: React.ReactNode })
       <MonthlyFormOverlayProvider>
         <TransitionOverlayProvider>
           <div className="min-h-screen bg-gray-50">
+            {role !== null && <PageHeader />}
             <main>
               {role === null ? (
                 <div className="flex flex-col items-center justify-center min-h-[70vh] px-6 text-center">

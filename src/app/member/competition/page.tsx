@@ -212,7 +212,7 @@ export default function CompetitionPage() {
     return (
           <div
             key={competition.id}
-            className={isPast ? 'pt-3 first:pt-0 border-t first:border-t-0 border-gray-100' : 'bg-white rounded-2xl card-shadow p-4'}
+            className={isPast ? 'py-3 first:pt-0 border-t first:border-t-0 border-gray-100' : 'bg-white rounded-2xl card-shadow p-4'}
           >
             <div className="flex items-center gap-3">
               <button
@@ -372,8 +372,6 @@ export default function CompetitionPage() {
 
   return (
     <div className="px-4 py-6 space-y-4">
-      <div className="text-sm text-gray-500">大会</div>
-
       {loading ? (
         <div className="flex justify-center py-10">
           <div className="w-6 h-6 border-4 border-blue-900 border-t-transparent rounded-full animate-spin" />

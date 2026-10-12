@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useAuth } from '@/member-app/auth/AuthContext';
 import { TEMPLATES, CATEGORIES, TEMPLATE_SPECS, MenuCategory, MenuItem } from '@/member-app/menu/types';
@@ -104,9 +103,6 @@ export default function MenuDetailPage() {
 
   return (
     <div className="px-4 py-6 space-y-4">
-      <Link href="/member/menu" className="text-sm text-blue-900">← 一覧に戻る</Link>
-      <div className="text-sm text-gray-500">{date.replace(/-/g, '/')} のメニュー</div>
-
       {loading ? (
         <div className="flex justify-center py-10">
           <div className="w-6 h-6 border-4 border-blue-900 border-t-transparent rounded-full animate-spin" />

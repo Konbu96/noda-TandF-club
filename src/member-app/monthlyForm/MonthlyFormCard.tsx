@@ -13,7 +13,8 @@ export default function MonthlyFormCard() {
     <div className="bg-white rounded-2xl card-shadow p-5 space-y-3">
       <p className="text-sm font-bold text-blue-900">{currentMonthLabel()}フォーム</p>
       <button
-        onClick={show}
+        onClick={answered ? undefined : show}
+        disabled={answered}
         className={`w-full text-sm py-2 rounded-xl ${
           answered ? 'bg-gray-100 text-gray-500' : 'bg-blue-900 text-white'
         }`}

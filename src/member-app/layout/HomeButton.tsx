@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useTransitionOverlay } from './TransitionOverlayContext';
 import { NAV_ITEMS } from './navItems';
@@ -9,12 +9,25 @@ export default function HomeButton() {
   const pathname = usePathname();
   const { overlay, trigger } = useTransitionOverlay();
   const [expanded, setExpanded] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
   const isHome = pathname === '/member';
 
   // 画面遷移中は、裏のページが透けないようホームボタン自体を消しておく
   useEffect(() => {
     if (overlay) setExpanded(false);
   }, [overlay]);
+
+  // ホームボタン以外の場所をタップしたら、展開したボタンを閉じる
+  useEffect(() => {
+    if (!expanded) return;
+    const handleOutside = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setExpanded(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutside);
+    return () => document.removeEventListener('mousedown', handleOutside);
+  }, [expanded]);
 
   if (isHome || overlay) return null;
 
@@ -25,7 +38,7 @@ export default function HomeButton() {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-40 flex items-center gap-3 pointer-events-none">
+    <div ref={containerRef} className="fixed bottom-4 right-4 z-40 flex items-center gap-3 pointer-events-none">
       {NAV_ITEMS.map((item, i) => (
         <button
           key={item.href}
