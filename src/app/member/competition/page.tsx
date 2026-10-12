@@ -292,7 +292,7 @@ export default function CompetitionPage() {
                                   <PencilIcon />
                                 </button>
                               )}
-                              {(role === 'teacher' || role === 'manager') && (
+                              {(role === 'teacher' || role === 'manager' || user?.uid === entry.uid) && (
                                 <button
                                   onClick={() => {
                                     setEditingEntryUid(null);
@@ -329,7 +329,7 @@ export default function CompetitionPage() {
                                 }}
                               />
                             )}
-                            {(role === 'teacher' || role === 'manager') && editingEntryRecordUid === entry.uid && (
+                            {(role === 'teacher' || role === 'manager' || user?.uid === entry.uid) && editingEntryRecordUid === entry.uid && (
                               <EntryRecordEditor
                                 events={entry.events}
                                 results={entry.results}
