@@ -5,11 +5,25 @@ import { useAuth } from '@/member-app/auth/AuthContext';
 import { getAllUsers, getUser, UserRecord } from '@/lib/users';
 import { today } from './dateUtils';
 import { AttendanceEntry, AttendanceLocation, getAttendanceForDate, setAttendance } from './attendanceService';
+import { getWinterFlag, setWinterFlag } from './feeService';
 
 type Step = 'closed' | 'open';
 
-// 各部員が自分の居場所（競技場／学校）を自分で入力する。代理でまとめて入力はしない。
-// 顧問・キャプテン・副キャプテン・ブロック長／メニュー編集権限を持つ人だけ、全員分を直せる。
+// 学年の自由入力（例：「中2」「高校2年」など）から中学生／高校生を大まかに判定する
+function gradeLevel(grade?: string): '中学生' | '高校生' | null {
+  if (!grade) return null;
+  if (grade.startsWith('中')) return '中学生';
+  if (grade.startsWith('高')) return '高校生';
+  return null;
+}
+
+// 競技場使用料（1人あたり）。冬季は+50円
+const NORMAL_PRICE = { 中学生: 60, 高校生: 120 };
+const WINTER_PRICE = { 中学生: 110, 高校生: 170 };
+
+// 居場所（競技場／学校）は各自が自分で入力する。
+// タイム記録は完全に別の場所（/member/menu/practice-time）からアクセスする独立ページなので、ここからは繋げない。
+// 出席の全員編集だけは、顧問・キャプテン・副キャプテン・ブロック長／メニュー編集権限を持つ人に限定する。
 export default function PracticeAttendanceBar() {
   const { user, canEditMenu } = useAuth();
   const [roster, setRoster] = useState<UserRecord[]>([]);
@@ -19,6 +33,7 @@ export default function PracticeAttendanceBar() {
   const [error, setError] = useState('');
   const [selfSelection, setSelfSelection] = useState<AttendanceLocation | null>(null);
   const [saving, setSaving] = useState(false);
+  const [isWinter, setIsWinter] = useState(false);
 
   const refresh = () => getAttendanceForDate(today()).then(setEntries).catch(() => {});
 
@@ -29,6 +44,7 @@ export default function PracticeAttendanceBar() {
       .catch(() => setRoster([]));
     getUser(user.uid).then((profile) => setMyDisplayName(profile?.displayName || user.email || ''));
     refresh();
+    getWinterFlag(today()).then(setIsWinter).catch(() => {});
   }, [user]);
 
   if (!user) return null;
@@ -37,8 +53,22 @@ export default function PracticeAttendanceBar() {
   // まだ選んでいない人は「学校」扱いにする（初期設定は全員学校）
   const locationOf = (uid: string): AttendanceLocation => byUid.get(uid) ?? '学校';
   const myLocation = locationOf(user.uid);
-  const stadiumCount = roster.filter((m) => locationOf(m.uid) === '競技場').length;
-  const schoolCount = roster.filter((m) => locationOf(m.uid) === '学校').length;
+  const stadiumMembers = roster.filter((m) => locationOf(m.uid) === '競技場');
+  const stadiumCount = stadiumMembers.length;
+  const juniorHighCount = stadiumMembers.filter((m) => gradeLevel(m.grade) === '中学生').length;
+  const highSchoolCount = stadiumMembers.filter((m) => gradeLevel(m.grade) === '高校生').length;
+  const price = isWinter ? WINTER_PRICE : NORMAL_PRICE;
+  const totalFee = juniorHighCount * price.中学生 + highSchoolCount * price.高校生;
+
+  const toggleWinter = async () => {
+    const next = !isWinter;
+    setIsWinter(next);
+    try {
+      await setWinterFlag(today(), next);
+    } catch (e) {
+      console.error('冬季料金の切り替えに失敗しました', e);
+    }
+  };
 
   const choose = async (uid: string, displayName: string, location: AttendanceLocation) => {
     setError('');
@@ -71,9 +101,12 @@ export default function PracticeAttendanceBar() {
       >
         <span className="text-lg">📋</span>
         <span className="flex-1">
-          <span className="block text-xs font-bold text-blue-900">
-            競技場 {stadiumCount}人・学校 {schoolCount}人
-          </span>
+          <span className="block text-xs font-bold text-blue-900">競技場 {stadiumCount}人</span>
+          {stadiumCount > 0 && (
+            <span className="block text-[11px] text-sky-500">
+              中学生{juniorHighCount}人・高校生{highSchoolCount}人・使用料¥{totalFee.toLocaleString()}
+            </span>
+          )}
           <span className="block text-[11px] text-sky-500">あなた：{myLocation}</span>
         </span>
         <span className="text-xs text-blue-900">›</span>
@@ -119,12 +152,35 @@ export default function PracticeAttendanceBar() {
           </button>
         </div>
 
+        {stadiumCount > 0 && (
+          <div className="bg-white border border-gray-200 rounded-xl p-4 space-y-2">
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-bold text-gray-700">競技場使用料</p>
+              {canEditMenu && (
+                <button
+                  type="button"
+                  onClick={toggleWinter}
+                  className={`text-[11px] font-bold rounded-full px-3 py-1 border ${
+                    isWinter ? 'bg-blue-900 text-white border-blue-900' : 'bg-white text-gray-500 border-gray-300'
+                  }`}
+                >
+                  冬季料金{isWinter ? ' ON' : ' OFF'}
+                </button>
+              )}
+            </div>
+            <p className="text-sm text-gray-800">
+              ¥{price.中学生}×{juniorHighCount}人＋¥{price.高校生}×{highSchoolCount}人
+            </p>
+            <p className="text-lg font-bold text-blue-900">合計 ¥{totalFee.toLocaleString()}</p>
+          </div>
+        )}
+
         {canEditMenu && (
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <p className="text-xs font-bold text-gray-700">全員の出席（編集可）</p>
               <p className="text-[11px] text-gray-400">
-                競技場{stadiumCount}・学校{schoolCount}
+                競技場{stadiumCount}（中{juniorHighCount}・高{highSchoolCount}）
               </p>
             </div>
             <div className="divide-y">

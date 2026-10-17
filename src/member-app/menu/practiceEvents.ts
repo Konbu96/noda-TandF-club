@@ -15,6 +15,7 @@ const practiceSpec = (name: PracticeDistance, example: string, graphRange: numbe
   decimals: 2,
   example,
   graphRange,
+  maxDigits: 4, // 30m/60m/80mは分:秒にはならないので、4桁（例: 99.99秒）まででよい
 });
 
 // graphRangeの数値は仮の初期値です。実際のばらつきに合わせて調整してください
@@ -26,4 +27,9 @@ export const PRACTICE_EVENTS: EventSpec[] = [
 
 export function getPracticeEventSpec(distance: string): EventSpec | undefined {
   return PRACTICE_EVENTS.find((e) => e.name === distance);
+}
+
+// 1回の練習で測る本数（紙の記録に合わせて、30m/60mは2本、80mは1本）
+export function attemptsFor(distance: PracticeDistance): number {
+  return distance === '80m' ? 1 : 2;
 }

@@ -12,8 +12,9 @@ const ENTRIES: Entry[] = [
   { match: (p) => p === '/member/mypage', title: () => 'マイページ' },
   { match: (p) => p === '/member/competition', title: () => '大会' },
   { match: (p) => p === '/member/menu', title: () => 'メニュー' },
+  { match: (p) => p === '/member/menu/practice-time', title: () => 'タイム記録', back: () => '/member/menu' },
   {
-    match: (p) => /^\/member\/menu\/[^/]+$/.test(p) && p !== '/member/menu/create',
+    match: (p) => /^\/member\/menu\/[^/]+$/.test(p) && p !== '/member/menu/create' && p !== '/member/menu/practice-time',
     title: (p) => `${p.split('/').pop()!.replace(/-/g, '/')} のメニュー`,
     back: () => '/member/menu',
   },

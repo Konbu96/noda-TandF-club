@@ -88,7 +88,7 @@ export default function PracticeRecordGraph() {
   return (
     <div className="bg-white rounded-2xl card-shadow p-5 space-y-5">
       <div>
-        <p className="text-sm font-bold text-blue-900">練習記録</p>
+        <p className="text-sm font-bold text-blue-900">練習記録グラフ</p>
         <p className="text-[10px] text-gray-400">30m・60m・80mのタイム</p>
       </div>
 
@@ -129,7 +129,27 @@ export default function PracticeRecordGraph() {
           {PRACTICE_DISTANCES.map((d) => {
             const dSpec = getPracticeEventSpec(d);
             const dRecords = byDistance.get(d) ?? [];
-            const data = buildDateChartData(dRecords, fiscalYear, recordToNumber);
+
+            // 同じ日に複数本測ることがあるので、1日1点になるようその日の一番良い記録にまとめる
+            const byDay = new Map<string, number[]>();
+            for (const r of dRecords) {
+              const value = recordToNumber(r.result);
+              if (Number.isNaN(value)) continue;
+              if (!byDay.has(r.date)) byDay.set(r.date, []);
+              byDay.get(r.date)!.push(value);
+            }
+            const dailyBest = Array.from(byDay.entries()).map(([date, values]) => ({
+              date,
+              result: (dSpec?.better === 'higher' ? Math.max(...values) : Math.min(...values)).toFixed(dSpec?.decimals ?? 2),
+            }));
+
+            // 大会記録と違い、練習記録は表示件数を直近10件で固定する（新しい記録が入ると一番古いものを落とす）
+            const latestTen = dailyBest
+              .filter((r) => fiscalYearOf(r.date) === fiscalYear)
+              .sort((a, b) => a.date.localeCompare(b.date))
+              .slice(-10);
+
+            const data = buildDateChartData(latestTen, fiscalYear, recordToNumber);
             const yearRecords = dRecords
               .map((r) => ({ ...r, value: recordToNumber(r.result) }))
               .filter((r) => !Number.isNaN(r.value) && fiscalYearOf(r.date) === fiscalYear);

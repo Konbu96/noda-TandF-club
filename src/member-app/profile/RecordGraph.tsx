@@ -33,7 +33,7 @@ export default function RecordGraph({
   if (records.length === 0) {
     return (
       <div className="bg-white rounded-2xl card-shadow p-5">
-        <p className="text-sm font-bold text-blue-900 mb-2">記録グラフ</p>
+        <p className="text-sm font-bold text-blue-900 mb-2">大会記録グラフ</p>
         <p className="text-sm text-gray-400 text-center py-6">
           大会ページで記録を入力すると、ここにグラフが表示されます
         </p>
@@ -95,7 +95,7 @@ export default function RecordGraph({
     <div className="bg-white rounded-2xl card-shadow p-5 space-y-5">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-bold text-blue-900">記録グラフ</p>
+          <p className="text-sm font-bold text-blue-900">大会記録グラフ</p>
           <p className="text-[10px] text-gray-400">上にいくほど良い記録です</p>
         </div>
         {!isEditing && (

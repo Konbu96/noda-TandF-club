@@ -20,6 +20,7 @@ export type EventSpec = {
   decimals: number; // 小数点以下の桁数
   example: string; // 入力例（数字のみ）
   graphRange: number; // グラフの縦軸の表示幅。自己ベストの前後にこの数値ぶん表示する（単位は種目と同じ: 秒 or m）
+  maxDigits?: number; // 入力できる数字の最大桁数（省略時はMAX_DIGITS）
 };
 
 const time = (
@@ -106,7 +107,7 @@ export function formatRecordInput(
   raw: string,
 ): string {
   const decimals = spec?.decimals ?? 2;
-  let digits = raw.replace(/\D/g, "").replace(/^0+/, "").slice(0, MAX_DIGITS);
+  let digits = raw.replace(/\D/g, "").replace(/^0+/, "").slice(0, spec?.maxDigits ?? MAX_DIGITS);
   if (digits === "") return "";
   digits = digits.padStart(decimals + 1, "0");
 
@@ -131,7 +132,7 @@ export function formatRecordTyping(
 ): string {
   if (spec?.kind !== "time") return formatRecordInput(spec, raw);
   const decimals = spec.decimals;
-  let digits = raw.replace(/\D/g, "").replace(/^0+/, "").slice(0, MAX_DIGITS);
+  let digits = raw.replace(/\D/g, "").replace(/^0+/, "").slice(0, spec.maxDigits ?? MAX_DIGITS);
   if (digits === "") return "";
   digits = digits.padStart(decimals + 3, "0");
   const frac = decimals > 0 ? digits.slice(-decimals) : "";

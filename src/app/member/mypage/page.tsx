@@ -14,6 +14,8 @@ import { useMood } from '@/member-app/mood/MoodContext';
 import MonthlyFormCard from '@/member-app/monthlyForm/MonthlyFormCard';
 import EveryoneGoals from '@/member-app/monthlyForm/EveryoneGoals';
 import RecordGraph from '@/member-app/profile/RecordGraph';
+import PracticeRecordGraph from '@/member-app/menu/PracticeRecordGraph';
+import RecordGraphLaunchers from '@/member-app/profile/RecordGraphLaunchers';
 import { getMemberRecords } from '@/member-app/competition/competitionService';
 import { MemberRecord } from '@/lib/users';
 
@@ -87,11 +89,16 @@ export default function MemberPage() {
     content = (
       <>
         <ProfileCard profile={profile} moodAvatar={<MoodAvatar mood={mood} />} records={records} onSave={saveProfile} editableName />
-        <RecordGraph
-          records={records}
-          selectedEvents={profile.graphEvents ?? []}
-          defaultEvents={getSpecialtyEvents(profile)}
-          onSaveSelection={(events) => saveProfile({ graphEvents: events })}
+        <RecordGraphLaunchers
+          competitionGraph={
+            <RecordGraph
+              records={records}
+              selectedEvents={profile.graphEvents ?? []}
+              defaultEvents={getSpecialtyEvents(profile)}
+              onSaveSelection={(events) => saveProfile({ graphEvents: events })}
+            />
+          }
+          practiceGraph={<PracticeRecordGraph />}
         />
         <MonthlyFormCard />
         <EveryoneGoals />

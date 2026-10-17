@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useAuth } from '@/member-app/auth/AuthContext';
 import { TEMPLATES, CATEGORIES, TEMPLATE_SPECS, MenuCategory, MenuItem } from '@/member-app/menu/types';
 import { deleteMenu, getMenu, saveMenu } from '@/member-app/menu/menuService';
+import { today } from '@/member-app/menu/dateUtils';
 import ItemOptions from '@/member-app/menu/ItemOptions';
 import CustomItemOptions from '@/member-app/menu/CustomItemOptions';
 
@@ -100,6 +102,8 @@ export default function MenuDetailPage() {
   const itemsByCategory = (category: MenuCategory) => items.filter((i) => i.category === category);
   const checkedByCategory = (category: MenuCategory) => items.filter((i) => i.category === category && i.checked);
   const hasAnyChecked = items.some((i) => i.checked);
+  // 今日のメニュー画面でだけタイム記録への導線を出す
+  const isToday = date === today();
 
   return (
     <div className="px-4 py-6 space-y-4">
@@ -206,6 +210,16 @@ export default function MenuDetailPage() {
                   </div>
                 );
               })}
+
+              {isToday && (
+                <Link
+                  href="/member/menu/practice-time"
+                  className="flex items-center justify-between border-t border-gray-100 pt-4"
+                >
+                  <span className="text-sm font-bold text-blue-900">⏱ タイム記録</span>
+                  <span className="text-gray-300">›</span>
+                </Link>
+              )}
             </div>
           )}
 
