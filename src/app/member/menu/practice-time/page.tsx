@@ -28,6 +28,7 @@ export default function PracticeTimePage() {
     '80m': {},
   });
   const [error, setError] = useState('');
+  const [saving, setSaving] = useState(false);
 
   const refreshRecords = () =>
     getAllPracticeRecords()
@@ -82,6 +83,9 @@ export default function PracticeTimePage() {
   const filledCount = stadiumMembers.filter((m) =>
     Array.from({ length: attempts }, (_, i) => i + 1).every((attempt) => savedTime(m.uid, attempt))
   ).length;
+  const hasDraft = stadiumMembers.some((m) =>
+    Array.from({ length: attempts }, (_, i) => i + 1).some((attempt) => draftsForDistance[m.uid]?.[attempt] !== undefined)
+  );
   const makeEntry = (m: UserRecord, attempt: number, draft: string) => {
     const result = formatRecordInput(spec, draft);
     if (!result) return null;
@@ -113,6 +117,40 @@ export default function PracticeTimePage() {
       console.error('タイムの保存に失敗しました', e);
       setError('保存できませんでした。時間をおいて再度お試しください。');
     }
+  };
+
+  // 入力し終わった分をまとめて保存する（スマホはEnterキーがないため）
+  const saveAll = async () => {
+    const entries: { uid: string; displayName: string; distance: PracticeDistance; result: string; date: string; attempt: number }[] = [];
+    const deleteIds: string[] = [];
+    for (const m of stadiumMembers) {
+      for (let attempt = 1; attempt <= attempts; attempt += 1) {
+        const draft = draftsForDistance[m.uid]?.[attempt];
+        if (draft === undefined) continue;
+        if (draft === '') {
+          const saved = savedTime(m.uid, attempt);
+          if (saved) deleteIds.push(saved.id);
+          continue;
+        }
+        const entry = makeEntry(m, attempt, draft);
+        if (entry) entries.push(entry);
+      }
+    }
+    if (entries.length === 0 && deleteIds.length === 0) return;
+    setSaving(true);
+    setError('');
+    try {
+      await Promise.all([
+        entries.length > 0 ? addPracticeRecords(entries) : Promise.resolve(),
+        ...deleteIds.map((id) => deletePracticeRecord(id)),
+      ]);
+      await refreshRecords();
+      setDrafts((prev) => ({ ...prev, [distance]: {} }));
+    } catch (e) {
+      console.error('タイムの保存に失敗しました', e);
+      setError('保存できませんでした。時間をおいて再度お試しください。');
+    }
+    setSaving(false);
   };
 
   return (
@@ -190,6 +228,15 @@ export default function PracticeTimePage() {
               </div>
             ))}
           </div>
+
+          <button
+            type="button"
+            onClick={saveAll}
+            disabled={saving || !hasDraft}
+            className="w-full text-sm font-bold bg-blue-900 text-white py-3 rounded-xl disabled:opacity-40"
+          >
+            {saving ? '保存中...' : '保存'}
+          </button>
         </div>
       )}
     </div>
